@@ -1,4 +1,35 @@
 # Django settings for HIT2nd project.
+import os,sys
+from sae.const import (MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASS, MYSQL_DB)
+
+if 'SERVER_SOFTWARE' in os.environ:
+#    from sae.const import (MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASS, MYSQL_DB)
+    MYSQL_HOST = '127.0.0.1'
+    MYSQL_PORT = '3306'
+    MYSQL_USER = 'lilingzhi'
+    MYSQL_PASS = 'qqhrgnx'
+    MYSQL_DB   = 'hstpdb'
+else:   
+
+    MYSQL_HOST = 'w.rdc.sae.sina.com.cn'
+    MYSQL_PORT = '3307'
+    MYSQL_USER = 'ACCESSKEY'
+    MYSQL_PASS = 'SECRETKEY'
+    MYSQL_DB   = 'app_project'
+
+    from sae._restful_mysql import monkey
+    monkey.patch()
+
+DATABASES = {
+    'default': {
+        'ENGINE':   'django.db.backends.mysql',
+        'NAME':     MYSQL_DB,
+        'USER':     MYSQL_USER,
+        'PASSWORD': MYSQL_PASS,
+        'HOST':     MYSQL_HOST,
+        'PORT':     MYSQL_PORT,
+    }
+}
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -8,18 +39,6 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                      # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
-    }
-}
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -95,7 +114,7 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+#    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
@@ -108,6 +127,7 @@ ROOT_URLCONF = 'HIT2nd.urls'
 WSGI_APPLICATION = 'HIT2nd.wsgi.application'
 
 TEMPLATE_DIRS = (
+    './HSTP/html/'
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -120,6 +140,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'HSTP',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:

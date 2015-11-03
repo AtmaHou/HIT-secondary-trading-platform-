@@ -1,24 +1,24 @@
 # Django settings for HIT2nd project.
 import os,sys
-from sae.const import (MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASS, MYSQL_DB)
-
-if 'SERVER_SOFTWARE' in os.environ:
-#    from sae.const import (MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASS, MYSQL_DB)
-    MYSQL_HOST = '127.0.0.1'
-    MYSQL_PORT = '3306'
-    MYSQL_USER = 'lilingzhi'
-    MYSQL_PASS = 'qqhrgnx'
-    MYSQL_DB   = 'hstpdb'
-else:   
-
-    MYSQL_HOST = 'w.rdc.sae.sina.com.cn'
-    MYSQL_PORT = '3307'
-    MYSQL_USER = 'ACCESSKEY'
-    MYSQL_PASS = 'SECRETKEY'
-    MYSQL_DB   = 'app_project'
-
-    from sae._restful_mysql import monkey
-    monkey.patch()
+#from sae.const import (MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASS, MYSQL_DB)
+#
+#if 'SERVER_SOFTWARE' in os.environ:
+##    from sae.const import (MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASS, MYSQL_DB)
+MYSQL_HOST = '127.0.0.1'
+MYSQL_PORT = '3306'
+MYSQL_USER = 'lilingzhi'
+MYSQL_PASS = 'qqhrgnx'
+MYSQL_DB   = 'hstpdb'
+#else:   
+#
+#    MYSQL_HOST = 'w.rdc.sae.sina.com.cn'
+#    MYSQL_PORT = '3307'
+#    MYSQL_USER = 'ACCESSKEY'
+#    MYSQL_PASS = 'SECRETKEY'
+#    MYSQL_DB   = 'app_project'
+#
+#    from sae._restful_mysql import monkey
+#    monkey.patch()
 
 DATABASES = {
     'default': {
@@ -127,13 +127,14 @@ ROOT_URLCONF = 'HIT2nd.urls'
 WSGI_APPLICATION = 'HIT2nd.wsgi.application'
 
 TEMPLATE_DIRS = (
-    './HSTP/html/'
+    './HSTP/',
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 )
 
 INSTALLED_APPS = (
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

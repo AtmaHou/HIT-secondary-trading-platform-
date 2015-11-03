@@ -1,0 +1,39 @@
+{% load staticfiles %}
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="{% static "register.css" %}" />
+<style>
+a:link {text-decoration:none;}
+a:visited {text-decoration:none; color:#0000ff;}
+a:hover {text-decoration:underline; color:ff2138;}
+a:active {text-decoration:underline;}
+
+</style>
+<style type="text/css">
+body {background-image:url(/static/background.png); 
+      background-repeat: no-repeat;
+      background-attachment:fixed;
+      background-position: 50% 0%;
+      font-family: Microsoft YaHei;
+}
+
+</style>
+</head>
+</html>
+<body>
+
+
+{% block content %}
+<br><br>
+<div id="title"><h1>创建账户</h1></div>
+ 
+<div id="list_button">
+  <form action="" method="post">
+      {{ form.as_p }}
+      <input type="submit" value="创建账户">
+  </form>
+  </div>
+{% endblock %}
+<a id="return" href="http://127.0.0.1:8000/accounts/login"><p align="center"><strong>已有账户请点击这里返回登陆</strong></p></a>
+</body>
+</html>

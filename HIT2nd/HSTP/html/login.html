@@ -1,0 +1,62 @@
+{% load staticfiles %}
+
+<html>
+<head>
+
+<link rel="stylesheet" type="text/css" href="{% static "login.css" %}" />
+<style>
+a:link {text-decoration:none;}
+a:visited {text-decoration:none; color:black;}
+a:hover {text-decoration:underline; color:black;}
+a:active {text-decoration:underline;}
+
+</style>
+<style type="text/css">
+body {background-image:url(/static/background.png); 
+      background-repeat: no-repeat;
+      background-attachment:fixed;
+      background-position: 50% 0%;
+}
+</style>
+<title>用户登录</title>
+</head>
+
+<body>
+<br /><br />
+<div id="title"><h1>个人通讯录</h1></div>
+<br /><br /><br /><br />
+{% block content %}
+
+  
+  <form action="" method="post">
+  {% csrf_token %}
+ 
+  <table id="logtable">
+   <tr>
+    <td><label for="username"><div id="yonghu">用户:</div></label></td>
+    <td><input type="text" name="username" value="" id="username"></td>
+   </tr>
+   <tr>
+    <td><label for="password"><div id="mima">密码:</div></label></td>
+    <td><input type="password" name="password" value="" id="password"></td>
+   </tr>
+   <tr>
+    <td>&nbsp;<input type="submit" value="登陆" />&nbsp;
+     <input type="hidden" name="next" value="/show_people_list" /></td>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button><a href="http://127.0.0.1:8000/register/">注册</a></button></td>
+   </tr>
+  </table>
+
+  </form>
+ 
+
+  {% if form.errors %}
+    <div id="not_user"><p class="error">用户不存在或密码错误,请点击注册</p></div>
+  {% endif %}
+
+{% endblock %}
+
+
+</body>
+</html>

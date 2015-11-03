@@ -1,4 +1,5 @@
 from django.template import Context
+from django import forms
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template.response import TemplateResponse
@@ -6,11 +7,12 @@ from django.contrib.auth.views import login, logout
 from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login, logout as auth_logout, get_user_model
 from django.utils.translation import ugettext as _
 from models import *
-
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm, PasswordChangeForm
 from django.contrib.sites.models import get_current_site
 
-
+class UserForm(forms.Form):
+    email = forms.EmailField(required=False,label='email:')
+    password = forms.CharField(required=False,max_length=6,label='password:',widget=forms.PasswordInput())
 
 
 def login(request, template_name='html/login.html',
@@ -88,12 +90,18 @@ def logout(request, next_page=None,
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
+        uf = UserForm(request.POST)
+        if uf.is_valid():
+            email = uf.cleaned_data['email']
+            password = uf.cleaned_data['password']
+            
+            client = Client()
+            client.email = email
+            client.password = password
+            client.save()
             return HttpResponseRedirect("/login/")
     else:
-        form = UserCreationForm()
+        uf = UserForm()
     return render_to_response("html/register.html", {
-        'form': form,
+        'uf': uf,
     })

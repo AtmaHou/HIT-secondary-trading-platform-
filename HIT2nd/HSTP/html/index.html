@@ -1,0 +1,235 @@
+{% load staticfiles %}
+<html>
+  <head>
+<link rel="stylesheet" type="text/css" href="/static/css/tables.css"  /> 
+
+<!--
+<style type="text/css">
+body {background-image:url(/static/background.png); 
+      background-repeat: no-repeat;
+      background-attachment:fixed;
+      background-position: 50% 0%;
+}
+</style>
+-->
+<style type="text/css">
+ div#container{width:100%}
+div#header {text-align:center;background-color:#99bbbb;width:100%;height:20%;}
+div#menu {background-color:#ffff99;height:1000;width:15%;float:left;}
+div#content {background-color:#EEEEEE;height:1000;width:60%;float:left;}
+div#righter {background-color:#ffff99;height:1000;width:25%;float:left;}
+div#footer {background-color:#99bbbb;clear:both;text-align:center;height:20%}
+h1 {margin-bottom:0;}
+h2 {margin-bottom:0;font-size:18px;}
+ul {margin:0;}
+li {list-style:none;}
+</style>
+    <title>工大二手集市</title>
+  </head>
+
+<body>
+
+<div id="container">
+
+<div id="header">
+<h1>工大二手集市</h1>
+<br />
+<a href="/login/">登陆</a>&nbsp;<a href="/register/">注册</a>
+</div>
+
+<div id="menu">
+<h2>功能列表</h2>
+<ul>
+<li><a href="/second_book/">图书教材</a></li>
+<li><a href="/../">电子产品</a></li>
+<li><a href="/../">运动健身</a></li>
+<li><a href="/../">生活娱乐</a></li>
+<li><a href="/../">游戏点卡</a></li>
+
+</ul>
+</div>
+
+<div id="content">
+<table align="center" id="list_table">
+	 
+	{% for book in book_list %}
+	 <tr>
+	  <td>图片显示<br /><br /><br /><br /><br /><br /></td>
+	  <td>图片显示<br /><br /><br /><br /><br /><br /></td>
+	  <td>图片显示<br /><br /><br /><br /><br /><br /></td>
+	  <td>图片显示<br /><br /><br /><br /><br /><br /></td>
+	  <td>图片显示<br /><br /><br /><br /><br /><br /></td>
+	 </tr>
+	 <tr>
+	  <td><a href="/show_book_information/?id={{book.id}}">{{ 名称 }}</a>
+	  <br />
+	  <a href="/show_book_information/?id={{book.id}}">{{ 卖家 }}</a>
+	  </td>
+	  <td><a href="/show_book_information/?id={{book.id}}">{{ 名称 }}</a>
+	  <br />
+	  <a href="/show_book_information/?id={{book.id}}">{{ 卖家 }}</a>
+	  </td>
+	  
+	  <td><a href="/show_book_information/?id={{book.id}}">{{ 名称 }}</a>
+	  <br />
+	  <a href="/show_book_information/?id={{book.id}}">{{ 卖家 }}</a>
+	  </td>
+	  
+	  <td><a href="/show_book_information/?id={{book.id}}">{{ 名称 }}</a>
+	  <br />
+	  <a href="/show_book_information/?id={{book.id}}">{{ 卖家 }}</a>
+	  </td>
+	  
+	  <td><a href="/show_book_information/?id={{book.id}}">{{ 名称 }}</a>
+	  <br />
+	  <a href="/show_book_information/?id={{book.id}}">{{ 卖家 }}</a>
+	  </td>
+	 </tr>
+	{% endfor %}
+	</table>
+	<br />
+	<br />
+	
+<table align="center" id="list_table">
+	 
+	{% for book in book_list %}
+	 <tr>
+	  <td>图片显示<br /><br /><br /><br /><br /><br /></td>
+	  <td>图片显示<br /><br /><br /><br /><br /><br /></td>
+	  <td>图片显示<br /><br /><br /><br /><br /><br /></td>
+	  <td>图片显示<br /><br /><br /><br /><br /><br /></td>
+	  <td>图片显示<br /><br /><br /><br /><br /><br /></td>
+	 </tr>
+	 <tr>
+	  <td><a href="/show_book_information/?id={{book.id}}">{{ 名称 }}</a>
+	  <br />
+	  <a href="/show_book_information/?id={{book.id}}">{{ 卖家 }}</a>
+	  </td>
+	  <td><a href="/show_book_information/?id={{book.id}}">{{ 名称 }}</a>
+	  <br />
+	  <a href="/show_book_information/?id={{book.id}}">{{ 卖家 }}</a>
+	  </td>
+	  
+	  <td><a href="/show_book_information/?id={{book.id}}">{{ 名称 }}</a>
+	  <br />
+	  <a href="/show_book_information/?id={{book.id}}">{{ 卖家 }}</a>
+	  </td>
+	  
+	  <td><a href="/show_book_information/?id={{book.id}}">{{ 名称 }}</a>
+	  <br />
+	  <a href="/show_book_information/?id={{book.id}}">{{ 卖家 }}</a>
+	  </td>
+	  
+	  <td><a href="/show_book_information/?id={{book.id}}">{{ 名称 }}</a>
+	  <br />
+	  <a href="/show_book_information/?id={{book.id}}">{{ 卖家 }}</a>
+	  </td>
+	 </tr>
+	{% endfor %}
+	</table>
+	<br />
+	<br /><table align="center" id="list_table">
+	 
+	{% for book in book_list %}
+	 <tr>
+	  <td>图片显示<br /><br /><br /><br /><br /><br /></td>
+	  <td>图片显示<br /><br /><br /><br /><br /><br /></td>
+	  <td>图片显示<br /><br /><br /><br /><br /><br /></td>
+	  <td>图片显示<br /><br /><br /><br /><br /><br /></td>
+	  <td>图片显示<br /><br /><br /><br /><br /><br /></td>
+	 </tr>
+	 <tr>
+	  <td><a href="/show_book_information/?id={{book.id}}">{{ 名称 }}</a>
+	  <br />
+	  <a href="/show_book_information/?id={{book.id}}">{{ 卖家 }}</a>
+	  </td>
+	  <td><a href="/show_book_information/?id={{book.id}}">{{ 名称 }}</a>
+	  <br />
+	  <a href="/show_book_information/?id={{book.id}}">{{ 卖家 }}</a>
+	  </td>
+	  
+	  <td><a href="/show_book_information/?id={{book.id}}">{{ 名称 }}</a>
+	  <br />
+	  <a href="/show_book_information/?id={{book.id}}">{{ 卖家 }}</a>
+	  </td>
+	  
+	  <td><a href="/show_book_information/?id={{book.id}}">{{ 名称 }}</a>
+	  <br />
+	  <a href="/show_book_information/?id={{book.id}}">{{ 卖家 }}</a>
+	  </td>
+	  
+	  <td><a href="/show_book_information/?id={{book.id}}">{{ 名称 }}</a>
+	  <br />
+	  <a href="/show_book_information/?id={{book.id}}">{{ 卖家 }}</a>
+	  </td>
+	 </tr>
+	{% endfor %}
+	</table>
+	<br />
+	<br /><table align="center" id="list_table">
+	 
+	{% for book in book_list %}
+	 <tr>
+	  <td>图片显示<br /><br /><br /><br /><br /><br /></td>
+	  <td>图片显示<br /><br /><br /><br /><br /><br /></td>
+	  <td>图片显示<br /><br /><br /><br /><br /><br /></td>
+	  <td>图片显示<br /><br /><br /><br /><br /><br /></td>
+	  <td>图片显示<br /><br /><br /><br /><br /><br /></td>
+	 </tr>
+	 <tr>
+	  <td><a href="/show_book_information/?id={{book.id}}">{{ 名称 }}</a>
+	  <br />
+	  <a href="/show_book_information/?id={{book.id}}">{{ 卖家 }}</a>
+	  </td>
+	  <td><a href="/show_book_information/?id={{book.id}}">{{ 名称 }}</a>
+	  <br />
+	  <a href="/show_book_information/?id={{book.id}}">{{ 卖家 }}</a>
+	  </td>
+	  
+	  <td><a href="/show_book_information/?id={{book.id}}">{{ 名称 }}</a>
+	  <br />
+	  <a href="/show_book_information/?id={{book.id}}">{{ 卖家 }}</a>
+	  </td>
+	  
+	  <td><a href="/show_book_information/?id={{book.id}}">{{ 名称 }}</a>
+	  <br />
+	  <a href="/show_book_information/?id={{book.id}}">{{ 卖家 }}</a>
+	  </td>
+	  
+	  <td><a href="/show_book_information/?id={{book.id}}">{{ 名称 }}</a>
+	  <br />
+	  <a href="/show_book_information/?id={{book.id}}">{{ 卖家 }}</a>
+	  </td>
+	 </tr>
+	{% endfor %}
+	</table>
+	<br />
+	<br />
+</div>
+<div id="righter">
+<table align="center" id="list_table">
+	 
+	{% for book in book_list %}
+	 <tr>
+	  <td>图片显示<br /><br /><br /><br /><br /><br /></td>
+
+	 </tr>
+	 <tr>
+	  <td><a href="/show_book_information/?id={{book.id}}">{{ 登陆 }}</a>
+	  <a href="/show_book_information/?id={{book.id}}">{{ 注册 }}</a>
+	  </td>
+	  
+	  
+	 </tr>
+	{% endfor %}
+	</table>
+	<br />
+	<br />
+</div>
+<div id="footer">Copyright@ stupid_monkey</div>
+
+</div>
+
+</body>
+
+</html>

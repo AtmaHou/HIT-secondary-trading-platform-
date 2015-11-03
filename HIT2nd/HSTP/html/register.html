@@ -1,39 +1,23 @@
-{% load staticfiles %}
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<link rel="stylesheet" type="text/css" href="{% static "register.css" %}" />
-<style>
-a:link {text-decoration:none;}
-a:visited {text-decoration:none; color:#0000ff;}
-a:hover {text-decoration:underline; color:ff2138;}
-a:active {text-decoration:underline;}
-
-</style>
-<style type="text/css">
-body {background-image:url(/static/background.png); 
-      background-repeat: no-repeat;
-      background-attachment:fixed;
-      background-position: 50% 0%;
-      font-family: Microsoft YaHei;
-}
-
-</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>欢迎注册</title>
 </head>
-</html>
+
 <body>
-
-
-{% block content %}
-<br><br>
-<div id="title"><h1>创建账户</h1></div>
- 
-<div id="list_button">
-  <form action="" method="post">
-      {{ uf.as_p }}
-      <input type="submit" value="创建账户">
-  </form>
-  </div>
-{% endblock %}
-<a id="return" href="http://127.0.0.1:8000/accounts/login"><p align="center"><strong>已有账户请点击这里返回登陆</strong></p></a>
+<p>欢迎注册HSTP！</p>
+{% if flag == 2%}
+<p><font color="#FF0000">密码不匹配，请检查后重新输入！</font></p>
+{% elif flag == 3%}
+<p><font color="#FF0000">该邮箱已经注册，请直接<a href="/return_login/">登录</a>!</font></p>
+{% endif %}
+<form  method="post" action="/register/">
+ <table>
+ <tr><p>用户名：<input name="email" type="email" placeholder="请输入您的邮箱" /></p></tr>
+  <tr><p>密码：<input name="password" type="password" placeholder="6位数字"/></p></tr>
+  <tr><p>确认密码：<input name="password2" type="password" /></p></tr>
+  <tr><input type="submit" value="提交" /></tr>
+</form>
 </body>
 </html>

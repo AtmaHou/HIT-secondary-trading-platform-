@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.utils import timezone
 import re
@@ -11,7 +12,7 @@ class Client(models.Model):
     password = models.CharField(max_length=6)    #!!!
     realname = models.CharField(max_length=30,blank=True)
     nickname = models.CharField(max_length=30,blank=True)
-    #date_joined    register_date = models.DateTimeField(default=datetime.now())  #auto    
+    register_date = models.DateTimeField(default=timezone.now)  #auto 
     IDcard = models.IntegerField(max_length=18,default=0)       #IDcard
     studentID = models.IntegerField(max_length=10,default=0) #!!!
     colledge = models.CharField(max_length=50,blank=True)

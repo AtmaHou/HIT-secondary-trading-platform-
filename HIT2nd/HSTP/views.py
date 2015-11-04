@@ -3,7 +3,18 @@ from django.template import Context
 #from django import forms
 from django.shortcuts import render_to_response
 from models import *
+from django import forms
+from django.http import HttpResponse
+import ImageFile 
 
+
+class UploadFileForm(forms.Form):
+    title = forms.CharField(max_length=50)   
+    file = forms.FileField() 
+    
+class UploadImageForm(forms.Form):
+    imagefile = forms.ImageField(required=False)    
+    
 def register(request):
     flag = -1
     if request.POST:
@@ -36,7 +47,8 @@ def login(request):
             user_real = Client.objects.get(email = post["email"])
             if user_real.password == post["password"]:
                 request.session["email"] = user_real.email
-                return render_to_response("index.html")
+                c = Context({"email":user_real.email}) 
+                return render_to_response("index2.html", c)
             else:
                 errors["password"] = '密码错误,请检查后重新输入！'
         else:
@@ -51,10 +63,49 @@ def is_online(fn):
             return fn(request,*args)
         else:
             return render_to_response("login.html")
-    return check			
+    return check	
+    
 def return_login(request):
     return render_to_response("login.html")
-    
+
+@is_online
+def finish_user(request):
+    e = request.GET["email"]
+    client = Client.objects.get(email = e)
+
+    if request.POST:
+        post = request.POST
+        client.studnetID = post["studentID"]
+        client.IDcard = post["IDcard"]
+        client.telephone = post["telephone"]
+        client.realname = post["realname"]
+        client.nickname = post["nickname"]
+        client.major = post["major"]
+        client.grade = post["grade"]
+        client.sex = post["sex"]
+        client.is_lonly_dog = post["is_lonly_dog"]
+        
+        form = UploadImageForm(request.POST,request.FILES)
+        if form.is_valid():
+            client.image = form.cleaned_data["imagefile"]
+        
+        client.save()
+        return render_to_response("index2.html")
+        
+    return render_to_response("add_inf.html")
+
+#def addPicture(request):  
+#    if request.method == 'POST':  
+#        form = UploadImageForm(request.POST, request.FILES)  
+#        if form.is_valid():  
+#            f = request.FILES["imagefile"]  
+#            parser = ImageFile.Parser()  
+#            for chunk in f.chunks():  
+#                parser.feed(chunk)  
+#            img = parser.close()  
+#            # 在img被保存之前，可以进行图片的各种操作，在各种操作完成后，在进行一次写操作  
+#            img.save()
+
 #class UserForm(forms.Form):
 #    email = forms.EmailField(required=False,label='email:')
 #    password = forms.CharField(required=False,max_length=6,label='password:',widget=forms.PasswordInput())

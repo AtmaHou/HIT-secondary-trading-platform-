@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     url('^register/$',register),
     url('^return_login/$',return_login),
 	url('^login/$',login),
+    url('^finish_user/$',finish_user),
     
 
    

@@ -10,22 +10,23 @@ class Client(models.Model):
     email = models.EmailField(primary_key=True,unique=True,
                               validators=[validators.RegexValidator(re.compile('^[\w.@+-]+$'), _('Enter a valid username.'), 'invalid')]) #only tag
     password = models.CharField(max_length=6)    #!!!
-    realname = models.CharField(max_length=30,blank=True)
-    nickname = models.CharField(max_length=30,blank=True)
+    realname = models.CharField(max_length=30,blank=True,null=True)
+    nickname = models.CharField(max_length=30,blank=True,null=True)
     register_date = models.DateTimeField(default=timezone.now)  #auto 
-    IDcard = models.IntegerField(max_length=18,default=0)       #IDcard
+    IDcard = models.CharField(max_length=18,blank=True,null=True)       #IDcard
     studentID = models.IntegerField(max_length=10,default=0) #!!!
-    colledge = models.CharField(max_length=50,blank=True)
-    school = models.CharField(max_length=50,blank=True)
-    major = models.CharField(max_length=50,blank=True)
-    grade = models.CharField(max_length=50,blank=True)
-    telephone = models.IntegerField(max_length=15,default=0)   #!!!
+    colledge = models.CharField(max_length=50,blank=True,null=True)
+    school = models.CharField(max_length=50,blank=True,null=True)
+    major = models.CharField(max_length=50,blank=True,null=True)
+    grade = models.CharField(max_length=50,blank=True,null=True)
+    telephone = models.CharField(max_length=15,blank=True,null=True)   #!!!
     sex = models.BooleanField(blank=True)
     is_identified = models.BooleanField(blank=True)
     seller_level = models.IntegerField(default=1)    #auto
     buyer_level = models.IntegerField(default=1)    #auto
     is_lonly_dog = models.BooleanField(blank=True)
-    is_online = models.BooleanField(default=False)
+    is_online = models.BooleanField(blank=True)
+    image = models.ImageField(upload_to='client/images', blank=True,null=True)
 
 class Product(models.Model):
     productID = models.DateTimeField(primary_key=True,unique=True,default=timezone.now)   #only tag 20151101220616
@@ -37,6 +38,7 @@ class Product(models.Model):
     introduction = models.CharField(max_length=200) 
     is_reserved = models.BooleanField(default=False)
     collected_clients = models.ManyToManyField(Client,related_name="collect_products")
+    image = models.ImageField(upload_to='client/images', blank=True,null=True)
     
 class Comment(models.Model):
     product = models.ForeignKey(Product,primary_key=True,related_name="comments")  
@@ -53,7 +55,6 @@ class Label(models.Model):
     product = models.ForeignKey(Product,max_length=14,primary_key=True,related_name="labels")    
     label = models.CharField(max_length=40)    #tag
 
-class Image(models.Model):
-    image = models.ImageField(upload_to = 'pic_folder/', default = 'pic_folder/None/no-img.jpg')
+
 
     

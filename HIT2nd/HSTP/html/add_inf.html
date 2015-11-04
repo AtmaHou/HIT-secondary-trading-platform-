@@ -7,18 +7,18 @@
 <div align="center">
 <h1>用户信息完善与修改</h1>
 <body>
-<p>卖家等级</p>
-<p>买家等级</p>
+<p>卖家等级:{{client.seller_level}}</p>
+<p>买家等级:{{client.buyer_level}}</p>
 
 <form method="post"  enctype="multipart/form-data">
 
-姓名：<input name="realname" type="text" /><br />
-身份证号：<input name="IDcard" type="number" /><br />
-手机号：<input name="telephone" type="text" /><br />
-昵称：<input name="nickname" type="text" /><br />
-学号：<input name="studentID" type="number" /><br />
-专业：<input name="major" type="text" /><br />
-年级：<input name="grade" type="text" /><br />
+姓名：<input name="realname" type="text" value="{{client.realname}}"/><br />
+身份证号：<input name="IDcard" type="number" value="{{client.IDcard}}"/><br />
+手机号：<input name="telephone" type="text" value="{{client.telephone}}"/><br />
+昵称：<input name="nickname" type="text" value="{{client.nickname}}"/><br />
+学号：<input name="studentID" type="number" value="{{client.studentID}}"/><br />
+专业：<input name="major" type="text" value="{{client.major}}"/><br />
+年级：<input name="grade" type="text" value="{{client.grade}}"/><br />
 性别:   男<input type="radio" checked="checked" name="sex" value="man" />  女<input type="radio" name="sex" value="women" /><br />
 单身:   是<input type="radio" checked="checked" name="is_lonly_dog" value="is" />  否<input type="radio" name="is_lonly_dog" value="not" /><br />
 

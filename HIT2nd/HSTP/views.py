@@ -7,7 +7,6 @@ from django import forms
 from django.http import HttpResponse
 import ImageFile 
 
-
 class UploadFileForm(forms.Form):
     title = forms.CharField(max_length=50)   
     file = forms.FileField() 
@@ -40,6 +39,7 @@ def register(request):
         return render_to_response("register.html",c)
 def login(request):
     errors = {"email":"","password":""}
+    d = Context({"products_list":Product.objects.all()})
     if request.POST:
         post = request.POST
         user = Client.objects.filter(email = post["email"])
@@ -47,13 +47,18 @@ def login(request):
             user_real = Client.objects.get(email = post["email"])
             if user_real.password == post["password"]:
                 request.session["email"] = user_real.email
-                c = Context({"email":user_real.email}) 
-                return render_to_response("index2.html", c)
+                c = Context({"user":user_real}) 
+                return render_to_response("index2.html", c , d)
             else:
                 errors["password"] = '密码错误,请检查后重新输入！'
         else:
 		 errors["email"] = '用户不存在，请点此'
     return render_to_response("login.html",{"errors":errors})
+
+def index(request):
+    d = Context({"products_list":Product.objects.all()})
+    return render_to_response("index.html", d)
+    
 def logout(request):
     del request.session["email"]
     return render_to_response("index.html")
@@ -70,7 +75,7 @@ def return_login(request):
 
 @is_online
 def finish_user(request):
-    e = request.GET["email"]
+    e = request.session["email"]
     client = Client.objects.get(email = e)
 
     if request.POST:
@@ -91,9 +96,50 @@ def finish_user(request):
         
         client.save()
         return render_to_response("index2.html")
-        
-    return render_to_response("add_inf.html")
+    a = Context({"client":client})     
+    return render_to_response("add_inf.html",a)
 
+def search_product(request):
+    if request.POST:
+        post = request.POST
+        search = post["search_product"]
+        if Product.objects.filter(name__contains=search):
+            d = Context({"products_list":Product.objects.filter(name__contains=search)})
+            return render_to_response("search_product.html", d)
+        else:
+            return render_to_response("none_search_product.html")
+
+@is_online
+def add_product(request):
+    e = request.session["email"] 
+    if request.POST:
+        post = request.POST
+        new_product = Product(
+            name = post["name"],
+            price = post["price"],
+            trading_place = post["trading_place"],
+            introduction = post["introduction"],
+            client = Client.objects.get(email = e),
+        )        
+        form = UploadImageForm(request.POST,request.FILES)
+        if form.is_valid():
+            new_product.image = form.cleaned_data["imagefile"]
+        new_product.save()
+        return render_to_response("index2.html")
+    
+    return render_to_response("add_product.html")    
+#def search_product(request):
+#    if request.POST:
+#        post = request.POST
+#        search = post["search_product"]
+#        all_product = Product.objects.all()
+#        for product in all_product:
+#            if search in product.name
+#        if People.objects.filter(name = search_name):
+#            d = Context({"people_list":People.objects.filter(name = search_name)})
+#            return render_to_response("search_people.html", d)
+#        else:
+#            return render_to_response("none_search_people.html") 
 #def addPicture(request):  
 #    if request.method == 'POST':  
 #        form = UploadImageForm(request.POST, request.FILES)  

@@ -38,7 +38,7 @@ class Product(models.Model):
     introduction = models.CharField(max_length=200) 
     is_reserved = models.BooleanField(default=False)
     collected_clients = models.ManyToManyField(Client,related_name="collect_products")
-    image = models.ImageField(upload_to='client/images', blank=True,null=True)
+    image = models.ImageField(upload_to='product/images', blank=True,null=True)
     
 class Comment(models.Model):
     product = models.ForeignKey(Product,primary_key=True,related_name="comments")  

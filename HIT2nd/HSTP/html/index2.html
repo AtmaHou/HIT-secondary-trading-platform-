@@ -115,9 +115,9 @@
                                 
 							    {% for product in products_list %}		
 									<div class="item">
-										<a href="/productshow/?productID={{product.productID}}" class="thumbnail">
+										<a href="/product_show/?id={{product.id}}" class="thumbnail">
 											{% if product.image %}
-                                            <img src="{{product.image}}" alt="376 secured">
+                                            <img src="/static/media/{{product.image}}" alt="376 secured">
                                             {% endif %}
 											<p>{{product.name}}</p>
 										</a>

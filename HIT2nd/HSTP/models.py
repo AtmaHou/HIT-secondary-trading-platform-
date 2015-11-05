@@ -29,13 +29,13 @@ class Client(models.Model):
     image = models.ImageField(upload_to='client/images', blank=True,null=True)
 
 class Product(models.Model):
-    productID = models.DateTimeField(primary_key=True,unique=True,default=timezone.now)   #only tag 20151101220616
+    add_time = models.DateTimeField(unique=True,default=timezone.now)   #only tag 20151101220616
     name = models.CharField(max_length=80)     
     price = models.FloatField()   #!!!
     client = models.ForeignKey(Client,related_name="products")        
     trading_place = models.CharField(max_length=80)  
     is_identified = models.BooleanField(default=False)
-    introduction = models.CharField(max_length=200) 
+    introduction = models.TextField(max_length=500,blank=True,null=True) 
     is_reserved = models.BooleanField(default=False)
     collected_clients = models.ManyToManyField(Client,related_name="collect_products")
     image = models.ImageField(upload_to='product/images', blank=True,null=True)

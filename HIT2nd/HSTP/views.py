@@ -61,7 +61,8 @@ def index(request):
     
 def logout(request):
     del request.session["email"]
-    return render_to_response("index.html")
+    d = Context({"products_list":Product.objects.all()})
+    return render_to_response("index.html",d)
 def is_online(fn):
     def check(request,*args):																												
         if "email" in request.session:
@@ -95,7 +96,8 @@ def finish_user(request):
             client.image = form.cleaned_data["imagefile"]
         
         client.save()
-        return render_to_response("index2.html")
+        d = Context({"products_list":Product.objects.all()})
+        return render_to_response("index2.html",d)
     a = Context({"client":client})     
     return render_to_response("add_inf.html",a)
 
@@ -106,8 +108,7 @@ def search_product(request):
         if Product.objects.filter(name__contains=search):
             d = Context({"products_list":Product.objects.filter(name__contains=search)})
             return render_to_response("search_product.html", d)
-        else:
-            return render_to_response("none_search_product.html")
+        return render_to_response("none_search_product.html")
 
 @is_online
 def add_product(request):
@@ -125,9 +126,25 @@ def add_product(request):
         if form.is_valid():
             new_product.image = form.cleaned_data["imagefile"]
         new_product.save()
-        return render_to_response("index2.html")
+        d = Context({"products_list":Product.objects.all()})
+        return render_to_response("index2.html",d)
     
-    return render_to_response("add_product.html")    
+    return render_to_response("add_product.html")  
+
+def product_show(request):
+    id1 = request.GET["id"]
+    p = Product.objects.get(id = id1)
+    c = Context({"p": p, "a": p.client})
+    return render_to_response("productshow.html",c)
+    
+def user_inf(request):
+    e = request.GET["email"]
+    client = Client.objects.get(email = e)
+    c = Context({"client":client})
+    return render_to_response("user_inf.html",c)
+        
+#    return render_to_response("productshow.html")
+    
 #def search_product(request):
 #    if request.POST:
 #        post = request.POST

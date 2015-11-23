@@ -73,6 +73,9 @@ def is_online(fn):
     
 def return_login(request):
     return render_to_response("login.html")
+def return_index(request):
+    d = Context({"products_list":Product.objects.all()})
+    return render_to_response("index.html",d)
 
 @is_online
 def finish_user(request):
@@ -107,8 +110,8 @@ def search_product(request):
         search = post["search_product"]
         if Product.objects.filter(name__contains=search):
             d = Context({"products_list":Product.objects.filter(name__contains=search)})
-            return render_to_response("search_product.html", d)
-        return render_to_response("none_search_product.html")
+            return render_to_response("search_product.html", d)           
+        return render_to_response("search_product.html") 
 
 @is_online
 def add_product(request):
@@ -136,13 +139,21 @@ def product_show(request):
     p = Product.objects.get(id = id1)
     c = Context({"p": p, "a": p.client})
     return render_to_response("productshow.html",c)
-    
-def user_inf(request):
+
+@is_online    
+def seller_inf(request):
     e = request.GET["email"]
     client = Client.objects.get(email = e)
     c = Context({"client":client})
+    return render_to_response("seller_inf.html",c)
+
+@is_online        
+def user_inf(request):
+    e = request.session["email"] 
+    client = Client.objects.get(email = e)
+    c = Context({"client":client})
     return render_to_response("user_inf.html",c)
-        
+    
 #    return render_to_response("productshow.html")
     
 #def search_product(request):

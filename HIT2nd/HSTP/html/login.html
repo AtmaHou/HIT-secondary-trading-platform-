@@ -10,11 +10,12 @@
 <form  method="post" action="/login/">
  <table>
  <tr><p>用户名：<input name="email" type="email" placeholder="请输入您的邮箱" /></p></tr>
- <p>{{errors.email}}</p>
+ 
  <tr><p>密码：<input name="password" type="password" placeholder="6位长度的密码"/></p></tr>
  <p>{{errors.password}}</p>
   <tr><input type="submit" value="登录" /></tr>
-  <a href="/register/">注册</a>
+  <p>{{errors.email}}
+  <a href="/register/">注册</a></p>
 </form>
 </body>
 </html>

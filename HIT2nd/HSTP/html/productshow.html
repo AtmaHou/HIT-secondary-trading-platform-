@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>商品展示</title>
+<title>工大二手集市——工大人自己的二手交易平台！</title>
 <meta name="keywords" content="soft round, contact page, free css templates, light blue, green, CSS, HTML" />
 <meta name="description" content="Soft Round (contact) - free CSS template provided by templatemo.com" />
 <!--<link href="/static/css/templatemo_style_atai.css" rel="stylesheet" type="text/css" /> -->
@@ -449,10 +449,10 @@ em { color: #0066FF; }
         </div> <!-- end of site_title -->
 
         <ul id="social_box">
-            <li><a href="/indext/">主页</a></li>
+            <!-- <li><a href="/index/">主页</a></li>
             <li><a href="/login/">登录</a></li>
-            <li><a href="/register/">注册</a></li>
-            <li><a href="#">个人主页</a></li>
+            <li><a href="/register/">注册</a></li> -->
+            <li><a href="/user_inf/?email={{a.email}}">个人主页</a></li>
         </ul>
 
 
@@ -484,7 +484,7 @@ em { color: #0066FF; }
          <div class="sb_box">
 
             <img src="/static/images/onebit_15.png" alt="image 1" />
-            <a href="/user_inf/?email={{a.email}}">卖家： {{ a.email}}</a>
+            <a href="/seller_inf/?email={{a.email}}">卖家： {{ a.email}}</a>
 
         </div>
 

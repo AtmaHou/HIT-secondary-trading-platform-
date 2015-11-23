@@ -23,7 +23,9 @@ class Client(models.Model):
     sex = models.BooleanField(blank=True)
     is_identified = models.BooleanField(blank=True)
     seller_level = models.IntegerField(default=1)    #auto
+    seller_products_count = models.IntegerField(default=0)
     buyer_level = models.IntegerField(default=1)    #auto
+    buyer_products_count = models.IntegerField(default=0)
     is_lonly_dog = models.BooleanField(blank=True)
     is_online = models.BooleanField(blank=True)
     image = models.ImageField(upload_to='client/images', blank=True,null=True)
@@ -39,6 +41,7 @@ class Product(models.Model):
     is_reserved = models.BooleanField(default=False)
     collected_clients = models.ManyToManyField(Client,related_name="collect_products")
     image = models.ImageField(upload_to='product/images', blank=True,null=True)
+    who_reserved = models.ForeignKey(Client,related_name="reserved_products")
     
 class Comment(models.Model):
     product = models.ForeignKey(Product,primary_key=True,related_name="comments")  

@@ -3,7 +3,7 @@
 <head>		
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Catalog Theme, Responsive Layout</title>
+	<title>工大二手集市——工大人自己的二手交易平台！</title>
 	<meta name="keywords" content="catalog, responsive, bootstrap, free template, fluid layout, templatemo, html5 css3" />
 	<meta name="description" content="Catalog theme is free responsive design based on Bootstrap framework." />
 	<link href="http://netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet" type="text/css">
@@ -22,7 +22,7 @@
 		<header>
 			<div class="container logo">
 				<div class="row">
-					<div class="col-md-12"><a href="index.html"  target="_parent"><img src="/static/images/templatemo_logo.png" alt="templatemo 379 catalog"></a></div>
+					<div class="col-md-12"><a href="/index/"  target="_parent"><img src="/static/images/templatemo_logo.png" alt="templatemo 379 catalog"></a></div>
                     <!--<a href="#" title="创造性共享照片 from cn.hdstockphoto.com"  class="row_top" target="_blank"><img src="images/templatemo_top.png" title="创造性共享照片" alt="创造性共享照片" /></a>-->
 				</div>
 			</div>
@@ -42,15 +42,16 @@
 						<li><a href="#website_templates">运动健身</a></li>
                         <li><a href="#mini_templates">电子产品</a></li>
 						<li><a href="#flash_templates">生活娱乐</a></li>
-						<li><a href="contact.html">联络我们</a></li>
+						<!-- <li><a href="contact.html">联络我们</a></li> -->
                         <li><a href="/login/">登陆</a></li>
                         <li><a href="/register/">注册</a></li>
 					</ul>
-					<form class="navbar-form navbar-right" role="search">
+					<form class="navbar-form navbar-right" method="POST"  role="search" action="/search_product/">
 						<div class="form-group">
 							<input type="text" name="search_product" class="form-control" placeholder="商品名称">
 						</div>
-						<button type="submit" class="btn btn-default">搜索</button>
+						
+						<button type="submit" class="btn btn-default">模糊搜索</button>
 					</form>					
 				</div><!-- /.navbar-collapse -->
 			</nav>
@@ -61,26 +62,26 @@
                 			
 					<div class="sidebar-nav">
                     
-						<h4>Our Sponsors</h4>
+						<h4>快捷搜索：</h4>
 						<ul class="sidebar_menu">
-                        	<li><a  href="http://www.cssmoban.com/" target="_blank">website templates</a></li>
-							<li><a href="#"  target="_blank">flash templates</a></li>
-                            <li><a href="#"  target="_blank">koflash gallery</a></li>
-							<li><a href="http://www.cssmoban.com"  target="_blank">templatemo site</a></li>
-                            <li><a href="#"  target="_blank">flash stuffs</a></li>
+                        	<li><a  href="#" target="_blank">图书教材</a></li>
+							<li><a href="#"  target="_blank">运动健身</a></li>
+                            <li><a href="#"  target="_blank">电子产品</a></li>
+							<li><a href="#"  target="_blank">生活娱乐</a></li>
+                            
 						</ul>
                         
 						<hr>
                         
 						<h4>工大二手集市</h4>
-						哈工大人专属的二手集市，买书买本买
+						哈工大人专属的二手集市!
 						<div class="cleaner h10"></div>
-						<cite><b>Dan - <a href="#"><span>Chief Designer</span></a></b></cite>
-                        
+						<!-- <cite><b>Dan - <a href="#"><span>Chief Designer</span></a></b></cite>
+                        -->
 						<hr>
                         
-						<h4>About Us</h4>
-						<p>Sed interdum mollis suscipit. Aenean a lacus in magna iaculis blandit. Donec tempor purus eget ullamcorper accumsan. Cras elit eros, volutpat ac porta sed, sollicitudin eu elit. Maecenas gravida lacus purus, ac ultrices quam aliquam ut. Validate <a href="#" ><abbr title="eXtensible Hyper Text Markup Language">XHTML</abbr></a> &amp; <a href="#" ><abbr title="Cascading Style Sheets">CSS</abbr></a>.</p>
+						<h4>关于我们</h4>
+						<p>致力于打造服务工大同学的二手物品交易平台。</p>
                         
 						<hr>
                         
@@ -280,7 +281,7 @@
 		<footer class="container">
 			<div class="credit">
 				<p id="templatemo_cr_bar">
-					Copyright © 2072 <a href="#">Your Company Name</a> | <a href="http://www.cssmoban.com/"  title="模板之家">模板之家</a> Collect from <a href="http://www.cssmoban.com">网页模板</a>
+					Copyright © 2072 <a href="#">Stupid Monkey</a> | <a href="#"  title="HIT">HIT</a> Collect from <a href="#">HIT</a>
 				</p>
 			</div>
 		</footer>

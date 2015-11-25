@@ -21,7 +21,7 @@ class Client(models.Model):
     grade = models.CharField(max_length=50,blank=True,null=True)
     telephone = models.CharField(max_length=15,blank=True,null=True)   #!!!
     sex = models.BooleanField(blank=True)
-    is_identified = models.BooleanField(blank=True)
+    is_identified = models.BooleanField(blank=False)
     seller_level = models.IntegerField(default=1)    #auto
     seller_products_count = models.IntegerField(default=0)
     buyer_level = models.IntegerField(default=1)    #auto
@@ -29,6 +29,7 @@ class Client(models.Model):
     is_lonly_dog = models.BooleanField(blank=True)
     is_online = models.BooleanField(blank=True)
     image = models.ImageField(upload_to='client/images', blank=True,null=True)
+    rid = models.CharField(max_length=20,blank=True)
 
 class Product(models.Model):
     add_time = models.DateTimeField(unique=True,default=timezone.now)   #only tag 20151101220616
@@ -44,7 +45,7 @@ class Product(models.Model):
     who_reserved = models.ForeignKey(Client,related_name="reserved_products", blank=True,null=True)
     
 class Comment(models.Model):
-    product = models.ForeignKey(Product,primary_key=True,related_name="comments")  
+    product = models.ForeignKey(Product,related_name="comments") 
     client = models.ForeignKey(Client,related_name="comments")    #comment man
     content = models.CharField(max_length=200) 
     comment_date = models.DateTimeField(default=timezone.now) 

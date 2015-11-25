@@ -25,7 +25,8 @@ urlpatterns = patterns('',
     url('^user_inf/$',user_inf),
     url('^product_show/add_collection/$',add_collection),
     url('^product_show/remove_collection/$',remove_collection),
-
+    url('^check_email/$',check_email),
+    url('^activate_email/$',activate_email),
 
     
       

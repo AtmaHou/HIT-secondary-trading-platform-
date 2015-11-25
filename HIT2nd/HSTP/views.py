@@ -216,6 +216,15 @@ def my_product(request):
 	my_num = client.products.all().count()
 	c = Context({"my_products":my_products,"my_num":my_num})
 	return render_to_response("my_product.html",c)
+
+@is_online	
+def my_collection(request):
+	e = request.session["email"]
+	client = Client.objects.get(email = e)
+	my_products = client.collect_products.all()
+	my_num = my_products.count()
+	c = Context({"my_collection":my_products,"collection_num":my_num})
+	return render_to_response("my_collection.html",c)
 	
 @is_online
 def delete_product(request):

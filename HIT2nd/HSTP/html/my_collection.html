@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>我的收藏</title>
+</head>
+<body>
+<div align="center">
+{% if collection_num == 0 %}
+<p>您已经没有收藏啦！去<a href="/index/">收藏</a>一个吧~</p>
+{% endif %}
+<table>
+{% for Product in my_collection %}
+<tr>
+<td><a href="/product_show/?id={{Product.id}}"><img src="/static/media/{{Product.image}}" width="150px" height="150px"/></a></td>
+<td>{{Product.name}}</td>
+<td>{{Product.price}}</td>
+
+<td><a href="/product_show/?id={{Product.id}}">取消收藏</td>
+</tr>
+{% endfor %}
+</table>
+<a href="/index/">返回首页</td>
+</div>
+</body>
+</html>

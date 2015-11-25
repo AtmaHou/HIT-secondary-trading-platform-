@@ -43,8 +43,14 @@
                         <li><a href="#mini_templates">电子产品</a></li>
 						<li><a href="#flash_templates">生活娱乐</a></li>
 						<!-- <li><a href="contact.html">联络我们</a></li> -->
-                        <li><a href="/login/">登陆</a></li>
+                        {% if aa %}
+                        <li><a href="/user_inf/">个人信息</a></li>
+						<li><a href="/add_product/">新增商品</a></li>
+						<li><a href="/logout/">注销</a></li>
+						{% else %}
+						<li><a href="/login/">登陆</a></li>
                         <li><a href="/register/">注册</a></li>
+						{% endif %}
 					</ul>
 					<form class="navbar-form navbar-right" method="POST"  role="search" action="/search_product/">
 						<div class="form-group">
@@ -81,8 +87,7 @@
 						<hr>
                         
 						<h4>关于我们</h4>
-						<p>致力于打造服务工大同学的二手物品交易平台。</p>
-                        
+						<p>致力于打造服务工大同学的二手物品交易平台。</p>                   
 						<hr>
                         
 						<div class="social_buttons">
@@ -116,7 +121,6 @@
 									
 										<a href="/product_show/?id={{product.id}}" class="thumbnail">
 											{% if product.image %}
-			
                                             <img src="/static/media/{{product.image}}" alt="376 secured">
                                             {% endif %}
 											<p>{{product.name}}</p>

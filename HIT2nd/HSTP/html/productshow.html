@@ -470,7 +470,18 @@ em { color: #0066FF; }
         <p><font face="仿宋" size="5" color="#708090">PS：</font><br/><font face="仿宋" size="4" color="#dc143c"> {{ p.introduction }} </font></p>
 
         <div class="button image_fr"><a href="#">收藏</a></div>
-
+		{% if reser == 1%}
+		<div class="button image_fr"><a href="">已预定</a></div>
+		{% endif%}
+		{% if  reser == 0%}
+		<div class="button image_fr"><a href="/product_show/?reserved=reserve_it&id={{p.id}}">预定</a></div>
+		{% endif%}
+		{% if  reser == 2%}
+		<div class="button image_fr"><a href="/product_show/?reserved=cancle&id={{p.id}}">取消预定</a></div>
+		{% endif%}
+		{% if  reser == 3%}
+		<div class="button image_fr"><a href="/login/">预定</a></div>
+		{% endif%}
     	<div class="cleaner"></div>
 
     </div> <!-- end of banner -->
@@ -511,31 +522,24 @@ em { color: #0066FF; }
     	<div class="col_w565">
 
         	<h2>留言区</h2>
-
-        <p><em>留言给卖家</em></p>
         <p>禁止使用不得当言论，禁止发表广告，虚假信息</p>
-
+		{% for com in c_list %}
+			<p>{{com.client.nickname}}</p>
+			<p>{{com.content}}</p>
+			<br>
+		{% endfor %}
   <div class="cleaner_h40"></div>
-
+			
             	<div id="contact_form">
 
-                    <h3>Quick Contact Form</h3>
+                    <h3>请在下面输入留言</h3>
 
-                    <form method="post" name="contact" action="#">
-
-                      <label for="author">Name:</label>
-                        <input name="author" type="text" class="required input_field" id="author" maxlength="50" />
-
-                        <label for="email">Email:</label>
-                        <input name="email" type="text" class="validate-email required input_field" id="email" maxlength="50" />
-
-                      <label for="subject">Subject:</label>
-                      <input name="subject" type="text" class="input_field" id="subject" maxlength="50" />
-
-                      <label for="text">Message:</label> <textarea id="text" name="text" rows="0" cols="0" class="required"></textarea>
+                    <form method="post" name="contact">
+                    <textarea id="text" name="text" rows="0" cols="0" class="required" onclick= "this.select() " > 你好... </textarea>   
+				
 						<br />
-                        <input type="submit" class="submit_btn" name="submit" id="submit" value="Send" />
-                        <input type="reset" class="submit_btn reset" name="reset" id="reset" value="Reset" />
+                        <input type="submit" class="submit_btn" name="submit" id="submit" value="提交" />
+                        <input type="reset" class="submit_btn reset" id="reset" value="重填" />
 
                   </form>
 
@@ -590,3 +594,36 @@ em { color: #0066FF; }
 
 </body>
 </html>
+
+
+
+
+
+
+
+<form action="./do/" method="post">
+			<input name="ISBN" type="hidden" value="{{ book.ISBN }}">
+			<table class ="hovertable" border=1 align="center">
+				<tr>
+					<th>项目</th><th>填写信息</th>
+				</tr>
+				<tr  onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
+					<td>题目</td><td><input class="iinput" name="title" type="text" value="{{ book.Title}}"></td>
+				</tr>
+				<tr  onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
+					<td>作者</td><td><input class="iinput" name="author" type="text" value="{{ book.AuthorID.Name }}"></td>
+				</tr>
+				<tr  onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
+					<td>出版社</td><td><input class="iinput" name="publisher" type="text" value="{{ book.Publisher }}"></td>
+				</tr>
+				<tr  onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
+					<td>出版日期</td><td><input class="iinput" name="publishdate" type="text" value="{{ DATE }}"></td>
+				</tr>
+				<tr  onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
+					<td>价格</td><td><input class="iinput" name="price" type="text" value="{{ book.Price }}"></td>
+				</tr>
+				<tr>
+					<td colspan = 2 align="center"><input type="submit" value="保存"><input type="reset" value="重填"></td>
+				</tr>
+			</table>
+		</form>

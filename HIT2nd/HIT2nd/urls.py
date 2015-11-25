@@ -23,6 +23,8 @@ urlpatterns = patterns('',
     url('^product_show/$',product_show),
     url('^seller_inf/$',seller_inf),
     url('^user_inf/$',user_inf),
+    url('^check_email/$',check_email),
+    url('^activate_email/$',activate_email),
     
       
 )

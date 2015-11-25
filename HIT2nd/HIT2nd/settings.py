@@ -6,9 +6,18 @@ import os,sys
 ##    from sae.const import (MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASS, MYSQL_DB)
 MYSQL_HOST = '127.0.0.1'
 MYSQL_PORT = '3306'
-MYSQL_USER = 'lilingzhi'
-MYSQL_PASS = 'qqhrgnx'
+MYSQL_USER = 'root'
+MYSQL_PASS = '123456'
 MYSQL_DB   = 'hstpdb'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.qq.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = '2770837735@qq.com'
+EMAIL_HOST_PASSWORD = 'umjuyxbfdmysddba'
+
+
+
 #else:   
 #
 #    MYSQL_HOST = 'w.rdc.sae.sina.com.cn'

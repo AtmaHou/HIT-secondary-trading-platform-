@@ -6,8 +6,8 @@ import os,sys
 ##    from sae.const import (MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASS, MYSQL_DB)
 MYSQL_HOST = '127.0.0.1'
 MYSQL_PORT = '3306'
-MYSQL_USER = 'lilingzhi'
-MYSQL_PASS = 'qqhrgnx'
+MYSQL_USER = 'qh_work'
+MYSQL_PASS = '1995qh'
 MYSQL_DB   = 'hstpdb'
 #else:   
 #

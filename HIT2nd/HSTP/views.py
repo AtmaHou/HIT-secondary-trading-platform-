@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 from django.template import Context
 #from django import forms
 from django.shortcuts import render_to_response
@@ -19,8 +19,8 @@ def register(request):
     if request.POST:
         post = request.POST
         new_client = Client(
-          email = post["email"],
-          password = post["password"])
+        email = post["email"],
+        password = post["password"])
         password2 = post["password2"]
         password = post["password"]
         l = len(Client.objects.filter(email = post["email"]))
@@ -76,7 +76,9 @@ def return_login(request):
 def return_index(request):
     d = Context({"products_list":Product.objects.all()})
     return render_to_response("index.html",d)
-
+def return_index2(request):
+    d = Context({"products_list":Product.objects.all()})
+    return render_to_response("index2.html",d)
 @is_online
 def finish_user(request):
     e = request.session["email"]
@@ -153,7 +155,27 @@ def user_inf(request):
     client = Client.objects.get(email = e)
     c = Context({"client":client})
     return render_to_response("user_inf.html",c)
-    
+@is_online
+def my_product(request):
+	e = request.session["email"]
+	client = Client.objects.get(email = e)
+	my_products = client.products.all()
+	my_num = client.products.all().count()
+	c = Context({"my_products":my_products,"my_num":my_num})
+	return render_to_response("my_product.html",c)
+	
+@is_online
+def delete_product(request):
+	e = request.session["email"]
+	client = Client.objects.get(email = e)
+	id_=request.GET["id"]
+	this_product=Product.objects.get(id=id_)
+	this_product.delete()
+	my_products = client.products.all()
+	my_num = client.products.all().count()
+	c = Context({"my_products":my_products,"my_num":my_num})
+	return render_to_response("my_product.html",c)
+	     
 #    return render_to_response("productshow.html")
     
 #def search_product(request):

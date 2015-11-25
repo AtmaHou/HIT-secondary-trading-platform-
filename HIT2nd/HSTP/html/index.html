@@ -113,7 +113,7 @@
 								<div class="item_container">
                                 
 							    {% for product in products_list %}		
-									<div class="item">
+									
 										<a href="/product_show/?id={{product.id}}" class="thumbnail">
 											{% if product.image %}
 			
@@ -121,7 +121,7 @@
                                             {% endif %}
 											<p>{{product.name}}</p>
 										</a>
-									</div>
+									
 								{% endfor %}                
 									
                                     

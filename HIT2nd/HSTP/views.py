@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 from django.template import Context
 #from django import forms
 from django.shortcuts import render_to_response
@@ -238,6 +238,33 @@ def delete_product(request):
 	c = Context({"my_products":my_products,"my_num":my_num})
 	return render_to_response("my_product.html",c)
 
+@is_online
+def add_collection(request):
+    e = request.session["email"]
+    client = Client.objects.get(email = e)
+    
+    id2 = request.GET["id"]
+    pro = Product.objects.get(id = id2) 
+    pro.collected_clients.add(client)   
+    has_collected = True
+        
+    c = Context({"p": pro, "a": pro.client, "has_collected": has_collected})
+    return render_to_response("productshow.html",c)
+    
+@is_online
+def remove_collection(request):
+    e = request.session["email"]
+    client = Client.objects.get(email = e)
+    
+    id2 = request.GET["id"]
+    pro = Product.objects.get(id = id2) 
+    pro.collected_clients.remove(client)
+    has_collected = False
+        
+    my_products = client.collect_products.all()
+    my_num = my_products.count()
+    c = Context({"my_collection":my_products,"collection_num":my_num})
+    return render_to_response("my_collection.html",c)
 
 def check_email(request):
     if "email" in request.session:

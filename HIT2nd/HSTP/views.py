@@ -124,6 +124,7 @@ def add_product(request):
             trading_place = post["trading_place"],
             introduction = post["introduction"],
             client = Client.objects.get(email = e),
+#            collected_clients = [],
         )        
         form = UploadImageForm(request.POST,request.FILES)
         if form.is_valid():
@@ -134,10 +135,22 @@ def add_product(request):
     
     return render_to_response("add_product.html")  
 
+    
 def product_show(request):
     id1 = request.GET["id"]
     p = Product.objects.get(id = id1)
-    c = Context({"p": p, "a": p.client})
+            
+    if "email" in request.session:
+        e = request.session["email"] 
+        client = Client.objects.get(email = e)
+        if p in client.collect_products.all():
+            has_collected = True
+        else:
+            has_collected = False
+    else:
+        has_collected = False
+    
+    c = Context({"p": p, "a": p.client, "has_collected": has_collected})
     return render_to_response("productshow.html",c)
 
 @is_online    
@@ -153,7 +166,33 @@ def user_inf(request):
     client = Client.objects.get(email = e)
     c = Context({"client":client})
     return render_to_response("user_inf.html",c)
+
+@is_online
+def add_collection(request):
+    e = request.session["email"]
+    client = Client.objects.get(email = e)
     
+    id2 = request.GET["id"]
+    pro = Product.objects.get(id = id2) 
+    pro.collected_clients.add(client)   
+    has_collected = True
+        
+    c = Context({"p": pro, "a": pro.client, "has_collected": has_collected})
+    return render_to_response("productshow.html",c)
+    
+@is_online
+def remove_collection(request):
+    e = request.session["email"]
+    client = Client.objects.get(email = e)
+    
+    id2 = request.GET["id"]
+    pro = Product.objects.get(id = id2) 
+    pro.collected_clients.remove(client)
+    has_collected = False
+        
+    c = Context({"p": pro, "a": pro.client, "has_collected": has_collected})
+    return render_to_response("productshow.html",c)
+#    print (pro.collected_clients.all())
 #    return render_to_response("productshow.html")
     
 #def search_product(request):

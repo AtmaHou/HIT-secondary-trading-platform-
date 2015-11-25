@@ -468,9 +468,15 @@ em { color: #0066FF; }
       	<h1><font face="黑体" color="#ff7f50">{{ p.name }}</font></h1>
         <h2>价格： {{ p.price }} 元</h2>
         <p><font face="仿宋" size="5" color="#708090">PS：</font><br/><font face="仿宋" size="4" color="#dc143c"> {{ p.introduction }} </font></p>
-
-        <div class="button image_fr"><a href="#">收藏</a></div>
-
+		
+        {% if has_collected == True %}
+			<div class="button image_fr"><a href="/product_show/remove_collection/?id={{p.id}}">取消收藏</a></div>
+  		{% else %}
+			<div class="button image_fr"><a href="/product_show/add_collection/?id={{p.id}}">收藏</a></div>
+  		{% endif %}
+        
+        
+        
     	<div class="cleaner"></div>
 
     </div> <!-- end of banner -->

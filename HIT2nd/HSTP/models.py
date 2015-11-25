@@ -41,7 +41,7 @@ class Product(models.Model):
     is_reserved = models.BooleanField(default=False)
     collected_clients = models.ManyToManyField(Client,related_name="collect_products")
     image = models.ImageField(upload_to='product/images', blank=True,null=True)
-    who_reserved = models.ForeignKey(Client,related_name="reserved_products")
+    who_reserved = models.ForeignKey(Client,related_name="reserved_products", blank=True,null=True)
     
 class Comment(models.Model):
     product = models.ForeignKey(Product,primary_key=True,related_name="comments")  

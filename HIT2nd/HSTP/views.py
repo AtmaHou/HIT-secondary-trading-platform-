@@ -5,8 +5,9 @@ from django.shortcuts import render_to_response
 from models import *
 from django import forms
 from django.http import HttpResponse
-import ImageFile 
-
+from PIL import ImageFile 
+import random
+from django.core.mail import send_mail
 class UploadFileForm(forms.Form):
     title = forms.CharField(max_length=50)   
     file = forms.FileField() 
@@ -47,8 +48,9 @@ def login(request):
             user_real = Client.objects.get(email = post["email"])
             if user_real.password == post["password"]:
                 request.session["email"] = user_real.email
-                c = Context({"user":user_real}) 
-                return render_to_response("index2.html", c , d)
+                
+                c = Context({"user":user_real,"aa":1}) 
+                return render_to_response("index.html", c , d)
             else:
                 errors["password"] = '密码错误,请检查后重新输入！'
         else:
@@ -56,11 +58,15 @@ def login(request):
     return render_to_response("login.html",{"errors":errors})
 
 def index(request):
-    d = Context({"products_list":Product.objects.all()})
+    if "email" in request.session:
+        d = Context({"products_list":Product.objects.all(),"aa":1})
+    else:
+        d = Context({"products_list":Product.objects.all()})
     return render_to_response("index.html", d)
     
 def logout(request):
-    del request.session["email"]
+    if "email" in request.session:
+        del request.session["email"]
     d = Context({"products_list":Product.objects.all()})
     return render_to_response("index.html",d)
 def is_online(fn):
@@ -99,8 +105,8 @@ def finish_user(request):
             client.image = form.cleaned_data["imagefile"]
         
         client.save()
-        d = Context({"products_list":Product.objects.all()})
-        return render_to_response("index2.html",d)
+        d = Context({"products_list":Product.objects.all(),"aa":1})
+        return render_to_response("index.html",d)
     a = Context({"client":client})     
     return render_to_response("add_inf.html",a)
 
@@ -129,15 +135,47 @@ def add_product(request):
         if form.is_valid():
             new_product.image = form.cleaned_data["imagefile"]
         new_product.save()
-        d = Context({"products_list":Product.objects.all()})
-        return render_to_response("index2.html",d)
+        d = Context({"products_list":Product.objects.all(),"aa":1})
+        return render_to_response("index.html",d)
     
     return render_to_response("add_product.html")  
 
 def product_show(request):
     id1 = request.GET["id"]
     p = Product.objects.get(id = id1)
-    c = Context({"p": p, "a": p.client})
+    if "email" in request.session:
+        customer = Client.objects.get(email = request.session["email"])
+    else:
+        customer = None
+    if request.POST:
+        post = request.POST
+        com = Comment(content = post["text"],
+                      product = p,
+                      client = customer)
+        com.save()
+    comment_list = p.comments.all()
+    if "reserved" in request.GET:
+        print type(request.GET["reserved"]),"reserved get"
+        if request.GET["reserved"] == "reserve_it":
+            p.who_reserved = customer
+        elif request.GET["reserved"] == 'cancle':
+            p.who_reserved = None
+    p.save()
+    if customer:
+        if not p.who_reserved: 
+            reser = 0 # not reserve
+        else:
+            if customer == p.who_reserved:
+                reser = 2 # cancle reserve
+            else:
+                reser = 1 # reserved
+    else:
+        if p.who_reserved:
+            reser = 1 # reserved
+        else:
+            reser = 3 # to login
+    print 55555555555555555,reser,555555555555
+    c = Context({"p": p, "a": p.client,"c_list":comment_list,"reser":reser})
     return render_to_response("productshow.html",c)
 
 @is_online    
@@ -153,7 +191,35 @@ def user_inf(request):
     client = Client.objects.get(email = e)
     c = Context({"client":client})
     return render_to_response("user_inf.html",c)
+
+
+def check_email(request):
+    if "email" in request.session:
+        usr = Client.objects.get(email = request.session["email"])
+        while True:
+            usr.rid = "";
+            for i in range(20):
+                usr.rid += str(chr(random.randint(ord('a')+1,ord('z')-1)))
+            if(len(Client.objects.filter(rid = usr.rid)) == 0):
+                break;
+        #if failed   print str(usr.email)
+        usr.save()
+        send_mail('HSTP please activate your email','please click it to activate your email  http://127.0.0.1:8000/activate_email/?id='+usr.rid,'2770837735@qq.com',[usr.email],fail_silently=False)
+    return render_to_response("sent_email.html")
     
+def activate_email(request):
+    if "id" in request.GET:
+        id1 = request.GET["id"]
+        if Client.objects.get(rid = id1):
+            usr = Client.objects.get(rid = id1)
+            vaild = True
+            usr.is_identified = True
+            usr.save();
+        else:
+            vaild = False
+            
+    c = Context({"vaild":vaild})
+    return render_to_response("activated.html",c)
 #    return render_to_response("productshow.html")
     
 #def search_product(request):

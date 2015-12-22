@@ -12,11 +12,10 @@
 	<link href="http://getbootstrap.com/examples/offcanvas/offcanvas.css" rel="stylesheet">
 	<link href="/static/css/templatemo_style.css" rel="stylesheet" type="text/css">
 
-	<!-- HTML 5 shim for IE backwards compatibility -->
-		<!-- [if lt IE 9]>
-		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js">
-		</script>
-		<![endif]-->
+	<style type="text/css">
+    .div-inline{ display:inline
+    } 
+	</style>
 	</head>
 	<body>
 		<header>
@@ -117,7 +116,7 @@
 							<div class="col-xs-12 col-md-12">
 								<div class="item_container">
 									{% for product in products_list %}	
-										<div class="item">
+										<div class="item" style="float:left">
 										<a href="/product_show/?id={{product.id}}" class="thumbnail">
 											{% if product.image %}
 											<img src="/static/media/{{product.image}}" alt="376 secured">
@@ -148,7 +147,7 @@
 								<div class="item_container">
 								
 									{% for product in tsjc_list %}
-										<div class="item">
+										<div class="item" style="float:left">
 										<a href="/product_show/?id={{product.id}}" class="thumbnail">
 											{% if product.image %}
 											<img src="/static/media/{{product.image}}" alt="376 secured">
@@ -179,7 +178,7 @@
 							<div class="col-xs-12 col-md-12">
 								<div class="item_container"> 
                                 {% for product in ydjs_list %}
-										<div class="item">
+										<div class="item" style="float:left">
 										<a href="/product_show/?id={{product.id}}" class="thumbnail">
 											{% if product.image %}
 											<img src="/static/media/{{product.image}}" alt="376 secured">
@@ -209,7 +208,7 @@
 							<div class="col-xs-12 col-md-12">
 								<div class="item_container"> 
                                 {% for product in dzcp_list %}
-										<div class="item">
+										<div class="item" style="float:left">
 										<a href="/product_show/?id={{product.id}}" class="thumbnail">
 											{% if product.image %}
 											<img src="/static/media/{{product.image}}" alt="376 secured">
@@ -239,7 +238,7 @@
 							<div class="col-xs-12 col-md-12">
 								<div class="item_container"> 
                                 {% for product in shyl_list %}
-										<div class="item">
+										<div class="item" style="float:left">
 										<a href="/product_show/?id={{product.id}}" class="thumbnail">
 											{% if product.image %}
 											<img src="/static/media/{{product.image}}" alt="376 secured">
@@ -269,7 +268,7 @@
 							<div class="col-xs-12 col-md-12">
 								<div class="item_container"> 
                                 {% for product in qt_list %}
-										<div class="item">
+										<div class="item" style="float:left">
 										<a href="/product_show/?id={{product.id}}" class="thumbnail">
 											{% if product.image %}
 											<img src="/static/media/{{product.image}}" alt="376 secured">

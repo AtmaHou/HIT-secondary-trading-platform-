@@ -57,6 +57,13 @@ def login(request):
                 dzcp_list = Product.objects.filter(category = "dzcp").order_by("-view_count")
                 shyl_list = Product.objects.filter(category = "shyl").order_by("-view_count")
                 qt_list = Product.objects.filter(category = "qt").order_by("-view_count")
+
+                tsjc_list = cut(tsjc_list)
+                ydjs_list = cut(ydjs_list)
+                dzcp_list = cut(dzcp_list)
+                shyl_list = cut(shyl_list)
+                qt_list = cut(qt_list)
+                products_list = cut(products_list)
                 
                 d = Context({"tsjc_list":tsjc_list,"ydjs_list":ydjs_list,"dzcp_list":dzcp_list,"shyl_list":shyl_list,"qt_list":qt_list,"products_list":products_list})
                 c = Context({"user":user_real,"aa":1}) 
@@ -75,6 +82,13 @@ def index(request):
     shyl_list = Product.objects.filter(category = "shyl").order_by("-view_count")
     qt_list = Product.objects.filter(category = "qt").order_by("-view_count")
 
+    tsjc_list = cut(tsjc_list)
+    ydjs_list = cut(ydjs_list)
+    dzcp_list = cut(dzcp_list)
+    shyl_list = cut(shyl_list)
+    qt_list = cut(qt_list)
+    products_list = cut(products_list)
+
     if "email" in request.session:
         d = Context({"tsjc_list":tsjc_list,"ydjs_list":ydjs_list,"dzcp_list":dzcp_list,"shyl_list":shyl_list,"qt_list":qt_list,"products_list":products_list,"aa":1})
     else:
@@ -91,6 +105,13 @@ def logout(request):
     dzcp_list = Product.objects.filter(category = "dzcp").order_by("-view_count")
     shyl_list = Product.objects.filter(category = "shyl").order_by("-view_count")
     qt_list = Product.objects.filter(category = "qt").order_by("-view_count")
+
+    tsjc_list = cut(tsjc_list)
+    ydjs_list = cut(ydjs_list)
+    dzcp_list = cut(dzcp_list)
+    shyl_list = cut(shyl_list)
+    qt_list = cut(qt_list)
+    products_list = cut(products_list)
 
     d = Context({"tsjc_list":tsjc_list,"ydjs_list":ydjs_list,"dzcp_list":dzcp_list,"shyl_list":shyl_list,"qt_list":qt_list,"products_list":products_list})
     return render_to_response("index.html",d)

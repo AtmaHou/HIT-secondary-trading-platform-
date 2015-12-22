@@ -14,7 +14,10 @@ class UploadFileForm(forms.Form):
     
 class UploadImageForm(forms.Form):
     imagefile = forms.ImageField(required=False)    
-    
+def cut(list_cut):
+    if len(list_cut)>8:
+        list_cut = list_cut[:8]
+    return list_cut
 def register(request):
     flag = -1
     if request.POST:
@@ -40,7 +43,6 @@ def register(request):
         return render_to_response("register.html",c)
 def login(request):
     errors = {"email":"","password":""}
-    d = Context({"products_list":Product.objects.all()})
     if request.POST:
         post = request.POST
         user = Client.objects.filter(email = post["email"])
@@ -48,7 +50,15 @@ def login(request):
             user_real = Client.objects.get(email = post["email"])
             if user_real.password == post["password"]:
                 request.session["email"] = user_real.email
+                products_list = Product.objects.all()
+
+                tsjc_list = Product.objects.filter(category = "tsjc").order_by("-view_count")
+                ydjs_list = Product.objects.filter(category = "ydjs").order_by("-view_count")
+                dzcp_list = Product.objects.filter(category = "dzcp").order_by("-view_count")
+                shyl_list = Product.objects.filter(category = "shyl").order_by("-view_count")
+                qt_list = Product.objects.filter(category = "qt").order_by("-view_count")
                 
+                d = Context({"tsjc_list":tsjc_list,"ydjs_list":ydjs_list,"dzcp_list":dzcp_list,"shyl_list":shyl_list,"qt_list":qt_list,"products_list":products_list})
                 c = Context({"user":user_real,"aa":1}) 
                 return render_to_response("index.html", c , d)
             else:
@@ -56,38 +66,33 @@ def login(request):
         else:
          errors["email"] = '用户不存在，请点此'
     return render_to_response("login.html",{"errors":errors})
-
 def index(request):
     products_list = Product.objects.all()
-    tsjc_list = []
-    ydjs_list = []
-    dzcp_list = []
-    shyl_list = []
-    qt_list = []
-    limit = 8
-    for product in products_list:
-        cate_list = product.categories.all()
-        for cate in cate_list:
-            if "tsjc" == cate.category:
-                tsjc_list.append(product)
-            elif "ydjs" == cate.category:
-                ydjs_list.append(product)
-            elif "dzcp" == cate.category:
-                dzcp_list.append(product)
-            elif "shyl" == cate.category:
-                shyl_list.append(product)
-            else:
-                qt_list.append(product)
+
+    tsjc_list = Product.objects.filter(category = "tsjc").order_by("-view_count")
+    ydjs_list = Product.objects.filter(category = "ydjs").order_by("-view_count")
+    dzcp_list = Product.objects.filter(category = "dzcp").order_by("-view_count")
+    shyl_list = Product.objects.filter(category = "shyl").order_by("-view_count")
+    qt_list = Product.objects.filter(category = "qt").order_by("-view_count")
+
     if "email" in request.session:
-        d = Context({"tsjc_list":tsjc_list,"ydjs_list":ydjs_list,"dzcp_list":dzcp_list,"shyl_list":shyl_list,"qt_list":qt_list,"limit":limit,"products_list":products_list,"aa":1})
+        d = Context({"tsjc_list":tsjc_list,"ydjs_list":ydjs_list,"dzcp_list":dzcp_list,"shyl_list":shyl_list,"qt_list":qt_list,"products_list":products_list,"aa":1})
     else:
-        d = Context({"tsjc_list":tsjc_list,"ydjs_list":ydjs_list,"dzcp_list":dzcp_list,"shyl_list":shyl_list,"qt_list":qt_list,"limit":limit,"products_list":products_list})
+        d = Context({"tsjc_list":tsjc_list,"ydjs_list":ydjs_list,"dzcp_list":dzcp_list,"shyl_list":shyl_list,"qt_list":qt_list,"products_list":products_list})
     return render_to_response("index.html", d)
     
 def logout(request):
     if "email" in request.session:
         del request.session["email"]
-    d = Context({"products_list":Product.objects.all()})
+    products_list = Product.objects.all()
+
+    tsjc_list = Product.objects.filter(category = "tsjc").order_by("-view_count")
+    ydjs_list = Product.objects.filter(category = "ydjs").order_by("-view_count")
+    dzcp_list = Product.objects.filter(category = "dzcp").order_by("-view_count")
+    shyl_list = Product.objects.filter(category = "shyl").order_by("-view_count")
+    qt_list = Product.objects.filter(category = "qt").order_by("-view_count")
+
+    d = Context({"tsjc_list":tsjc_list,"ydjs_list":ydjs_list,"dzcp_list":dzcp_list,"shyl_list":shyl_list,"qt_list":qt_list,"products_list":products_list})
     return render_to_response("index.html",d)
 def is_online(fn):
     def check(request,*args):                                                                                                               
@@ -139,6 +144,7 @@ def search_product(request):
 @is_online
 def add_product(request):
     return render_to_response("add_product.html")
+@is_online
 def add(request):
     e = request.session["email"] 
     if request.POST:
@@ -149,34 +155,33 @@ def add(request):
             trading_place = post["trading_place"],
             introduction = post["introduction"],
             client = Client.objects.get(email = e),
+            category = post["category"],
         )
         form = UploadImageForm(request.POST,request.FILES)
         if form.is_valid():
             new_product.image = form.cleaned_data["imagefile"]
         new_product.save()
-        new_category = Category(
-            product = new_product,
-            category = post["category"],
-        )
-        new_category.save()
     return render_to_response("add_product.html")
 
     
 def product_show(request):
     id1 = request.GET["id"]
     p = Product.objects.get(id = id1)
-
+    p.view_count = p.view_count + 1
       
     if "email" in request.session:
         customer = Client.objects.get(email = request.session["email"])
     else:
         customer = None
     if request.POST:
-        post = request.POST
-        com = Comment(content = post["text"],
-                      product = p,
-                      client = customer)
-        com.save()
+        if "email" in request.session:
+            post = request.POST
+            com = Comment(content = post["text"],
+                          product = p,
+                          client = customer)
+            com.save()
+        else:
+            return render_to_response("login.html")
     comment_list = p.comments.all()
     if "reserved" in request.GET:
         if request.GET["reserved"] == "reserve_it":

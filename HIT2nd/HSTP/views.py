@@ -54,14 +54,34 @@ def login(request):
             else:
                 errors["password"] = '密码错误,请检查后重新输入！'
         else:
-		 errors["email"] = '用户不存在，请点此'
+         errors["email"] = '用户不存在，请点此'
     return render_to_response("login.html",{"errors":errors})
 
 def index(request):
+    products_list = Product.objects.all()
+    tsjc_list = []
+    ydjs_list = []
+    dzcp_list = []
+    shyl_list = []
+    qt_list = []
+    limit = 8
+    for product in products_list:
+        cate_list = product.categories.all()
+        for cate in cate_list:
+            if "tsjc" == cate.category:
+                tsjc_list.append(product)
+            elif "ydjs" == cate.category:
+                ydjs_list.append(product)
+            elif "dzcp" == cate.category:
+                dzcp_list.append(product)
+            elif "shyl" == cate.category:
+                shyl_list.append(product)
+            else:
+                qt_list.append(product)
     if "email" in request.session:
-        d = Context({"products_list":Product.objects.all(),"aa":1})
+        d = Context({"tsjc_list":tsjc_list,"ydjs_list":ydjs_list,"dzcp_list":dzcp_list,"shyl_list":shyl_list,"qt_list":qt_list,"limit":limit,"products_list":products_list,"aa":1})
     else:
-        d = Context({"products_list":Product.objects.all()})
+        d = Context({"tsjc_list":tsjc_list,"ydjs_list":ydjs_list,"dzcp_list":dzcp_list,"shyl_list":shyl_list,"qt_list":qt_list,"limit":limit,"products_list":products_list})
     return render_to_response("index.html", d)
     
 def logout(request):
@@ -70,12 +90,12 @@ def logout(request):
     d = Context({"products_list":Product.objects.all()})
     return render_to_response("index.html",d)
 def is_online(fn):
-    def check(request,*args):																												
+    def check(request,*args):                                                                                                               
         if "email" in request.session:
             return fn(request,*args)
         else:
             return render_to_response("login.html")
-    return check	
+    return check    
     
 def return_login(request):
     return render_to_response("login.html")
@@ -118,6 +138,8 @@ def search_product(request):
 
 @is_online
 def add_product(request):
+    return render_to_response("add_product.html")
+def add(request):
     e = request.session["email"] 
     if request.POST:
         post = request.POST
@@ -127,16 +149,17 @@ def add_product(request):
             trading_place = post["trading_place"],
             introduction = post["introduction"],
             client = Client.objects.get(email = e),
-#            collected_clients = [],
-        )        
+        )
         form = UploadImageForm(request.POST,request.FILES)
         if form.is_valid():
             new_product.image = form.cleaned_data["imagefile"]
         new_product.save()
-        d = Context({"products_list":Product.objects.all(),"aa":1})
-        return render_to_response("index.html",d)
-    
-    return render_to_response("add_product.html")  
+        new_category = Category(
+            product = new_product,
+            category = post["category"],
+        )
+        new_category.save()
+    return render_to_response("add_product.html")
 
     
 def product_show(request):
@@ -210,33 +233,33 @@ def user_inf(request):
 
 @is_online
 def my_product(request):
-	e = request.session["email"]
-	client = Client.objects.get(email = e)
-	my_products = client.products.all()
-	my_num = client.products.all().count()
-	c = Context({"my_products":my_products,"my_num":my_num})
-	return render_to_response("my_product.html",c)
+    e = request.session["email"]
+    client = Client.objects.get(email = e)
+    my_products = client.products.all()
+    my_num = client.products.all().count()
+    c = Context({"my_products":my_products,"my_num":my_num})
+    return render_to_response("my_product.html",c)
 
-@is_online	
+@is_online  
 def my_collection(request):
-	e = request.session["email"]
-	client = Client.objects.get(email = e)
-	my_products = client.collect_products.all()
-	my_num = my_products.count()
-	c = Context({"my_collection":my_products,"collection_num":my_num})
-	return render_to_response("my_collection.html",c)
-	
+    e = request.session["email"]
+    client = Client.objects.get(email = e)
+    my_products = client.collect_products.all()
+    my_num = my_products.count()
+    c = Context({"my_collection":my_products,"collection_num":my_num})
+    return render_to_response("my_collection.html",c)
+    
 @is_online
 def delete_product(request):
-	e = request.session["email"]
-	client = Client.objects.get(email = e)
-	id_=request.GET["id"]
-	this_product=Product.objects.get(id=id_)
-	this_product.delete()
-	my_products = client.products.all()
-	my_num = client.products.all().count()
-	c = Context({"my_products":my_products,"my_num":my_num})
-	return render_to_response("my_product.html",c)
+    e = request.session["email"]
+    client = Client.objects.get(email = e)
+    id_=request.GET["id"]
+    this_product=Product.objects.get(id=id_)
+    this_product.delete()
+    my_products = client.products.all()
+    my_num = client.products.all().count()
+    c = Context({"my_products":my_products,"my_num":my_num})
+    return render_to_response("my_product.html",c)
 
 @is_online
 def add_collection(request):
@@ -293,51 +316,3 @@ def activate_email(request):
             
     c = Context({"vaild":vaild})
     return render_to_response("activated.html",c)
-
-#    return render_to_response("productshow.html")
-    
-#def search_product(request):
-#    if request.POST:
-#        post = request.POST
-#        search = post["search_product"]
-#        all_product = Product.objects.all()
-#        for product in all_product:
-#            if search in product.name
-#        if People.objects.filter(name = search_name):
-#            d = Context({"people_list":People.objects.filter(name = search_name)})
-#            return render_to_response("search_people.html", d)
-#        else:
-#            return render_to_response("none_search_people.html") 
-#def addPicture(request):  
-#    if request.method == 'POST':  
-#        form = UploadImageForm(request.POST, request.FILES)  
-#        if form.is_valid():  
-#            f = request.FILES["imagefile"]  
-#            parser = ImageFile.Parser()  
-#            for chunk in f.chunks():  
-#                parser.feed(chunk)  
-#            img = parser.close()  
-#            # 在img被保存之前，可以进行图片的各种操作，在各种操作完成后，在进行一次写操作  
-#            img.save()
-
-#class UserForm(forms.Form):
-#    email = forms.EmailField(required=False,label='email:')
-#    password = forms.CharField(required=False,max_length=6,label='password:',widget=forms.PasswordInput())
-
-#def register(request):
-#    if request.method == 'POST':
-#        uf = UserForm(request.POST)
-#        if uf.is_valid():
-#            email = uf.cleaned_data['email']
-#            password = uf.cleaned_data['password']
-#            
-#            client = Client()
-#            client.email = email
-#            client.password = password
-#            client.save()
-#            return HttpResponseRedirect("/login/")
-#    else:
-#        uf = UserForm()
-#    return render_to_response("html/register.html", {
-#        'uf': uf,
-#    })

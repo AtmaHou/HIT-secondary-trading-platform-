@@ -7,19 +7,28 @@
 
 <body>
 <div align="center">
-<form method="post"  enctype="multipart/form-data" >
+<form method="post"  enctype="multipart/form-data" action="/add/">
     商品名称：<input name="name" type="text" /><br />
+    商品标签：
+    <select name="category">
+    <option value="tsjc" selected="selected">图书教材</option>
+    <option value="ydjs" type="text">运动健身</option>
+    <option value="dzcp" type="text">电子产品</option>
+    <option value="shyl" type="text">生活娱乐</option>
+    <option value="qt" type="text">其他</option>
+    </select><br />
     商品价格：<input name="price" type="number" /><br />
     交易地点：<input name="trading_place" type="text" /><br />
     商品简介：<input name="introduction" type="text" /><br />
-	<fieldset>
-	<legend>上传商品图片：</legend>
-	<input type="file" name="imagefile" />
-	</fieldset>
-	
+    <fieldset>
+    <legend>上传商品图片：</legend>
+    <input type="file" name="imagefile" />
+    </fieldset>
+    
     <input type="submit" value="添加" />
     <input type="reset" value="重填" />
 </form>
+    <a href="/index/">返回首页</a>
 </div>
 </body>
 </html>

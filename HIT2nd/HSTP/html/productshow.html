@@ -602,36 +602,3 @@ em { color: #0066FF; }
 
 </body>
 </html>
-
-
-
-
-
-
-
-<form action="./do/" method="post">
-			<input name="ISBN" type="hidden" value="{{ book.ISBN }}">
-			<table class ="hovertable" border=1 align="center">
-				<tr>
-					<th>项目</th><th>填写信息</th>
-				</tr>
-				<tr  onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
-					<td>题目</td><td><input class="iinput" name="title" type="text" value="{{ book.Title}}"></td>
-				</tr>
-				<tr  onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
-					<td>作者</td><td><input class="iinput" name="author" type="text" value="{{ book.AuthorID.Name }}"></td>
-				</tr>
-				<tr  onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
-					<td>出版社</td><td><input class="iinput" name="publisher" type="text" value="{{ book.Publisher }}"></td>
-				</tr>
-				<tr  onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
-					<td>出版日期</td><td><input class="iinput" name="publishdate" type="text" value="{{ DATE }}"></td>
-				</tr>
-				<tr  onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
-					<td>价格</td><td><input class="iinput" name="price" type="text" value="{{ book.Price }}"></td>
-				</tr>
-				<tr>
-					<td colspan = 2 align="center"><input type="submit" value="保存"><input type="reset" value="重填"></td>
-				</tr>
-			</table>
-		</form>

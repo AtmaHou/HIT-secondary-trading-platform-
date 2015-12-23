@@ -28,6 +28,7 @@ def register(request):
         password2 = post["password2"]
         password = post["password"]
         l = len(Client.objects.filter(email = post["email"]))
+        if password == '' and password2 == ''
           #验证密码是否相同以及Email是否注册过
         if (password == password2) and (l == 0):
             new_client.save()
@@ -94,7 +95,23 @@ def index(request):
     else:
         d = Context({"tsjc_list":tsjc_list,"ydjs_list":ydjs_list,"dzcp_list":dzcp_list,"shyl_list":shyl_list,"qt_list":qt_list,"products_list":products_list})
     return render_to_response("index.html", d)
-    
+
+def read_more(request):
+    category = request.GET["category"]
+    if "email" in request.session:
+        if category == 'all':
+            c = Context({"products_list":Product.objects.all().order_by("-view_count"),"aa":1})
+        else:
+            products_list = Product.objects.filter(category = category).order_by("-view_count")
+            c = Context({"products_list":products_list,"aa":1})
+    else:
+        if category == 'all':
+            c = Context({"products_list":Product.objects.all()})
+        else:
+            products_list = Product.objects.filter(category = category).order_by("-view_count")
+            c = Context({"products_list":products_list})
+    return render_to_response("read_more.html",c)
+
 def logout(request):
     if "email" in request.session:
         del request.session["email"]
@@ -157,17 +174,36 @@ def search_product(request):
     if request.POST:
         post = request.POST
         search = post["search_product"]
-        if Product.objects.filter(name__contains=search):
-            d = Context({"products_list":Product.objects.filter(name__contains=search)})
-            return render_to_response("search_product.html", d)           
-        return render_to_response("search_product.html") 
+        search_result = Product.objects.filter(name__contains=search)
+        if search_result:
+            category = search_result[0].category
+        else:
+            category = Product.objects.all().order_by("-view_count")[0].category
+        all_about = Product.objects.filter(category=category)
+        if len(all_about) >=4:
+            n = 4
+        else:
+            n = len(all_about)
+        to_show = []
+        while(len(to_show) == 0):
+            for i in range(n):
+                one = all_about[random.randint(0,len(all_about)-1)]
+                if (one not in to_show) and (one not in search_result):
+                    to_show.append(one)
+        c = Context({"to_show":to_show})
+
+        if "email" in request.session:
+            d = Context({"products_list":cut(Product.objects.filter(name__contains=search).order_by("-view_count")),"aa":1})
+        else:
+            d = Context({"products_list":cut(Product.objects.filter(name__contains=search).order_by("-view_count"))})
+        return render_to_response("search_product.html",d,c)
 
 @is_online
-def add_product(request):
+def add_product(request):#为了解决首页刷新的问题将它们分开
     return render_to_response("add_product.html")
 @is_online
 def add(request):
-    e = request.session["email"] 
+    e = request.session["email"]
     if request.POST:
         post = request.POST
         new_product = Product(

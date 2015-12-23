@@ -3,6 +3,41 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>欢迎注册</title>
+<script type="text/javascript">
+
+function validate_required(field,alerttxt)
+{
+with (field)
+  {
+  if (value==null||value=="")
+    {alert(alerttxt);return false}
+  else {return true}
+  }
+}
+
+function password_required(field,alerttxt)
+{
+with (field)
+  {
+  if (value.length!=6)
+    {alert(alerttxt);return false}
+  else {return true}
+  }
+}
+
+function validate_form(thisform)
+{
+with (thisform)
+  {
+  if (validate_required(email,"您的邮箱为空！")==false)
+    {email.focus();return false}
+  if (validate_required(password,"您还未设置密码！")==false)
+    {password.focus();return false}
+  if (password_required(password,"密码位数不正确，请设置六位密码！")==false)
+    {password.focus();return false}
+  }
+}
+</script>
 </head>
 
 <body>
@@ -12,7 +47,7 @@
 {% elif flag == 3%}
 <p><font color="#FF0000">该邮箱已经注册，请直接<a href="/return_login/">登录</a>!</font></p>
 {% endif %}
-<form  method="post" action="/register/">
+<form  method="post" action="/register/" onsubmit="return validate_form(this)">
  <table>
  <tr><p>用户名：<input name="email" type="email" placeholder="请输入您的邮箱" /></p></tr>
   <tr><p>密码：<input name="password" type="password" placeholder="6位数字"/></p></tr>

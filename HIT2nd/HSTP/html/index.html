@@ -15,9 +15,36 @@
 	<style type="text/css">
     .div-inline{ display:inline
     } 
+	#social_box {
+	float: right;
+	display: inline-block;
+	margin: 10px 0 0;
+	padding: 0;
+	list-style: none;
+	}
+
+	#social_box li {
+		display: block;
+		float: left;
+		padding: 0;
+		margin: 0;
+	}
+
+	#social_box li a {
+		width: 48px;
+		height: 48px;
+		margin-right: 5px;
+	}
 	</style>
 	</head>
 	<body>
+		<ul id="social_box">
+
+            <li><a href="/index/">主页</a></li>
+
+            <li><a href="/user_inf/?email={{a.email}}">个人主页</a></li>
+			<li><a href="/all_message/">消息({{msg_num}})</a></li>
+        </ul>
 		<header>
 			<div class="container logo">
 				<div class="row">
@@ -65,7 +92,7 @@
 						
 						<button type="submit" class="btn btn-default">模糊搜索</button>
 					</form>					
-				</div><!-- /.navbar-collapse -->
+				</div>
 			</nav>
 		</header>
 		<div class="container" id="home">
@@ -346,7 +373,7 @@
 				<div class="row">
 					<div class="col-xs-12 col-md-12">
 						<a  href="/index/"  
-							class="btn btn-primary" role="button">View More</a>
+							class="btn btn-primary" role="button">更多</a>
 				  </div>
 				</div>     
 			</section>
@@ -367,13 +394,6 @@
 		<script src="js/jquery.js"></script>
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/offcanvas.js"></script>
-	    <!-- 
-		http://masonry.desandro.com/
-	    http://desandro.mit-license.org/ 
-		http://stackoverflow.com/questions/17767130/masonry-js-error-uncaught-typeerror-object-object-object-has-no-method-imag
-		Align items in center: https://github.com/desandro/isotope/issues/20
-	    Hiding text overflow: http://stackoverflow.com/questions/15308061/how-to-avoid-text-overflow-in-twitter-bootstrap
-		-->
 		<script src="js/masonry.pkgd.min.js"></script>
 		<script src="js/imagesloaded.pkgd.min.js"></script>	     
 		<script>

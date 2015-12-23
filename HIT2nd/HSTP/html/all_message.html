@@ -4,25 +4,25 @@
 	<body>
 	<h1 align = "center">收信箱</h1>
 	<form method="post"  enctype="multipart/form-data" >
-		<input id="now" type="hidden">
+		<input id="now" name="now" type="hidden">
 		{% for m in msg_lst %}
 		<div align = "center">
 		--------------------------------------------------------------------------------
-			<h3>发件人：{% if m.speaker.name%} 
-							{{m.speaker.name}} 
+			<h3>{% if m.speaker.email = "sys@sys.com" %}<font id="over"face="黑体" color="#ff7f50">{% endif %}发件人：{% if m.speaker.nickname%} 
+							{{m.speaker.nickname}} 
 						{% else %}
 							匿名 
 						{% endif %}
-			</h3> 
+			</h3> {% if m.speaker.email = "sys@sys.com" %}</font>{% endif %}
 			时间：{{m.message_date}}
 			<h4>内容：</h4>
 			<p>{{m.content}}</p>
-			
 			
 			<input id="{{m.id}}" type="hidden" name="{{m.id}}"/>
 			
 			<input id="{{m.id}}@" type="hidden" value="发送" onclick = "change({{m.id}})" />
 			<button type="button" onclick = "func(this,document.getElementById('{{m.id}}'),document.getElementById('{{m.id}}@'))">回复</button>
+			{% if sended %} <h3>消息成功发送~</h3> {% endif %}
 		</div>
 		
 		<br/>

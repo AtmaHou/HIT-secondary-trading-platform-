@@ -48,13 +48,17 @@ class Product(models.Model):
     auction_add = models.FloatField(default=0)
     auction_deadline = models.DateTimeField(default=datetime(2050,1,1,0,0,0))
 	
+class want(models.Model):
+    sender = models.ForeignKey(Client,related_name="want_msg")
+    content = models.CharField(max_length=200)
+    time = models.DateTimeField(default=timezone.now)
     
 class Comment(models.Model):
-    product = models.ForeignKey(Product,related_name="comments") 
+    product = models.ForeignKey(Product,related_name="comments",null=True) 
     client = models.ForeignKey(Client,related_name="comments")    #comment man
     content = models.CharField(max_length=200) 
     comment_date = models.DateTimeField(default=timezone.now)
-    
+    want = models.ForeignKey(want,related_name="comments",null=True)
 class Category(models.Model):
     product = models.ForeignKey(Product,primary_key=True,related_name="categories")   
     category = models.CharField(max_length=40)     #type
@@ -71,3 +75,6 @@ class message(models.Model):
     content = models.CharField(max_length=200)
     message_date = models.DateTimeField(default=timezone.now)
     product = models.ForeignKey(Product,related_name="msg")
+    read = models.BooleanField(default=False)
+
+

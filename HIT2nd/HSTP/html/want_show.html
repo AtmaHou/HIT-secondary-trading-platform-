@@ -1,4 +1,4 @@
-﻿{% load staticfiles %}
+{% load staticfiles %}
 
 <html>
 <head>
@@ -459,71 +459,17 @@ em { color: #0066FF; }
     </div> <!-- end of templatemo_header -->
 	
 	
-    <div id="templatemo_banner_wrapper">
-
-    <div id="templatemo_banner">
-
-    	<img src="/static/media/{{p.image}}" alt="featured"/>
-		
-    
-		<h1><font id="over"face="黑体" color="#ff7f50">{{ p.name }}  {% if auction %} (拍卖中) {% endif%}</font></h1>
-		
-		<script type="text/javascript">
-			function refresh(){
-				document.getElementById("over").innerHTML="{{ p.name }}  {% if auction %} (拍卖结束) {% endif%}";
-			}		
-		</script>
-        {% if auction %} 
-			{% if customer == None %}
-				<h3>登陆后参与拍卖</h3>
-				<a href="/login/">点此登陆</a>
-			{% else %}
-				<iframe src="/auction/?id={{p.id}}" width=250 height=500 scrolling=no frameborder=0></iframe>
-			{% endif %}
-			<br/><font face="仿宋" size="5" color="#708090">PS：</font><br/><font face="仿宋" size="4" color="#dc143c"> {{ p.introduction }} </font>
-        {% else %}
-		<h2>价格： {{ p.price }} 元</h2>
-		
-		<p><font face="仿宋" size="5" color="#708090"> PS：</font><br/><font face="仿宋" size="4" color="#dc143c">  {{ p.introduction }} </font></p>
-		
-			{% if has_collected == 1 %}
-				<div class="button image_fr"><a href="/product_show/?collected=cancle&id={{p.id}}">取消收藏</a></div>
-			{% elif has_collected == 2 %}
-				<div class="button image_fr"><a href="/product_show/?collected=collect_it&id={{p.id}}">收藏</a></div>
-			{% elif has_collected == 3 %}
-				<div class="button image_fr"><a href="/login/">收藏</a></div>
-			{% endif %}
-
-			{% if reser == 1%}
-			<div class="button image_fr"><a href="">已预定</a></div>
-			{% endif%}
-			{% if  reser == 0%}
-			<div class="button image_fr"><a href="/product_show/?reserved=reserve_it&id={{p.id}}">预定</a></div>
-			<div class="button image_fr"><a href="/bargain/?id={{p.id}}">讨价还价</a></div>
-			{% endif%}
-			{% if  reser == 2%}
-			<div class="button image_fr"><a href="/product_show/?reserved=cancle&id={{p.id}}">取消预定</a></div>
-			{% endif%}
-			{% if  reser == 3%}
-			<div class="button image_fr"><a href="/login/">预定</a></div>
-			<div class="button image_fr"><a href="/bargain/?id={{p.id}}">讨价还价</a></div>
-			{% endif%}
-			
-		{% endif %}
-    	<div class="cleaner"></div>
-	
-    </div> <!-- end of banner -->
-
-    </div>	<!-- end of banner_wrapper -->
 
     <div id="templatemo_service_bar_wrapper">
-
+	
+	
+	
     <div id="templatemo_service_bar">
 
          <div class="sb_box">
 
             <img src="/static/images/onebit_15.png" alt="image 1" />
-            <a href="/seller_inf/?email={{a.email}}">卖家： {{ a.email}}</a>
+            <a href="/seller_inf/?email={{a.email}}">买家： {{ a.email}}</a>
 
         </div>
 
@@ -534,21 +480,24 @@ em { color: #0066FF; }
 
         </div>
 
-        <div class="sb_box sb_box_last">
-
-            <img src="/static/images/onebit_19.png" alt="image 3" />
-            <a href="#">交易地点： {{ p.trading_place }}</a>
-
-        </div>
 
     </div> <!-- end of templatemo_service_bar -->
 
     </div> <!-- end of templatemo_service_bar_wrapper -->
+	
     <div id="templatemo_content_wrapper">
     <div id="templatemo_content">
-
+		
     	<div class="col_w565">
-
+			<div class="sb_news_box">
+                 <h6><a href="#">{% if w.sender.nickname%} 
+									{{w.sender.nickname}} 
+								{% else %}
+									匿名 
+								{% endif %}</a> <span>({{w.time}})</span></h6>
+                    {{w.content}}
+				<div class="cleaner"></div>
+            </div>
         	<h2>留言区</h2>
         <p>禁止使用不得当言论，禁止发表广告，虚假信息</p>
 		{% for com in c_list %}
@@ -556,7 +505,7 @@ em { color: #0066FF; }
 			<p>{{com.content}}</p>
 			<br>
 		{% endfor %}
-  <div class="cleaner_h40"></div>
+		<div class="cleaner_h40"></div>
 			
             	<div id="contact_form">
 
@@ -571,7 +520,7 @@ em { color: #0066FF; }
 
                   </form>
 
-            </div>
+				</div>
 
             <div class="cleaner"></div>
 		</div>

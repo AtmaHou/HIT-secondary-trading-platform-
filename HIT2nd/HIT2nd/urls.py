@@ -29,6 +29,10 @@ urlpatterns = patterns('',
     url('^remove_collection/$',remove_collection),
     url('^check_email/$',check_email),
     url('^activate_email/$',activate_email),
+    url('^map/$',show_map),
+    url('^add_booth/$',add_booth),
+    url('^getin_booth/$',getin_booth),
+    url('^change_product/$',change_product),
 
     
       

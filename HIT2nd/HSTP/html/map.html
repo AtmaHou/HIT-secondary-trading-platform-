@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+	body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+	</style>
+	<style type="text/css">
+	body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+	#allmap {height: 90%;width:100%;overflow: hidden;}
+	#result {width:100%;font-size:12px;}
+	dl,dt,dd,ul,li{
+		margin:0;
+		padding:0;
+		list-style:none;
+	}
+	dt{
+		font-size:14px;
+		font-family:"微软雅黑";
+		font-weight:bold;
+		border-bottom:1px dotted #000;
+		padding:5px 0 5px 5px;
+		margin:5px 0;
+	}
+	dd{
+		padding:5px 0 0 5px;
+	}
+	li{
+		line-height:28px;
+	}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=SmPwRK0YbgiWMTCXEIPPgK1S"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/library/AreaRestriction/1.2/src/AreaRestriction_min.js"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
+	<link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css" />
+	<script src="http://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+	<title>地图展示</title>
+</head>
+<body>
+	<div id="allmap"></div>
+	<div id="r-result" align="center">
+		<input type="button" onclick="add_booth();" value="添加摊位" />&nbsp;&nbsp;
+		<input type="button" onclick="quit_add_booth();" value="取消添加" />&nbsp;&nbsp;
+		<a href="/index/"><input type="button" value="返回首页" /></a>
+	</div>
+</body>
+</html>
+
+
+<script type="text/template" id="html_template"><div>
+<a  href="/index/" class="btn btn-primary" role="button">View More</a>
+</div></script>
+
+
+<script type="text/javascript">
+	
+	// 百度地图API功能
+	
+	var map = new BMap.Map("allmap");    // 创建Map实例
+	map.centerAndZoom(new BMap.Point(126.639582,45.750047), 20);  // 初始化地图,设置中心点坐标和地图级别
+	map.addControl(new BMap.MapTypeControl());   //添加地图类型控件
+	map.setCurrentCity("哈尔滨");          // 设置地图显示的城市 此项是必须设置的
+	map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+	map.setDefaultCursor("url('bird.cur')");   //设置地图默认的鼠标指针样式
+	
+	
+	var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
+	var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
+	var top_right_navigation = new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL}); //右上角，仅包含平移和缩放按钮
+	/*缩放控件type有四种类型:
+	BMAP_NAVIGATION_CONTROL_SMALL：仅包含平移和缩放按钮；BMAP_NAVIGATION_CONTROL_PAN:仅包含平移按钮；BMAP_NAVIGATION_CONTROL_ZOOM：仅包含缩放按钮*/
+	
+	//添加控件和比例尺
+	map.addControl(top_left_control);        
+	map.addControl(top_left_navigation);     
+	map.addControl(top_right_navigation);    
+	
+	//移除控件和比例尺
+	function delete_control(){
+		map.removeControl(top_left_control);     
+		map.removeControl(top_left_navigation);  
+		map.removeControl(top_right_navigation); 
+	}
+	
+	var navigationControl = new BMap.NavigationControl({
+    // 靠左上角位置
+    anchor: BMAP_ANCHOR_TOP_LEFT,
+    // LARGE类型
+    type: BMAP_NAVIGATION_CONTROL_LARGE,
+    // 启用显示定位
+    enableGeolocation: true
+  });
+  map.addControl(navigationControl);
+  // 添加定位控件
+  var myIcon = new BMap.Icon("http://developer.baidu.com/map/jsdemo/img/fox.gif", new BMap.Size(300,157));
+  var geolocationControl = new BMap.GeolocationControl();
+  geolocationControl.addEventListener("locationSuccess", function(e){
+    // 定位成功事件
+	//创建小狐狸
+	var pt = new BMap.Point(e.lng,e.lat);
+	var marker2 = new BMap.Marker(pt,{icon:myIcon});  // 创建标注
+	map.addOverlay(marker2);              // 将标注添加到地图中
+    var address = '';
+    address += e.addressComponent.province;
+    address += e.addressComponent.city;
+    address += e.addressComponent.district;
+    address += e.addressComponent.street;
+    address += e.addressComponent.streetNumber;
+    alert("当前定位地址为：" + address);
+		
+	
+  });
+  geolocationControl.addEventListener("locationError",function(e){
+    // 定位失败事件
+    alert(e.message);
+  });
+  map.addControl(geolocationControl);
+	/*
+	var cr = new BMap.CopyrightControl({anchor: BMAP_ANCHOR_TOP_RIGHT});   //设置版权控件位置
+	map.addControl(cr); //添加版权控件
+
+	var bs = map.getBounds();   //返回地图可视区域
+	cr.addCopyright({id: 1, content: "<a href='#' style='font-size:20px;background:yellow'>我是自定义版权控件呀</a>", bounds: bs});   
+	//Copyright(id,content,bounds)类作为CopyrightControl.addCopyright()方法的参数
+
+*/
+
+	
+	
+	
+	var boolist = {{ booth_list|safe}};
+	var opts = {
+				width : 200,     // 信息窗口宽度
+				height: 170,     // 信息窗口高度
+				title : "店铺窗口" , // 信息窗口标题
+				enableMessage:true//设置允许信息窗发送短息
+			   };
+	for(var i=0;i<boolist.length/8;i++){
+		
+		var marker = new BMap.Marker(new BMap.Point(boolist[8*i+1],boolist[8*i]));  // 创建标注
+		var temp = boolist[8*i+3];
+		var content = '<div style="margin:0;line-height:20px;padding:2px;">' +
+                    '店铺名称：'+boolist[8*i+3]+'<br/>店主：'+boolist[8*i+2]+'<br/>地址：'+boolist[8*i+4]+'<br/>电话：'+boolist[8*i+7]+'<br/>简介：'+boolist[8*i+5];
+		map.addOverlay(marker);               // 将标注添加到地图中
+		addClickHandler(content,marker);
+	}
+	function addClickHandler(content,marker){
+		marker.addEventListener("click",function(e){
+			openInfo(content,e)}
+		);
+	}
+	function openInfo(content,e){
+		var p = e.target;
+		var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+		lng = p.getPosition().lng;
+		lat = p.getPosition().lat;
+		content += '<br/><input type="button" onclick="getin_booth(lng,lat);" value="进入店铺" />'+
+                  '</div>'
+		var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象 
+		map.openInfoWindow(infoWindow,point); //开启信息窗口
+		//document.getElementById("r-result").innerHTML = "信息窗口的内容是：<br />" + infoWindow.getContent();
+	}
+	function getin_booth(lng,lat){
+		window.location.href="/getin_booth/?lng="+lng+"&lat="+lat; 
+	}
+	/*var poi = new Array();
+	var searchInfoWindow = new Array();
+	var marker = new Array();
+	
+    for (var i = 0; i < boolist.length/8; i++)  {
+
+	//创建检索信息窗口对象
+	poi.push(new BMap.Point(boolist[8*i+1],boolist[8*i]));//先维度，后经度！！
+
+	var content = '<div style="margin:0;line-height:20px;padding:2px;">' +
+                    '<img src="../img/baidu.jpg" alt="" style="float:right;zoom:1;overflow:hidden;width:100px;height:100px;margin-left:3px;"/>' +
+                    '地址：'+boolist[8*i+4]+'<br/>电话：'+boolist[8*i+7]+'<br/>简介：'+boolist[8*i+5] +'<br/><input type="button" onclick="getin_booth();" value="进入店铺" />'+
+                  '</div>';
+	var searchInfoWindow1 = null;
+	searchInfoWindow1 = new BMapLib.SearchInfoWindow(map, content, {
+			title  : boolist[8*i+3],      //标题
+			width  : 290,             //宽度
+			height : 105,              //高度
+			panel  : "panel",         //检索结果面板
+			enableAutoPan : true,     //自动平移
+			searchTypes   :[
+				BMAPLIB_TAB_SEARCH,   //周边检索
+				BMAPLIB_TAB_TO_HERE,  //到这里去
+				BMAPLIB_TAB_FROM_HERE //从这里出发
+			]
+		});
+	searchInfoWindow.push(searchInfoWindow1);
+		
+    marker.push(new BMap.Marker(poi[i])); //创建marker对象
+    marker[i].enableDragging(); //marker可拖拽
+    marker[i].addEventListener("click", function(e){
+	    searchInfoWindow1.open(marker[i]);
+    })
+    map.addOverlay(marker[i]); //在地图中添加marker
+	}
+*/
+	
+	function add_booth(){
+		//单击获取点击的经纬度
+		map.addEventListener("click",choose_point);   
+	}
+	function quit_add_booth(){
+		map.removeEventListener("click",choose_point);
+	}
+	function choose_point(e){
+		window.location.href="/add_booth/?booth_lng="+e.point.lng+"&booth_lat="+e.point.lat; 
+		//alert(e.point.lng + "," + e.point.lat);
+	}
+	/*function getin_booth(lng,lat){
+		window.location.href="/getin_booth/?booth_name="+lng+lat; 
+	}*/
+
+	//var html = document.getElementById('html_template').innerHTML;
+	
+</script>

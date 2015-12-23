@@ -42,10 +42,13 @@
 						<li><a href="#website_templates">运动健身</a></li>
                         <li><a href="#mini_templates">电子产品</a></li>
 						<li><a href="#flash_templates">生活娱乐</a></li>
+						<li><a href="#all_want">所有求购</a></li>
 						<!-- <li><a href="contact.html">联络我们</a></li> -->
                         {% if aa %}
                         <li><a href="/user_inf/">个人信息</a></li>
 						<li><a href="/add_product/">新增商品</a></li>
+						
+						<li><a href="/add_want/">发布求购</a></li>
 						<li><a href="/logout/">注销</a></li>
 						{% else %}
 						<li><a href="/login/">登陆</a></li>
@@ -196,7 +199,41 @@
                                 	class="btn btn-primary" role="button">View More</a>
 							</div>
 						</div>          
-					</section> <!-- flash gallery -->
+					</section> <!-- flash gallery --> 
+								<section class="row" id="all_want">		
+				<div class="row">
+					<div class="col-xs-12 col-md-12">
+						<h3>所有求购</h3>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 col-md-12">
+						<div class="item_container">
+						
+							{% for w in want_lst %}
+									<div class="item">
+										 <h6>
+													{% if w.sender.nickname%} 
+															{{w.sender.nickname}} 
+														{% endif %}  <span>({{w.time}})</span></h6>
+											<a href="/want_show/?id={{w.id}}" >
+											{{w.content}}
+											</a>
+										<div class="cleaner"></div>
+									</div>
+							{% endfor %}             
+							
+							
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 col-md-12">
+						<a  href="/index/"  
+							class="btn btn-primary" role="button">View More</a>
+				  </div>
+				</div>     
+			</section>
 				</div> <!-- col -->
 			</div>  <!-- row -->   
 		</div> <!-- container -->
@@ -256,5 +293,7 @@
 			});
 
 		</script>
+		
+
 	</body>
 </html>

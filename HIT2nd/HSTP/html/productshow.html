@@ -478,7 +478,7 @@ em { color: #0066FF; }
 				<h3>登陆后参与拍卖</h3>
 				<a href="/login/">点此登陆</a>
 			{% else %}
-				<iframe src="/auction/?id={{p.id}}" width=250 height=100 scrolling=no frameborder=0></iframe>
+				<iframe src="/auction/?id={{p.id}}" width=250 height=500 scrolling=no frameborder=0></iframe>
 			{% endif %}
 			<br/><font face="仿宋" size="5" color="#708090">PS：</font><br/><font face="仿宋" size="4" color="#dc143c"> {{ p.introduction }} </font>
         {% else %}
@@ -579,19 +579,28 @@ em { color: #0066FF; }
         <div class="col_260 col_last">
 
             <h2>Announcements</h2>
-
+			<!--{% for w in w_lst %}
         	<div class="sb_news_box">
-                 <h6><a href="#">Pellentesque tempus </a> <span>(May 23)</span></h6>
-                    Validate <a href="#" rel="nofollow"><strong>XHTML</strong></a> &amp; <a href="#" rel="nofollow"><strong>CSS</strong></a>.   Aliquam lacus turpis, dapibus eget, tincidunt eu, lobortis et, magna.
+                 <h6><a href="#">{% if w.speaker.nickname%} 
+								{{w.speaker.nickname}} 
+								{% else %}
+									匿名 
+								{% endif %}</a> <span>({{w.time}})</span></h6>
+                    Validate <a href="#" rel="nofollow"><strong>XHTML</strong></a> &amp; <a href="#" rel="nofollow"><strong>CSS</strong></a>.   {{w.content}}
           <div class="cleaner"></div>
             </div>
-
+			{% endfor %}-->
+			{% for w in want_lst %}
             <div class="sb_news_box">
-                 <h6><a href="#">Suspensse elit ipsum</a> <span>(April 19)</span></h6>
-                    Cras pretium sem sed odio. Vestibulum nisl mauris, malesuada nec, dictum in, molestie in, pede.
+                 <h6><a href="#">{% if w.sender.nickname%} 
+									{{w.sender.nickname}} 
+								{% else %}
+									匿名 
+								{% endif %}</a> <span>({{w.time}})</span></h6>
+                    {{w.content}}
 				<div class="cleaner"></div>
             </div>
-
+			{% endfor %}
             <div class="sb_news_box">
                     <h6><a href="#">Donec sit amet tellus</a> <span>(March 15)</span></h6>
                     Proin dui mauris, tempor eget, pulvinar sed, pretium sit amet, dui. Proin vulputate justo et quam.

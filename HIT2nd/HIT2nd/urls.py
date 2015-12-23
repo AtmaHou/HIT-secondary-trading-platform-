@@ -33,7 +33,7 @@ urlpatterns = patterns('',
     url('^auction/$',auction),
     url('^bargain/$',bargain),
     url('^all_message/$',all_message),
-    
-    
+    url('^add_want/$',add_want),
+    url('^want_show/$',want_show),
       
 )

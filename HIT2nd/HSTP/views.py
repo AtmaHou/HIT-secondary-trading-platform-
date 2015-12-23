@@ -60,10 +60,12 @@ def login(request):
     return render_to_response("login.html",{"errors":errors})
 
 def index(request):
+    want_lst = want.objects.all()    
     if "email" in request.session:
-        d = Context({"products_list":Product.objects.all(),"aa":1})
+        d = Context({"products_list":Product.objects.all(),"aa":1,"want_lst":want_lst})
     else:
-        d = Context({"products_list":Product.objects.all()})
+        d = Context({"products_list":Product.objects.all(),"want_lst":want_lst})
+    
     return render_to_response("index.html", d)
     
 def logout(request):
@@ -207,8 +209,9 @@ def product_show(request):
         timeout = True
     else:
         timeout = False
-    msg_lst = customer.receive_msg.all()
-    c = Context({"p": p, "a": p.client,"c_list":comment_list,"reser":reser,"has_collected": collect,"auction":p.auction,"customer":customer,"timeout":timeout,"msg_num":len(msg_lst)})
+    msg_lst = customer.receive_msg.filter(read = False)
+    want_lst = want.objects.all()
+    c = Context({"p": p, "a": p.client,"c_list":comment_list,"reser":reser,"has_collected": collect,"auction":p.auction,"customer":customer,"timeout":timeout,"msg_num":len(msg_lst),"want_lst":want_lst})
     return render_to_response("productshow.html",c)
 
 def auction(request):
@@ -235,6 +238,13 @@ def auction(request):
                 flag = False
             if flag:
                 p.price = now_price
+                if p.who_reserved:
+                    msg = message(content = u"您拍的商品  " + unicode(p.name) + u"  拍价已变更" + u" http://127.0.0.1:8000/product_show/?id=" + unicode(str(p.id)),
+                        product = p,
+                        speaker = Client.objects.get(email = "sys@sys.com"),
+                        listener = p.who_reserved,
+                        read = False)
+                    msg.save()
                 p.who_reserved = customer
                 p.save()
         
@@ -242,6 +252,13 @@ def auction(request):
         pass
     if datetime.now() > p.auction_deadline:
         timeout = True
+        if p.who_reserved:
+            msg = message(content = "您好，您已成功拍得商品",
+                    product = p,
+                    speaker = Client.objects.get(email = "sys@sys.com"),
+                    listener = p.who_reserved,
+                    read = False)
+            msg.save()
     else:
         timeout = False
     c = Context({"p": p,"flag":flag,"custmor":customer,"timeout":timeout})
@@ -258,7 +275,8 @@ def bargain(request):
         m = message(content = post["text"],
                     product = p,
                     speaker = customer,
-                    listener = p.client)
+                    listener = p.client,
+                    read = False)
         m.save()
         sended = True
         
@@ -269,24 +287,23 @@ def bargain(request):
 def all_message(request):
     customer = Client.objects.get(email = request.session["email"])
     msg_lst = customer.receive_msg.all().order_by("-message_date")
-    
+    for m in msg_lst:
+        m.read = True
+        m.save()
+    sended = False
     if request.POST:
         post = request.POST
-        m = message(content = post[string],
-                    product = p,
-                    speaker = customer,
-                    listener = p.client)
-        m.save()
         sended = True
         tmp = post["now"]
-        post[tmp]   #表示的是这段消息
+        #  post[tmp]   #表示的是这段消息
         msg = message.objects.all().get(id = tmp)
         new_msg = message(content = post[tmp],
                           product = msg.product,
                           speaker = msg.listener,
-                          listener = msg.speaker)
+                          listener = msg.speaker,
+                          read = False)
         new_msg.save()
-    c = Context({"custmor":customer,"msg_lst":msg_lst})
+    c = Context({"custmor":customer,"msg_lst":msg_lst,"sended":sended})
     return render_to_response("all_message.html",c)
 
     
@@ -389,7 +406,50 @@ def activate_email(request):
             
     c = Context({"vaild":vaild})
     return render_to_response("activated.html",c)
+def want_show(request):
+    id1 = request.GET["id"]
+    w = want.objects.get(id = id1)
 
+      
+    if "email" in request.session:
+        customer = Client.objects.get(email = request.session["email"])
+    else:
+        customer = None
+	
+    if request.POST:
+        post = request.POST
+        if "email" in request.session:
+            com = Comment(content = post["text"],
+                          want = w,
+                          client = customer)
+            com.save()
+    
+    comment_list = w.comments.all()
+    
+    for i in comment_list:
+        if i.client:
+            print i.client.nickname
+        else:
+            12345678910
+    msg_lst = customer.receive_msg.filter(read = False)
+    want_lst = want.objects.all()
+    c = Context({"w": w, "a": w.sender,"c_list":comment_list,"customer":customer,"msg_num":len(msg_lst),"want_lst":want_lst})
+    return render_to_response("want_show.html",c)
+
+
+@is_online
+def add_want(request):
+    if request.POST:
+        post = request.POST
+        
+        w = want(sender = Client.objects.get(email = request.session["email"]),
+            content = post["text"],
+            time = datetime.now())
+        
+        w.save()
+        
+    return render_to_response("add_want.html")
+        
 #    return render_to_response("productshow.html")
     
 #def search_product(request):

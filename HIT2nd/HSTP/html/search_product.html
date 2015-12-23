@@ -12,17 +12,16 @@
 	<link href="http://getbootstrap.com/examples/offcanvas/offcanvas.css" rel="stylesheet">
 	<link href="/static/css/templatemo_style.css" rel="stylesheet" type="text/css">
 
-	<!-- HTML 5 shim for IE backwards compatibility -->
-		<!-- [if lt IE 9]>
-		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js">
-		</script>
-		<![endif]-->
+	<style type="text/css">
+    .div-inline{ display:inline
+    } 
+	</style>
 	</head>
 	<body>
 		<header>
 			<div class="container logo">
 				<div class="row">
-					<div class="col-md-12"><a href="index.html"  target="_parent"><img src="/static/images/templatemo_logo.png" alt="templatemo 379 catalog"></a></div>
+					<div class="col-md-12"><a href="/index/"  target="_parent"><img src="/static/images/templatemo_logo.png" alt="templatemo 379 catalog"></a></div>
                     <!--<a href="#" title="创造性共享照片 from cn.hdstockphoto.com"  class="row_top" target="_blank"><img src="images/templatemo_top.png" title="创造性共享照片" alt="创造性共享照片" /></a>-->
 				</div>
 			</div>
@@ -42,17 +41,22 @@
 						<li><a href="#website_templates">运动健身</a></li>
                         <li><a href="#mini_templates">电子产品</a></li>
 						<li><a href="#flash_templates">生活娱乐</a></li>
-						<li><a href="contact.html">联络我们</a></li>
-						<li><a href="/logout/">注销</a></li>
-                        <li><a href="/finish_user/">完善信息</a></li>
+						<!-- <li><a href="contact.html">联络我们</a></li> -->
+                        {% if aa %}
+                        <li><a href="/user_inf/">个人信息</a></li>
 						<li><a href="/add_product/">新增商品</a></li>
+						<li><a href="/logout/">注销</a></li>
+						{% else %}
+						<li><a href="/login/">登陆</a></li>
+                        <li><a href="/register/">注册</a></li>
+						{% endif %}
 					</ul>
 					<form class="navbar-form navbar-right" method="POST"  role="search" action="/search_product/">
 						<div class="form-group">
 							<input type="text" name="search_product" class="form-control" placeholder="商品名称">
 						</div>
 						
-						<button type="submit" class="btn btn-default">搜索</button>
+						<button type="submit" class="btn btn-default">模糊搜索</button>
 					</form>					
 				</div><!-- /.navbar-collapse -->
 			</nav>
@@ -63,27 +67,26 @@
                 			
 					<div class="sidebar-nav">
                     
-						<h4>Our Sponsors</h4>
+						<h4>快捷搜索：</h4>
 						<ul class="sidebar_menu">
-                        	<li><a  href="http://www.cssmoban.com/" target="_blank">website templates</a></li>
-							<li><a href="#"  target="_blank">flash templates</a></li>
-                            <li><a href="#"  target="_blank">koflash gallery</a></li>
-							<li><a href="http://www.cssmoban.com"  target="_blank">templatemo site</a></li>
-                            <li><a href="#"  target="_blank">flash stuffs</a></li>
+                        	<li><a  href="#" target="_blank">图书教材</a></li>
+							<li><a href="#"  target="_blank">运动健身</a></li>
+                            <li><a href="#"  target="_blank">电子产品</a></li>
+							<li><a href="#"  target="_blank">生活娱乐</a></li>
+                            
 						</ul>
                         
 						<hr>
                         
 						<h4>工大二手集市</h4>
-						哈工大人专属的二手集市，买书买本买
+						哈工大人专属的二手集市!
 						<div class="cleaner h10"></div>
-						<cite><b>Dan - <a href="#"><span>Chief Designer</span></a></b></cite>
-                        
+						<!-- <cite><b>Dan - <a href="#"><span>Chief Designer</span></a></b></cite>
+                        -->
 						<hr>
                         
-						<h4>About Us</h4>
-						<p>Sed interdum mollis suscipit. Aenean a lacus in magna iaculis blandit. Donec tempor purus eget ullamcorper accumsan. Cras elit eros, volutpat ac porta sed, sollicitudin eu elit. Maecenas gravida lacus purus, ac ultrices quam aliquam ut. Validate <a href="#" ><abbr title="eXtensible Hyper Text Markup Language">XHTML</abbr></a> &amp; <a href="#" ><abbr title="Cascading Style Sheets">CSS</abbr></a>.</p>
-                        
+						<h4>关于我们</h4>
+						<p>致力于打造服务工大同学的二手物品交易平台。</p>                   
 						<hr>
                         
 						<div class="social_buttons">
@@ -106,182 +109,56 @@
                     <section class="row" id="website_templates">				
 						<div class="row">
 							<div class="col-xs-12 col-md-12">
-								<h3>搜索结果：</h3>
+								<h3>搜索结果</h3>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-xs-12 col-md-12">
 								<div class="item_container">
-                                
-							    {% for product in products_list %}		
-									<div class="item">
+									{% for product in products_list %}	
+										<div class="item" style="float:left">
 										<a href="/product_show/?id={{product.id}}" class="thumbnail">
 											{% if product.image %}
-                                            <img src="/static/media/{{product.image}}" alt="376 secured">
-                                            {% endif %}
+											<img src="/static/media/{{product.image}}" alt="376 secured">
+											{% endif %}
 											<p>{{product.name}}</p>
 										</a>
-									</div>
-								{% endfor %}                
-									
-                                    
+										</div>
+									{% endfor %}
 								</div>
 							</div>
 						</div>
+					</section>
+					<section class="row" id="website_templates">				
 						<div class="row">
 							<div class="col-xs-12 col-md-12">
-                            	<a  href="/index/"  
-                                	class="btn btn-primary" role="button">More</a>
-						  </div>
-						</div>          
-					</section> <!-- website templates -->
-                    <div class="copyrights">Collect from <a href="http://www.cssmoban.com/" >Website Template</a></div>
-					<section class="row" id="mini_templates">				
-						<div class="row">
-							<div class="col-xs-12 col-md-12">
-								<h3>Mini Templates</h3>
+								<h3>您可能还感兴趣：</h3>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-xs-12 col-md-12">
 								<div class="item_container">
-									<div class="item">
-										<a  href="http://www.cssmoban.com/preview/templatemo_378_dragonfly"  class="thumbnail">
-											<img src="images/templatemo_378_dragonfly.jpg" alt="378 dragonfly">
-											<p>Dragonfly</p>
+									{% for product in to_show %}	
+										<div class="item" style="float:left">
+										<a href="/product_show/?id={{product.id}}" class="thumbnail">
+											{% if product.image %}
+											<img src="/static/media/{{product.image}}" alt="376 secured">
+											{% endif %}
+											<p>{{product.name}}</p>
 										</a>
-									</div>		          
-									<div class="item">
-										<a  href="http://www.cssmoban.com/preview/templatemo_375_tech_layer"  class="thumbnail">
-											<img src="images/templatemo_375_tech_layer.jpg" alt="375 tech layer">
-											<p>Tech Layer</p>
-										</a>
-									</div>
-									<div class="item">
-										<a  href="http://www.cssmoban.com/preview/templatemo_371_gallery"  class="thumbnail">
-											<img src="images/templatemo_371_gallery.jpg" alt="371 gallery">
-											<p>Gallery</p>
-										</a>
-									</div>                  
-									<div class="item">
-										<a  href="http://www.cssmoban.com/preview/templatemo_370_focus"  class="thumbnail">
-											<img src="images/templatemo_370_focus.jpg" alt="370 focus">
-											<p>Focus</p>
-										</a>
-									</div>
-                                    
-									<div class="item">
-										<a  href="http://www.cssmoban.com/preview/templatemo_368_connect"  class="thumbnail">
-											<img src="images/templatemo_368_connect.jpg" alt="368 connect">
-											<p>Connect</p>
-										</a>
-									</div>
-									<div class="item">
-										<a  href="http://www.cssmoban.com/preview/templatemo_364_aqua"  class="thumbnail">
-											<img src="images/templatemo_364_aqua.jpg" alt="364 aqua">
-											<p>Aqua Theme</p>
-										</a>
-									</div>
-									<div class="item">
-										<a  href="http://www.cssmoban.com/preview/templatemo_363_metro"  class="thumbnail">
-											<img src="images/templatemo_363_metro.jpg" alt="363 metro">
-											<p>Metro</p>
-										</a>
-									</div>
-									<div class="item">
-										<a  href="http://www.cssmoban.com/preview/templatemo_359_singular"  class="thumbnail">
-											<img src="images/templatemo_359_singular.jpg" alt="359 singular">
-											<p>Singular</p>
-										</a>
-									</div>
-                                    
+										</div>
+									{% endfor %}
 								</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-xs-12 col-md-12">
-								<a  href="http://www.cssmoban.com/"  
-                                	class="btn btn-primary" role="button">View More</a>
-							</div>
-						</div>          
-					</section> <!-- mini templates -->
-                    
-					<section class="row" id="flash_templates">				
-						<div class="row">
-							<div class="col-xs-12 col-md-12">
-								<h3>Flash Templates</h3>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-12 col-md-12">
-								<div class="item_container">
-									<div class="item">
-										<a  href="#/preview/flashmo_280_dynamic_stack"  class="thumbnail">
-											<img src="images/flashmo_280_dynamic_stack.jpg" alt="Dynamic Stack">
-											<p>Dynamic Stack</p>
-										</a>
-									</div>		          
-									<div class="item">
-										<a  href="#/preview/flashmo_279_stylish_gallery"  class="thumbnail">
-											<img src="images/flashmo_279_stylish_gallery.jpg" alt="Stylish Gallery">
-											<p>Stylish Gallery</p>
-										</a>
-									</div>
-									<div class="item">
-										<a  href="#/preview/flashmo_276_new_era"  class="thumbnail">
-											<img src="images/flashmo_276_new_era.jpg" alt="New Era">
-											<p>New Era</p>
-										</a>
-									</div>                  
-									<div class="item">
-										<a  href="#/preview/flashmo_273_alternative"  class="thumbnail">
-											<img src="images/flashmo_273_alternative.jpg" alt="Alternative">
-                                            <p class="hideOverflow"><abbr title="Alternative Image Gallery">Alternative Image Gallery</abbr></p>
-										</a>
-									</div>
-                                    
-									<div class="item">
-										<a  href="#/preview/flashmo_272_3d_zoom_gallery"  class="thumbnail">
-											<img src="images/flashmo_272_3d_zoom_gallery.jpg" alt="Zoom Gallery">
-											<p>Zoom Gallery</p>
-										</a>
-									</div>
-									<div class="item">
-										<a  href="#/preview/flashmo_269_dragonfly"  class="thumbnail">
-											<img src="images/flashmo_269_dragonfly.jpg" alt="Dragonfly">
-											<p>Dragonfly</p>
-										</a>
-									</div>
-									<div class="item">
-										<a  href="#/preview/flashmo_267_circular_pink"  class="thumbnail">
-											<img src="images/flashmo_267_circular_pink.jpg" alt="Circular Pink">
-											<p>Circular Pink</p>
-										</a>
-									</div>
-									<div class="item">
-										<a  href="#/preview/flashmo_258_dark_focus"  class="thumbnail">
-											<img src="images/flashmo_258_dark_focus.jpg" alt="Dark Focus">
-											<p>Dark Focus</p>
-										</a>
-									</div>
-                                    
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-12 col-md-12">
-                                <a  href="#"  
-                                	class="btn btn-primary" role="button">View More</a>
-							</div>
-						</div>          
-					</section> <!-- flash gallery -->
-				</div> <!-- col -->
+					</section> 
+                 </div> <!-- col -->
 			</div>  <!-- row -->   
-		</div> <!-- container -->
+		</div> <!-- container --><!-- website templates -->
 		<footer class="container">
 			<div class="credit">
 				<p id="templatemo_cr_bar">
-					Copyright © 2072 <a href="#">Your Company Name</a> | <a href="http://www.cssmoban.com/"  title="模板之家">模板之家</a> Collect from <a href="http://www.cssmoban.com">网页模板</a>
+					Copyright © 2072 <a href="#">Stupid Monkey</a> | <a href="#"  title="HIT">HIT</a> Collect from <a href="#">HIT</a>
 				</p>
 			</div>
 		</footer>

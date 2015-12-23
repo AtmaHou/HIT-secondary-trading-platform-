@@ -43,22 +43,15 @@ class Product(models.Model):
     collected_clients = models.ManyToManyField(Client,related_name="collect_products")
     image = models.ImageField(upload_to='product/images', blank=True,null=True)
     who_reserved = models.ForeignKey(Client,related_name="reserved_products",blank=True,null=True)
-
+    view_count = models.IntegerField(default=0)
+    category = models.CharField(max_length=20)
     
 class Comment(models.Model):
     product = models.ForeignKey(Product,related_name="comments") 
     client = models.ForeignKey(Client,related_name="comments")    #comment man
     content = models.CharField(max_length=200) 
-    comment_date = models.DateTimeField(default=timezone.now) 
-    
-class Category(models.Model):
-    product = models.ForeignKey(Product,primary_key=True,related_name="categories")   
-    category = models.CharField(max_length=40)     #type
-    
+    comment_date = models.DateTimeField(default=timezone.now)    
 
-class Label(models.Model):
-    product = models.ForeignKey(Product,max_length=14,primary_key=True,related_name="labels")    
-    label = models.CharField(max_length=40)    #tag
 
 
 

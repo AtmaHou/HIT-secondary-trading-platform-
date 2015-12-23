@@ -12,11 +12,10 @@
 	<link href="http://getbootstrap.com/examples/offcanvas/offcanvas.css" rel="stylesheet">
 	<link href="/static/css/templatemo_style.css" rel="stylesheet" type="text/css">
 
-	<!-- HTML 5 shim for IE backwards compatibility -->
-		<!-- [if lt IE 9]>
-		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js">
-		</script>
-		<![endif]-->
+	<style type="text/css">
+    .div-inline{ display:inline
+    } 
+	</style>
 	</head>
 	<body>
 		<header>
@@ -110,15 +109,45 @@
                     <section class="row" id="website_templates">				
 						<div class="row">
 							<div class="col-xs-12 col-md-12">
-								<h3>热卖商品</h3>
+								<h3>新鲜上架</h3>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-xs-12 col-md-12">
 								<div class="item_container">
-                                
-									{% for product in products_list %}		
-										<div class="item">
+									{% for product in products_list %}	
+										<div class="item" style="float:left">
+										<a href="/product_show/?id={{product.id}}" class="thumbnail">
+											{% if product.image %}
+											<img src="/static/media/{{product.image}}" alt="376 secured">
+											{% endif %}
+											<p>{{product.name}}</p>
+										</a>
+										</div>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12 col-md-12">
+                            	<a  href="/read_more/?category=all"  
+                                	class="btn btn-primary" role="button">更多</a>
+						  </div>
+						</div>          
+					</section> <!-- website templates -->
+                    <div class="copyrights">Collect from <a href="http://www.cssmoban.com/" >Website Template</a></div>
+					<section class="row" id="mini_templates">				
+						<div class="row">
+							<div class="col-xs-12 col-md-12">
+								<h3>图书教材</h3>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12 col-md-12">
+								<div class="item_container">
+								
+									{% for product in tsjc_list %}
+										<div class="item" style="float:left">
 										<a href="/product_show/?id={{product.id}}" class="thumbnail">
 											{% if product.image %}
 											<img src="/static/media/{{product.image}}" alt="376 secured">
@@ -127,87 +156,14 @@
 										</a>
 										
 										</div>
-									{% endfor %}                
-									
-                                    
+									{% endfor %}
 								</div>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-xs-12 col-md-12">
-                            	<a  href="/index/"  
-                                	class="btn btn-primary" role="button">More</a>
-						  </div>
-						</div>          
-					</section> <!-- website templates -->
-                    <div class="copyrights">Collect from <a href="http://www.cssmoban.com/" >Website Template</a></div>
-					<section class="row" id="mini_templates">				
-						<div class="row">
-							<div class="col-xs-12 col-md-12">
-								<h3>Mini Templates</h3>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-12 col-md-12">
-								<div class="item_container">
-								
-									<div class="item">
-										<a  href="http://www.cssmoban.com/preview/templatemo_378_dragonfly"  class="thumbnail">
-											<img src="images/templatemo_378_dragonfly.jpg" alt="378 dragonfly">
-											<p>Dragonfly</p>
-										</a>
-									</div>		          
-									<div class="item">
-										<a  href="http://www.cssmoban.com/preview/templatemo_375_tech_layer"  class="thumbnail">
-											<img src="images/templatemo_375_tech_layer.jpg" alt="375 tech layer">
-											<p>Tech Layer</p>
-										</a>
-									</div>
-									<div class="item">
-										<a  href="http://www.cssmoban.com/preview/templatemo_371_gallery"  class="thumbnail">
-											<img src="images/templatemo_371_gallery.jpg" alt="371 gallery">
-											<p>Gallery</p>
-										</a>
-									</div>                  
-									<div class="item">
-										<a  href="http://www.cssmoban.com/preview/templatemo_370_focus"  class="thumbnail">
-											<img src="images/templatemo_370_focus.jpg" alt="370 focus">
-											<p>Focus</p>
-										</a>
-									</div>
-                                    
-									<div class="item">
-										<a  href="http://www.cssmoban.com/preview/templatemo_368_connect"  class="thumbnail">
-											<img src="images/templatemo_368_connect.jpg" alt="368 connect">
-											<p>Connect</p>
-										</a>
-									</div>
-									<div class="item">
-										<a  href="http://www.cssmoban.com/preview/templatemo_364_aqua"  class="thumbnail">
-											<img src="images/templatemo_364_aqua.jpg" alt="364 aqua">
-											<p>Aqua Theme</p>
-										</a>
-									</div>
-									<div class="item">
-										<a  href="http://www.cssmoban.com/preview/templatemo_363_metro"  class="thumbnail">
-											<img src="images/templatemo_363_metro.jpg" alt="363 metro">
-											<p>Metro</p>
-										</a>
-									</div>
-									<div class="item">
-										<a  href="http://www.cssmoban.com/preview/templatemo_359_singular"  class="thumbnail">
-											<img src="images/templatemo_359_singular.jpg" alt="359 singular">
-											<p>Singular</p>
-										</a>
-									</div>
-                                    
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-12 col-md-12">
-								<a  href="http://www.cssmoban.com/"  
-                                	class="btn btn-primary" role="button">View More</a>
+								<a  href="/read_more/?category=tsjc"  
+                                	class="btn btn-primary" role="button">更多</a>
 							</div>
 						</div>          
 					</section> <!-- mini templates -->
@@ -215,69 +171,120 @@
 					<section class="row" id="flash_templates">				
 						<div class="row">
 							<div class="col-xs-12 col-md-12">
-								<h3>Flash Templates</h3>
+								<h3>运动健身</h3>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-xs-12 col-md-12">
-								<div class="item_container">
-									<div class="item">
-										<a  href="#/preview/flashmo_280_dynamic_stack"  class="thumbnail">
-											<img src="images/flashmo_280_dynamic_stack.jpg" alt="Dynamic Stack">
-											<p>Dynamic Stack</p>
+								<div class="item_container"> 
+                                {% for product in ydjs_list %}
+										<div class="item" style="float:left">
+										<a href="/product_show/?id={{product.id}}" class="thumbnail">
+											{% if product.image %}
+											<img src="/static/media/{{product.image}}" alt="376 secured">
+											{% endif %}
+											<p>{{product.name}}</p>
 										</a>
-									</div>		          
-									<div class="item">
-										<a  href="#/preview/flashmo_279_stylish_gallery"  class="thumbnail">
-											<img src="images/flashmo_279_stylish_gallery.jpg" alt="Stylish Gallery">
-											<p>Stylish Gallery</p>
-										</a>
-									</div>
-									<div class="item">
-										<a  href="#/preview/flashmo_276_new_era"  class="thumbnail">
-											<img src="images/flashmo_276_new_era.jpg" alt="New Era">
-											<p>New Era</p>
-										</a>
-									</div>                  
-									<div class="item">
-										<a  href="#/preview/flashmo_273_alternative"  class="thumbnail">
-											<img src="images/flashmo_273_alternative.jpg" alt="Alternative">
-                                            <p class="hideOverflow"><abbr title="Alternative Image Gallery">Alternative Image Gallery</abbr></p>
-										</a>
-									</div>
-                                    
-									<div class="item">
-										<a  href="#/preview/flashmo_272_3d_zoom_gallery"  class="thumbnail">
-											<img src="images/flashmo_272_3d_zoom_gallery.jpg" alt="Zoom Gallery">
-											<p>Zoom Gallery</p>
-										</a>
-									</div>
-									<div class="item">
-										<a  href="#/preview/flashmo_269_dragonfly"  class="thumbnail">
-											<img src="images/flashmo_269_dragonfly.jpg" alt="Dragonfly">
-											<p>Dragonfly</p>
-										</a>
-									</div>
-									<div class="item">
-										<a  href="#/preview/flashmo_267_circular_pink"  class="thumbnail">
-											<img src="images/flashmo_267_circular_pink.jpg" alt="Circular Pink">
-											<p>Circular Pink</p>
-										</a>
-									</div>
-									<div class="item">
-										<a  href="#/preview/flashmo_258_dark_focus"  class="thumbnail">
-											<img src="images/flashmo_258_dark_focus.jpg" alt="Dark Focus">
-											<p>Dark Focus</p>
-										</a>
-									</div>
-                                    
+										
+										</div>
+									{% endfor %} 
 								</div>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-xs-12 col-md-12">
-                                <a  href="#"  
-                                	class="btn btn-primary" role="button">View More</a>
+                                <a  href="/read_more/?category=ydjs"  
+                                	class="btn btn-primary" role="button">更多</a>
+							</div>
+						</div>          
+					</section> <!-- flash gallery -->
+                    <section class="row" id="flash_templates">				
+						<div class="row">
+							<div class="col-xs-12 col-md-12">
+								<h3>电子产品</h3>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12 col-md-12">
+								<div class="item_container"> 
+                                {% for product in dzcp_list %}
+										<div class="item" style="float:left">
+										<a href="/product_show/?id={{product.id}}" class="thumbnail">
+											{% if product.image %}
+											<img src="/static/media/{{product.image}}" alt="376 secured">
+											{% endif %}
+											<p>{{product.name}}</p>
+										</a>
+										
+										</div>
+									{% endfor %} 
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12 col-md-12">
+                                <a  href="/read_more/?category=dzcp"  
+                                	class="btn btn-primary" role="button">更多</a>
+							</div>
+						</div>          
+					</section> <!-- flash gallery -->
+                    <section class="row" id="flash_templates">				
+						<div class="row">
+							<div class="col-xs-12 col-md-12">
+								<h3>生活娱乐</h3>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12 col-md-12">
+								<div class="item_container"> 
+                                {% for product in shyl_list %}
+										<div class="item" style="float:left">
+										<a href="/product_show/?id={{product.id}}" class="thumbnail">
+											{% if product.image %}
+											<img src="/static/media/{{product.image}}" alt="376 secured">
+											{% endif %}
+											<p>{{product.name}}</p>
+										</a>
+										
+										</div>
+									{% endfor %} 
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12 col-md-12">
+                                <a  href="/read_more/?category=shyl"  
+                                	class="btn btn-primary" role="button">更多</a>
+							</div>
+						</div>          
+					</section> <!-- flash gallery -->
+                    <section class="row" id="flash_templates">				
+						<div class="row">
+							<div class="col-xs-12 col-md-12">
+								<h3>其他</h3>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12 col-md-12">
+								<div class="item_container"> 
+                                {% for product in qt_list %}
+										<div class="item" style="float:left">
+										<a href="/product_show/?id={{product.id}}" class="thumbnail">
+											{% if product.image %}
+											<img src="/static/media/{{product.image}}" alt="376 secured">
+											{% endif %}
+											<p>{{product.name}}</p>
+										</a>
+										
+										</div>
+									{% endfor %} 
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12 col-md-12">
+                                <a  href="/read_more/?category=qt"  
+                                	class="btn btn-primary" role="button">更多</a>
 							</div>
 						</div>          
 					</section> <!-- flash gallery -->

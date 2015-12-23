@@ -449,9 +449,7 @@ em { color: #0066FF; }
         </div> <!-- end of site_title -->
 
         <ul id="social_box">
-            <!-- <li><a href="/index/">主页</a></li>
-            <li><a href="/login/">登录</a></li>
-            <li><a href="/register/">注册</a></li> -->
+            <li><a href="/index/">首页</a></li>
             <li><a href="/user_inf/?email={{a.email}}">个人主页</a></li>
         </ul>
 
@@ -467,6 +465,7 @@ em { color: #0066FF; }
 
       	<h1><font face="黑体" color="#ff7f50">{{ p.name }}</font></h1>
         <h2>价格： {{ p.price }} 元</h2>
+        <p><font face="仿宋" size="2" color="#708090">浏览次数：</font><font face="仿宋" size="2" color="#708090"> {{ p.view_count }} </font></p>
         <p><font face="仿宋" size="5" color="#708090">PS：</font><br/><font face="仿宋" size="4" color="#dc143c"> {{ p.introduction }} </font></p>
 		
         {% if has_collected == 1 %}
@@ -602,36 +601,3 @@ em { color: #0066FF; }
 
 </body>
 </html>
-
-
-
-
-
-
-
-<form action="./do/" method="post">
-			<input name="ISBN" type="hidden" value="{{ book.ISBN }}">
-			<table class ="hovertable" border=1 align="center">
-				<tr>
-					<th>项目</th><th>填写信息</th>
-				</tr>
-				<tr  onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
-					<td>题目</td><td><input class="iinput" name="title" type="text" value="{{ book.Title}}"></td>
-				</tr>
-				<tr  onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
-					<td>作者</td><td><input class="iinput" name="author" type="text" value="{{ book.AuthorID.Name }}"></td>
-				</tr>
-				<tr  onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
-					<td>出版社</td><td><input class="iinput" name="publisher" type="text" value="{{ book.Publisher }}"></td>
-				</tr>
-				<tr  onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
-					<td>出版日期</td><td><input class="iinput" name="publishdate" type="text" value="{{ DATE }}"></td>
-				</tr>
-				<tr  onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
-					<td>价格</td><td><input class="iinput" name="price" type="text" value="{{ book.Price }}"></td>
-				</tr>
-				<tr>
-					<td colspan = 2 align="center"><input type="submit" value="保存"><input type="reset" value="重填"></td>
-				</tr>
-			</table>
-		</form>

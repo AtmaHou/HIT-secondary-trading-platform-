@@ -29,6 +29,7 @@ ul.sidebar_menu { padding: 4px 0px; }
 .item { margin-bottom: 18px; max-width: 180px; width: 160px; }
 .item img {	width: 140px; height: 140px; margin: 5px; }
 .item p { text-align: center; }
+.item div {float:left}
 .item_container { margin: 0 auto; }
 
 .navbar-default { background-color: #96BA5A; border-color: #e7e7e7; max-width: 980px; margin: 0 auto; }

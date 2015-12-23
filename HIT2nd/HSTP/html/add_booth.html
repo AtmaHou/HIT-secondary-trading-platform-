@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>新增摊位</title>
+</head>
+
+<body>
+<div align="center">
+<form method="post"  enctype="multipart/form-data" >
+    店铺名称：<input name="booth_name" type="text" /><br />
+	店铺店主：<input name="name" type="text" value="{{client.nickname}}" /><br />
+    店主邮箱：<input name="email" type="text" value="{{client.email}}"  /><br />
+	店铺经度：<input name="boothlat" type="text" value="{{booth_lat}}" /><br />
+	店铺纬度：<input name="boothlng" type="text" value="{{booth_lng}}"  /><br />
+    店铺地址：<input name="address" type="text" /><br />
+	店铺简介：<input name="introduction" type="text" /><br />
+	营业时间：<input name="show_date" type="text" /><br />
+    <input type="submit" value="添加" />
+    <input type="reset" value="重填" />
+</form>
+</div>
+</body>
+</html>

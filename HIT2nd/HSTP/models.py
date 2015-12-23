@@ -31,6 +31,15 @@ class Client(models.Model):
     image = models.ImageField(upload_to='client/images', blank=True,null=True)
     rid = models.CharField(max_length=20,blank=True)
 
+class Booth(models.Model):
+    client = models.ForeignKey(Client,related_name="booths",primary_key=True,unique=True)
+    booth_name = models.TextField(max_length=20,blank=True,null=True)    
+    lat = models.FloatField()
+    lng = models.FloatField()
+    address = models.TextField(max_length=50,blank=True,null=True) 
+    introduction  = models.TextField(max_length=500,blank=True,null=True) 
+    show_date = models.TextField(max_length=50,blank=True,null=True) 
+    
 class Product(models.Model):
     add_time = models.DateTimeField(unique=True,default=timezone.now)   #only tag 20151101220616
     name = models.CharField(max_length=80)     
@@ -45,6 +54,7 @@ class Product(models.Model):
     who_reserved = models.ForeignKey(Client,related_name="reserved_products",blank=True,null=True)
     view_count = models.IntegerField(default=0)
     category = models.CharField(max_length=20)
+    which_booth = models.ForeignKey(Booth,related_name="products",blank=True,null=True)
     
 class Comment(models.Model):
     product = models.ForeignKey(Product,related_name="comments") 
@@ -54,5 +64,6 @@ class Comment(models.Model):
 
 
 
+    
 
     

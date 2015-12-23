@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>更新商品信息</title>
+</head>
+<div align="center">
+<h1>商品信息完善与修改</h1>
+<body>
+<p>卖家等级:{{client.seller_level}}</p>
+<p>买家等级:{{client.buyer_level}}</p>
+
+<form method="post"  enctype="multipart/form-data">
+
+商品名称：<input name="name" type="text" value="{{p.name}}"/><br />
+商品价格：<input name="price" type="number" value="{{p.price}}"/><br />
+交易地点：<input name="trading_place" type="text" value="{{p.trading_place}}"/><br />
+商品说明：<input name="introduction" type="text" value="{{p.introduction}}"/><br />
+{% if p.is_reserved == False%}
+是否预定：是<input type="radio"  name="is_reserved" value="yes" />  否<input type="radio" name="is_reserved" checked="checked" value="no" /><br />
+{% elif p.is_reserved == True%}
+是否预定：是<input type="radio" checked="checked" name="is_reserved" value="yes" />  否<input type="radio" name="is_reserved"  value="no" /><br />
+{% endif %}
+<input type="submit" value="提交" />
+<input type="reset" value="重填" />
+</form>
+<a href="/index/">返回首页</td>
+</body>
+</div>
+</html>

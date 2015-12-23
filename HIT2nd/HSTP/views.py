@@ -7,17 +7,42 @@ from django import forms
 from django.http import HttpResponse
 from PIL import ImageFile 
 import random
+import json
+from django.shortcuts import render
 from django.core.mail import send_mail
+
 class UploadFileForm(forms.Form):
     title = forms.CharField(max_length=50)   
     file = forms.FileField() 
     
 class UploadImageForm(forms.Form):
     imagefile = forms.ImageField(required=False)    
+
 def cut(list_cut):
     if len(list_cut)>8:
         list_cut = list_cut[:8]
     return list_cut
+
+
+def show_map(request):
+    booths = Booth.objects.all()
+    boothss = []
+    for i in booths:
+        boothss.append(i.lat)
+        boothss.append(i.lng)
+        boothss.append(i.client.nickname)
+        boothss.append(i.booth_name)
+        boothss.append(i.address)
+        boothss.append(i.introduction)
+        boothss.append(i.show_date)
+        boothss.append(i.client.telephone)
+    return render(request, 'map.html', {
+            #'booth_list': json.dumps([126.639582,45.750047])
+            'booth_list': json.dumps(boothss),
+            #'booths_lat_list': json.dumps(booths_lat),
+            #'booths_lng_list': json.dumps(booths_lng)
+        })
+
 def register(request):
     flag = -1
     if request.POST:
@@ -28,7 +53,7 @@ def register(request):
         password2 = post["password2"]
         password = post["password"]
         l = len(Client.objects.filter(email = post["email"]))
-        if password == '' and password2 == ''
+        #if password == '' and password2 == ''
           #验证密码是否相同以及Email是否注册过
         if (password == password2) and (l == 0):
             new_client.save()
@@ -144,6 +169,97 @@ def return_login(request):
     return render_to_response("login.html")
 
 @is_online
+def add_booth(request):
+    e = request.session["email"]
+    client = Client.objects.get(email = e)
+    if "booth_lng" in request.GET:
+        b_lng = request.GET["booth_lng"]
+    if "booth_lat" in request.GET:
+        b_lat = request.GET["booth_lat"]
+    if request.POST:
+        post = request.POST
+        new_booth = Booth(
+            client = Client.objects.get(email = e),
+            booth_name = post["booth_name"],
+            lat = post["boothlat"],
+            lng = post["boothlng"],
+            address = post["address"],
+            introduction = post["introduction"],
+            show_date = post["show_date"],
+        )
+        new_booth.save()
+        booths = Booth.objects.all()
+        boothss = []
+        for i in booths:
+            boothss.append(i.lat)
+            boothss.append(i.lng)
+            boothss.append(i.client.nickname)
+            boothss.append(i.booth_name)
+            boothss.append(i.address)
+            boothss.append(i.introduction)
+            boothss.append(i.show_date)
+            boothss.append(i.client.telephone)
+        return render(request, 'map.html', {
+            'booth_list': json.dumps(boothss),
+            })
+        #d = Context({"booths_list":Booth.objects.all()})
+        #return render_to_response("map.html",d)
+    c = Context({"booth_lng": b_lng, "booth_lat": b_lat,"client":client})
+    return render_to_response("add_booth.html",c)
+
+def getin_booth(request):
+    is_self = False
+    if request.GET:
+        b_lng = request.GET["lng"]
+        b_lat = request.GET["lat"]
+        booths = Booth.objects.filter(lng = b_lng)
+        for booth in booths:  
+            #if i.lat == b_lat:
+            #return render_to_response("index.html")
+            
+            if request.session["email"]:
+                client = Client.objects.get(email = request.session["email"])
+                if booth.client == client:
+                    is_self = True
+            c = Context({"b":booth,"b_client":booth.client,"products":booth.client.products.all(),"num":booth.client.products.all().count(),"is_self":is_self})
+            return render_to_response("ones_booth.html",c)
+    booths = Booth.objects.all()
+    boothss = []
+    for i in booths:
+        boothss.append(i.lat)
+        boothss.append(i.lng)
+        boothss.append(i.client.nickname)
+        boothss.append(i.booth_name)
+        boothss.append(i.address)
+        boothss.append(i.introduction)
+        boothss.append(i.show_date)
+        boothss.append(i.client.telephone)
+    return render(request, 'map.html', {
+        'booth_list': json.dumps(boothss),
+        })
+    
+@is_online
+def change_product(request):
+    e = request.session["email"]
+    client = Client.objects.get(email = e)
+    id1 = request.GET["id"]
+    p = Product.objects.get(id = id1)
+    cli = p.client
+    if request.POST and client == p.client:
+        post = request.POST
+        p.name = post["name"]
+        p.price = post["price"]
+        p.trading_place = post["trading_place"] 
+        p.introduction = post["introduction"]
+        p.is_reserved = post["is_reserved"]
+        p.save()
+        d = Context({"products_list":Product.objects.all(),"aa":1})
+        return render_to_response("index.html",d)
+    a = Context({"p":p,"client":cli})     
+    return render_to_response("change_product.html",a)
+         
+    
+@is_online
 def finish_user(request):
     e = request.session["email"]
     client = Client.objects.get(email = e)
@@ -175,6 +291,7 @@ def search_product(request):
         post = request.POST
         search = post["search_product"]
         search_result = Product.objects.filter(name__contains=search)
+        #return render_to_response("index.html")
         if search_result:
             category = search_result[0].category
         else:
@@ -225,20 +342,22 @@ def product_show(request):
     id1 = request.GET["id"]
     p = Product.objects.get(id = id1)
     p.view_count = p.view_count + 1
-      
+
     if "email" in request.session:
         customer = Client.objects.get(email = request.session["email"])
     else:
         customer = None
+	
     if request.POST:
+        post = request.POST
         if "email" in request.session:
-            post = request.POST
             com = Comment(content = post["text"],
                           product = p,
                           client = customer)
             com.save()
         else:
             return render_to_response("login.html")
+
     comment_list = p.comments.all()
     if "reserved" in request.GET:
         if request.GET["reserved"] == "reserve_it":

@@ -109,36 +109,13 @@
                     <section class="row" id="website_templates">				
 						<div class="row">
 							<div class="col-xs-12 col-md-12">
-								<h3>搜索结果</h3>
+								<h3>全部该类商品</h3>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-xs-12 col-md-12">
 								<div class="item_container">
 									{% for product in products_list %}	
-										<div class="item" style="float:left">
-										<a href="/product_show/?id={{product.id}}" class="thumbnail">
-											{% if product.image %}
-											<img src="/static/media/{{product.image}}" alt="376 secured">
-											{% endif %}
-											<p>{{product.name}}</p>
-										</a>
-										</div>
-									{% endfor %}
-								</div>
-							</div>
-						</div>
-					</section>
-					<section class="row" id="website_templates">				
-						<div class="row">
-							<div class="col-xs-12 col-md-12">
-								<h3>您可能还感兴趣：</h3>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-12 col-md-12">
-								<div class="item_container">
-									{% for product in to_show %}	
 										<div class="item" style="float:left">
 										<a href="/product_show/?id={{product.id}}" class="thumbnail">
 											{% if product.image %}

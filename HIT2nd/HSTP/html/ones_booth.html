@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{{b_client.nickname}}的地摊</title>
+</head>
+<body>
+<div align="center">
+{% if num == 0 %}
+<p>他已经没有商品啦！去其他家看看吧~</p>
+{% endif %}
+<table>
+{% for Product in products %}
+<tr>
+<td><a href="/product_show/?id={{Product.id}}"><img src="/static/media/{{Product.image}}" width="150px" height="150px"/></a></td>
+<td>{{Product.name}}</td>
+<td>{{Product.price}}</td>
+{% if  is_self == True%}
+<td><a href="/change_product/?id={{Product.id}}">更新</td>
+<td><a href="/delete_product/?id={{Product.id}}">删除</td>
+{% endif%}
+</tr>
+{% endfor %}
+</table>
+<a href="/index/">返回首页</td></br>
+<a href="/map/">返回地图</td>
+</div>
+</body>
+</html>

@@ -9,8 +9,9 @@
 
 
 <div align="center">
-<form method="post"  enctype="multipart/form-data" >
+<form method="post"  enctype="multipart/form-data" action="/add/">
     商品名称：<input name="name" type="text" /><br />
+
     商品价格(拍卖底价)：<input name="price" type="number" /><br />
     交易地点：<input name="trading_place" type="text" /><br />
     商品简介：<input name="introduction" type="text" /><br />
@@ -18,15 +19,26 @@
 	每次加拍底价：<input name="add_price" type="text" placeholder="输入每次最少加价"/><br />
 	<script language="javascript" type="text/javascript"  src="/static/javascript/My97DatePicker/WdatePicker.js"></script>
 	截止时间：<input name="deadline" class="Wdate" type="text"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'2008-03-08 11:30:00'})" >
+	<br />商品标签：
+    <select name="category">
+    <option value="tsjc" selected="selected">图书教材</option>
+    <option value="ydjs" type="text">运动健身</option>
+    <option value="dzcp" type="text">电子产品</option>
+    <option value="shyl" type="text">生活娱乐</option>
+    <option value="qt" type="text">其他</option>
+    </select><br />
+
 	
 	<fieldset>
 	<legend>上传商品图片：</legend>
 	<input type="file" name="imagefile" />
 	</fieldset>
 	
+
     <input type="submit" value="添加" />
     <input type="reset" value="重填" />
 </form>
+    <p>添加完了，去<a href="/index/">首页</a>逛逛~</p>
 </div>
 </body>
 </html>

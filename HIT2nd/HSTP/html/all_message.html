@@ -1,0 +1,52 @@
+<html>
+	<head>
+	</head>
+	<body>
+	<h1 align = "center">收信箱</h1>
+	<form method="post"  enctype="multipart/form-data" >
+		<input id="now" type="hidden">
+		{% for m in msg_lst %}
+		<div align = "center">
+		--------------------------------------------------------------------------------
+			<h3>发件人：{% if m.speaker.name%} 
+							{{m.speaker.name}} 
+						{% else %}
+							匿名 
+						{% endif %}
+			</h3> 
+			时间：{{m.message_date}}
+			<h4>内容：</h4>
+			<p>{{m.content}}</p>
+			
+			
+			<input id="{{m.id}}" type="hidden" name="{{m.id}}"/>
+			
+			<input id="{{m.id}}@" type="hidden" value="发送" onclick = "change({{m.id}})" />
+			<button type="button" onclick = "func(this,document.getElementById('{{m.id}}'),document.getElementById('{{m.id}}@'))">回复</button>
+		</div>
+		
+		<br/>
+		{% endfor %}
+		<script type="text/javascript">
+				function func(obj,ipt,ipt2){
+					
+					if(obj.innerHTML == "回复"){
+						obj.innerHTML = "收起回复";
+						ipt.setAttribute("type","text");
+						ipt2.setAttribute("type","submit");
+					}
+					else{
+						obj.innerHTML = "回复";
+						ipt.setAttribute("type","hidden");
+						ipt2.setAttribute("type","hidden");
+					}
+				}
+				function change(val){
+					var ipt = document.getElementById("now");
+					ipt.setAttribute("value",val);
+					
+				}
+		</script>
+	</form>
+	</body>
+</html>

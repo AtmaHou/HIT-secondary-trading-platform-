@@ -1,0 +1,18 @@
+<html>
+	<head>
+	</head>
+	<body>
+	<h1 align="center">发送讲价消息</h1>
+	<form method="post"  enctype="multipart/form-data" >
+		<!--希望的价格<input name="price" type="number" />Ԫ<br />-->
+		消息内容<br />
+		<textarea id="text" name="text" rows="0" cols="0"  > 你好，我希望的价格是。。。 </textarea><br />
+		商品链接<a href="/product_show/?id={{p.id}}">点击查看商品详情</a></br>
+		<input type="submit" value="发送" />
+		<input type="reset" value="重填" />
+		{% if sended %}
+			<p><a href="/product_show/?id={{p.id}}">发送成功，点此返回</a></p></br>
+		{% endif %}
+	</form>
+	</body>
+</html>

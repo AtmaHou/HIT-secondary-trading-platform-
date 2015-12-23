@@ -6,12 +6,19 @@
 </head>
 
 <body>
+
+
 <div align="center">
 <form method="post"  enctype="multipart/form-data" >
     商品名称：<input name="name" type="text" /><br />
-    商品价格：<input name="price" type="number" /><br />
+    商品价格(拍卖底价)：<input name="price" type="number" /><br />
     交易地点：<input name="trading_place" type="text" /><br />
     商品简介：<input name="introduction" type="text" /><br />
+	是否拍卖：否<input type="radio" name="auction" value="no" />  是<input type="radio" name="auction" value="yes" /> <br />
+	每次加拍底价：<input name="add_price" type="text" placeholder="输入每次最少加价"/><br />
+	<script language="javascript" type="text/javascript"  src="/static/javascript/My97DatePicker/WdatePicker.js"></script>
+	截止时间：<input name="deadline" class="Wdate" type="text"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'2008-03-08 11:30:00'})" >
+	
 	<fieldset>
 	<legend>上传商品图片：</legend>
 	<input type="file" name="imagefile" />

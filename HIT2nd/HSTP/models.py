@@ -1,9 +1,10 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.utils import timezone
 import re
 from django.utils.translation import ugettext_lazy as _
 from django.core import validators
+from datetime import *
 # Create your models here.
     
 class Client(models.Model):
@@ -34,7 +35,7 @@ class Client(models.Model):
 class Product(models.Model):
     add_time = models.DateTimeField(unique=True,default=timezone.now)   #only tag 20151101220616
     name = models.CharField(max_length=80)     
-    price = models.FloatField()   #!!!
+    price = models.FloatField() 
     client = models.ForeignKey(Client,related_name="products")        
     trading_place = models.CharField(max_length=80)  
     is_identified = models.BooleanField(default=False)
@@ -43,13 +44,16 @@ class Product(models.Model):
     collected_clients = models.ManyToManyField(Client,related_name="collect_products")
     image = models.ImageField(upload_to='product/images', blank=True,null=True)
     who_reserved = models.ForeignKey(Client,related_name="reserved_products",blank=True,null=True)
-
+    auction = models.BooleanField(default=False)
+    auction_add = models.FloatField(default=0)
+    auction_deadline = models.DateTimeField(default=datetime(2050,1,1,0,0,0))
+	
     
 class Comment(models.Model):
     product = models.ForeignKey(Product,related_name="comments") 
     client = models.ForeignKey(Client,related_name="comments")    #comment man
     content = models.CharField(max_length=200) 
-    comment_date = models.DateTimeField(default=timezone.now) 
+    comment_date = models.DateTimeField(default=timezone.now)
     
 class Category(models.Model):
     product = models.ForeignKey(Product,primary_key=True,related_name="categories")   
@@ -60,6 +64,10 @@ class Label(models.Model):
     product = models.ForeignKey(Product,max_length=14,primary_key=True,related_name="labels")    
     label = models.CharField(max_length=40)    #tag
 
-
-
     
+class message(models.Model):
+    speaker = models.ForeignKey(Client,related_name="send_msg")
+    listener = models.ForeignKey(Client,related_name="receive_msg")
+    content = models.CharField(max_length=200)
+    message_date = models.DateTimeField(default=timezone.now)
+    product = models.ForeignKey(Product,related_name="msg")

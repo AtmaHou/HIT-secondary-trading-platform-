@@ -1,0 +1,43 @@
+﻿<html>
+	
+	<meta http-equiv="refresh" content="5">
+	
+	<body>
+		{% if not timeout %}
+			<form method="post"  enctype="multipart/form-data" >
+				当前价格 {{ p.price }} <input id = "ss" name = "now_price" type = "hidden"  value = "{{ p.price }}" readonly style='background:none;border:0;' />元 <br/>
+				
+				加价 <input name="price" id ="ff" type="text"/><br />
+				<script>
+				function aa()
+				{
+				var input = document.getElementById("ff");
+				input.focus();
+				var val = input.value;
+				input.focus();
+				input.value = '';
+				input.value = val;
+				}
+				aa()
+				</script>
+				
+				
+				<input type="submit" value="确认" />
+				<input type="reset" value="重填" />
+				<script type="text/javascript">
+				function warning(){
+					alert("I am an alert box!!")
+				}
+				</script>
+				{% if flag == False %}
+					<script> warning() </script>
+				{% endif %}
+			</form>
+		{% else %}
+			<h2>拍卖时间到！</h2>
+			<script> parent.refresh()</script>
+		{% endif %}
+		
+	
+	</body>
+</html>

@@ -29,7 +29,11 @@ urlpatterns = patterns('',
     url('^remove_collection/$',remove_collection),
     url('^check_email/$',check_email),
     url('^activate_email/$',activate_email),
-
+    url('^map/$',show_map),
+    url('^auction/$',auction),
+    url('^bargain/$',bargain),
+    url('^all_message/$',all_message),
+    
     
       
 )

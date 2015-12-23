@@ -14,7 +14,9 @@ class UploadFileForm(forms.Form):
     
 class UploadImageForm(forms.Form):
     imagefile = forms.ImageField(required=False)    
-    
+
+def show_map(request):
+    return render_to_response("map.html")
 def register(request):
     flag = -1
     if request.POST:
@@ -126,9 +128,19 @@ def add_product(request):
             price = post["price"],
             trading_place = post["trading_place"],
             introduction = post["introduction"],
-            client = Client.objects.get(email = e),
-#            collected_clients = [],
-        )        
+            client = Client.objects.get(email = e)
+        )
+        if(post["auction"] == "yes"):
+            new_product.auction = True
+            new_product.auction_add = post["add_price"]
+            new_product.auction_deadline = post["deadline"]
+            print "yes"
+        else:
+            new_product.auction = False
+            print "no"
+            
+        
+        
         form = UploadImageForm(request.POST,request.FILES)
         if form.is_valid():
             new_product.image = form.cleaned_data["imagefile"]
@@ -148,19 +160,20 @@ def product_show(request):
         customer = Client.objects.get(email = request.session["email"])
     else:
         customer = None
+	
     if request.POST:
         post = request.POST
-        com = Comment(content = post["text"],
-                      product = p,
-                      client = customer)
-        com.save()
+        if "email" in request.session:
+            com = Comment(content = post["text"],
+                          product = p,
+                          client = customer)
+            com.save()
     comment_list = p.comments.all()
     if "reserved" in request.GET:
         if request.GET["reserved"] == "reserve_it":
             p.who_reserved = customer
         elif request.GET["reserved"] == 'cancle':
             p.who_reserved = None
-    p.save()
     
     if "collected" in request.GET:
         if request.GET["collected"] == "collect_it":
@@ -189,11 +202,94 @@ def product_show(request):
             reser = 1 # reserved
         else:
             reser = 3 # to login
-            
-    c = Context({"p": p, "a": p.client,"c_list":comment_list,"reser":reser,"has_collected": collect})
 
+    if datetime.now() > p.auction_deadline:
+        timeout = True
+    else:
+        timeout = False
+    msg_lst = customer.receive_msg.all()
+    c = Context({"p": p, "a": p.client,"c_list":comment_list,"reser":reser,"has_collected": collect,"auction":p.auction,"customer":customer,"timeout":timeout,"msg_num":len(msg_lst)})
     return render_to_response("productshow.html",c)
 
+def auction(request):
+    id1 = request.GET["id"]
+    p = Product.objects.get(id = id1)
+
+    if "email" in request.session:
+        customer = Client.objects.get(email = request.session["email"])
+    else:
+        customer = None
+        
+    if(customer):
+        flag = True
+        if request.POST:
+            post = request.POST
+            add = float(post["price"])
+            now_price = float(post["now_price"])
+            now_price = now_price + add
+            
+            if add >= p.auction_add and now_price > p.price:
+                
+                flag = True
+            else:
+                flag = False
+            if flag:
+                p.price = now_price
+                p.who_reserved = customer
+                p.save()
+        
+    else:
+        pass
+    if datetime.now() > p.auction_deadline:
+        timeout = True
+    else:
+        timeout = False
+    c = Context({"p": p,"flag":flag,"custmor":customer,"timeout":timeout})
+    return render_to_response("auction.html",c)
+
+@is_online 
+def bargain(request):
+    id1 = request.GET["id"]
+    p = Product.objects.get(id = id1)
+    customer = Client.objects.get(email = request.session["email"])
+    sended = False
+    if request.POST:
+        post = request.POST
+        m = message(content = post["text"],
+                    product = p,
+                    speaker = customer,
+                    listener = p.client)
+        m.save()
+        sended = True
+        
+    c = Context({"p": p,"custmor":customer,"sended":sended})
+    return render_to_response("bargain.html",c)
+
+@is_online
+def all_message(request):
+    customer = Client.objects.get(email = request.session["email"])
+    msg_lst = customer.receive_msg.all().order_by("-message_date")
+    
+    if request.POST:
+        post = request.POST
+        m = message(content = post[string],
+                    product = p,
+                    speaker = customer,
+                    listener = p.client)
+        m.save()
+        sended = True
+        tmp = post["now"]
+        post[tmp]   #表示的是这段消息
+        msg = message.objects.all().get(id = tmp)
+        new_msg = message(content = post[tmp],
+                          product = msg.product,
+                          speaker = msg.listener,
+                          listener = msg.speaker)
+        new_msg.save()
+    c = Context({"custmor":customer,"msg_lst":msg_lst})
+    return render_to_response("all_message.html",c)
+
+    
 @is_online    
 def seller_inf(request):
     e = request.GET["email"]

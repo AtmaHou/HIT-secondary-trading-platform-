@@ -6,8 +6,8 @@ import os,sys
 ##    from sae.const import (MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASS, MYSQL_DB)
 MYSQL_HOST = '127.0.0.1'
 MYSQL_PORT = '3306'
-MYSQL_USER = 'lilingzhi'
-MYSQL_PASS = 'qqhrgnx'
+MYSQL_USER = 'root'
+MYSQL_PASS = '123456'
 MYSQL_DB   = 'hstpdb'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -74,7 +74,7 @@ USE_I18N = True
 USE_L10N = True
 
 # If you set this to False, Django will not use timezone-aware datetimes.
-USE_TZ = True
+USE_TZ = False
 SITE_ROOT = os.path.join(os.path.dirname(__file__), '..')
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
@@ -98,6 +98,7 @@ STATIC_URL = '/static/'
 # Additional locations of static files
 STATICFILES_DIRS = (
     ('css', os.path.join(STATIC_ROOT, 'css')),
+    ('javascript', os.path.join(STATIC_ROOT, 'javascript')),
     ('images', os.path.join(STATIC_ROOT, 'images')),
     ('media', os.path.join(STATIC_ROOT, 'media')),
 #    ('media/product/images', os.path.join(STATIC_ROOT, 'media/product/images')),

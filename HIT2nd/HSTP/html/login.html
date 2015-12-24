@@ -1,22 +1,807 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>欢迎登录</title>
-</head>
 
-<body>
-<p>欢迎登录HSTP！</p>
-<form  method="post">
- <table>
- <tr><p>用户名：<input name="email" type="email" placeholder="请输入您的邮箱" /></p></tr>
- 
- <tr><p>密码：<input name="password" type="password" placeholder="6位长度的密码"/></p></tr>
- <p>{{errors.password}}</p>
-  <tr><input type="submit" value="登录" /></tr>
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<title>用户登陆</title>
+<style>
+/*--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+--*/
+/* reset */
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,dl,dt,dd,ol,nav ul,nav li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}
+article, aside, details, figcaption, figure,footer, header, hgroup, menu, nav, section {display: block;}
+ol,ul{list-style:none;margin:0px;padding:0px;}
+blockquote,q{quotes:none;}
+blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}
+table{border-collapse:collapse;border-spacing:0;}
+/* start editing from here */
+a{text-decoration:none;}
+.txt-rt{text-align:right;}/* text align right */
+.txt-lt{text-align:left;}/* text align left */
+.txt-center{text-align:center;}/* text align center */
+.float-rt{float:right;}/* float right */
+.float-lt{float:left;}/* float left */
+.clear{clear:both;}/* clear float */
+.pos-relative{position:relative;}/* Position Relative */
+.pos-absolute{position:absolute;}/* Position Absolute */
+.vertical-base{	vertical-align:baseline;}/* vertical align baseline */
+.vertical-top{	vertical-align:top;}/* vertical align top */
+nav.vertical ul li{	display:block;}/* vertical menu */
+nav.horizontal ul li{	display: inline-block;}/* horizontal menu */
+img{max-width:100%;}
+/*end reset*/
+/****-----start-body----****/
+body{
+  background:#f8f9d9;   
+	font-family:"黑体";
+	background-size:cover;
+}
+.wrap{
+	width:80%;
+	margin: 0 auto;
+}
+.buttons {
+    background: #0DADA9;
+    border-top: 1px solid #2ED8D3;
+}
+.buttons ul li {
+    display: inline-block;
+    width: 37.7%;
+    margin: 0% 3% 0% 4%;
+    float: left;
+    border-right: 1px solid #2ED8D3;
+padding: .5em 2.2em .5em 0em;
+}
+.buttons ul li:nth-child(2) {
+    margin: 0;
+    border-right:none;
+}
+/* Sweep To Right */
+a.hvr-sweep-to-right {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  -webkit-transition-property: color;
+  transition-property: color;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+    background: url("../images/fb1.png") no-repeat 30px 16px #000;
+    width: 29%;
+    padding: 1em 4em;
+  font-size: 1em;
+  color: #fff;
+  border-radius: 0.3em;
+  -o-border-radius: 0.3em;
+  -webkit-border-radius: 0.3em;
+  -moz-border-radius: 0.3em;
+}
+label {
+    color: #fff;
+}
+a.hvr-sweep-to-right:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("../images/fb.png") no-repeat 30px 16px #fff;
+  color:#000;
+  -webkit-transform: scaleX(0);
+  transform: scaleX(0);
+  -webkit-transform-origin: 0 50%;
+  transform-origin: 0 50%;
+  -webkit-transition-property: transform;
+  transition-property: transform;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
+  border-radius: 0.3em;
+  -o-border-radius: 0.3em;
+  -webkit-border-radius: 0.3em;
+  -moz-border-radius: 0.3em;
+}
+a.hvr-sweep-to-right:hover, a.hvr-sweep-to-right:focus, a.hvr-sweep-to-right:active {
+  color: black;
+}
+a.hvr-sweep-to-right:hover:before, a.hvr-sweep-to-right:focus:before, a.hvr-sweep-to-right:active:before {
+  -webkit-transform: scaleX(1);
+  transform: scaleX(1);
+}
+
+/* Sweep To Left */
+a.hvr-sweep-to-left {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  -webkit-transition-property: color;
+  transition-property: color;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+    width: 29%;
+    padding: 1em 4em;
+  font-size: 1em;
+  color: #fff;
+   background:url("../images/tw1.png") no-repeat 23px 16px  #000;
+  border-radius: 0.3em;
+  -o-border-radius: 0.3em;
+  -webkit-border-radius: 0.3em;
+  -moz-border-radius: 0.3em;
+
+}
+a.hvr-sweep-to-left:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+     background:url("../images/tw.png") no-repeat 23px 16px  #fff;
+  -webkit-transform: scaleX(0);
+  transform: scaleX(0);
+  -webkit-transform-origin: 100% 50%;
+  transform-origin: 100% 50%;
+  -webkit-transition-property: transform;
+  transition-property: transform;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
+  border-radius: 0.3em;
+  -o-border-radius: 0.3em;
+  -webkit-border-radius: 0.3em;
+  -moz-border-radius: 0.3em;
+}
+a.hvr-sweep-to-left:hover, a.hvr-sweep-to-left:focus, a.hvr-sweep-to-left:active {
+  color: black;
+}
+a.hvr-sweep-to-left:hover:before, a.hvr-sweep-to-left:focus:before, a.hvr-sweep-to-left:active:before {
+  -webkit-transform: scaleX(1);
+  transform: scaleX(1);
+}
+.forget{
+	float:right;
+}
+.forget-pass a {
+    color: #898888;
+    font-size: 15px;
+    margin-top: 13px;
+    transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    font-weight: 600;
+    font-family: "黑体";
+    text-align: center;
+    float: left;
+}
+.forget-pass a:hover {
+	text-decoration: underline;
+	 color: #fff;
+}
+.footer{
+	position: relative;
+}
+.copy-right {
+	text-align: center;
+	position: absolute;
+	left: 35em;
+	bottom: -36em;
+	    margin-bottom: 11em;
+}
+.copy-right p {
+    color: #080727;
+    font-size: 1em;
+    font-family:"黑体";
+    text-align: center;
+}
+.copy-right p a {
+	font-family: "黑体";
+	font-size: 1em;
+	font-weight: 600;
+	color: #080727;
+	-webkit-transition: all 0.3s ease-out;
+	-moz-transition: all 0.3s ease-out;
+	-ms-transition: all 0.3s ease-out;
+	-o-transition: all 0.3s ease-out;
+	transition: all 0.3s ease-out;
+}
+.copy-right p a:hover {
+	color:#07cbc7;
+}
+
+#loginForm #login {
+  width: auto;
+  float: left;
+    background: #BCBF74;
+    color: #fff;
+  font-size: 1.5em;
+  padding: 12px 30px;
+  border: none;
+  margin: 20px 12px 0 50px;
+  cursor: pointer;
+  transition: all .5s;
+  -webkit-transition: all .5s;
+  -moz-transition: all .5s;
+  -o-transition: all .5s;
+  outline:none;
+  text-transform: uppercase;
   
-  <p>{{errors.email}}
-  <a href="/register/">注册</a></p>
-</form>
+}
+.login-pop h1 {
+	font-family: "黑体";
+    font-size: 3em;
+    padding: 3em 0;
+    color:#080727;
+        letter-spacing: 8px;
+}
+/**-login--*/
+	/*--login-pop--*/
+.login-pop {
+    text-align: center;
+}
+#loginpop {
+    position: relative;
+    float: right;
+    margin-top: 0em;
+    text-align: center;
+    left: -40em;
+}
+i.arrow {
+    font-size: 0.9em;
+  color: #34353a;
+  vertical-align: baseline;
+  transition:0.5s all;
+	-webkit-transition:0.5s all;
+	-moz-transition:0.5s all;
+	-o-transition:0.5s all;
+	-ms-transition:0.5s all;
+  }
+#loginpop a span:hover i.arrow{
+  color:#fff;
+  }
+#loginpop a{
+	text-decoration:none;
+}
+#loginpop a span{
+    display: block;
+    color: #080727;
+    padding: 8px 20px;
+    font-size: 0.9em;
+    transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    -ms-transition: 0.5s all;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-style: italic;
+  }
+/* Login Button */
+#loginButton { 
+    display:inline-block;  
+    position:relative;
+    z-index:30;
+    cursor:pointer;
+}
+/* Login Box */
+#loginBox {
+    position: absolute;
+    top: 45px;
+    right: 0px;
+    display: none;
+    z-index: 29;
+    box-shadow: 0px 0px 11px #fff;
+}
+#loginForm:after {
+    content: '';
+    position: absolute;
+    right: 34px;
+    top: -8px;
+    border-left: 10px solid rgba(0, 0, 0, 0);
+    border-right: 10px solid rgba(0, 0, 0, 0);
+    border-bottom: 13px solid #07cbc7;
+}
+/* Login Form */
+#loginForm {
+    width: 408px;
+    background: #07cbc7;
+    height: 285px;
+}
+#loginForm fieldset {
+    display:block;
+    border:0;
+    padding:0;
+}
+fieldset#body {
+    border-radius:3px;
+    -webkit-border-radius:3px;
+    -moz-border-radius:3px;
+    -o-border-radius:3px;
+    padding:15px 15px;
+    margin:0;
+}
+#loginForm #checkbox {
+    width:auto;
+    margin:3px 6px 0 0;
+    float:left;
+    padding:0;
+    border:0;
+}
+#body label {
+    color: #34353a;
+    margin: 8px 0 0 0;
+    display: block;
+    float: left;
+    font-size: 0.8725em;
+    font-weight: 400;
+    float: right;
+}
+
+#loginForm #login:hover{
+     background:#1D6967;
+     color: #fff;
+}
+#loginForm input {
+    padding: 14px;
+    width: 92%;
+    font-size: 1em;
+    margin: 16px 0px;
+    border: none;
+    background: #f8f9d9;
+    font-family: "黑体";
+    font-weight: 600;
+    outline: none;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+        border-radius: 5px;
+            -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+#body label i {
+  color: #fff;
+  font-size: 1em;
+  font-style: normal;
+}
+#loginForm #login {
+  width: auto;
+  float: left;
+    background: #BCBF74;
+    color: #fff;
+  font-size: 1.5em;
+  padding: 12px 30px;
+  border: none;
+  margin: 20px 12px 0 50px;
+  cursor: pointer;
+  transition: all .5s;
+  -webkit-transition: all .5s;
+  -moz-transition: all .5s;
+  -o-transition: all .5s;
+  outline:none;
+  text-transform: uppercase;
+  
+}
+#loginForm #regs {
+  width: auto;
+  float: right;
+    background: #BCBF74;
+    color: #fff;
+  font-size: 1.5em;
+  padding: 12px 30px;
+  border: none;
+  margin: 20px 50px 0 0;
+  cursor: pointer;
+  transition: all .5s;
+  -webkit-transition: all .5s;
+  -moz-transition: all .5s;
+  -o-transition: all .5s;
+  outline:none;
+  text-transform: uppercase;
+  
+}
+#loginForm span a {
+  color:#fff;
+  font-size: 1.5em;
+  font-weight: 400;
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0 16px;
+  	transition:0.5s all;
+	-webkit-transition:0.5s all;
+	-moz-transition:0.5s all;
+	-o-transition:0.5s all;
+	-ms-transition:0.5s all;
+}
+#loginForm span a:hover {
+	  color:#000;
+	  	transition:0.5s all;
+	-webkit-transition:0.5s all;
+	-moz-transition:0.5s all;
+	-o-transition:0.5s all;
+	-ms-transition:0.5s all;
+}
+/*--/login--*/
+/*----start-responsive design-----*/
+@media (max-width:1440px){
+	#loginpop {
+	    left: -32em;
+	}
+	.copy-right {
+	    left: 28em;
+	}
+}
+@media (max-width:1366px){
+	#loginpop {
+	    left: -29em;
+	}
+	.login-pop h1 {
+	    padding: 2em 0;
+	}
+	.copy-right {
+	    bottom: -32em;
+	}
+}
+@media (max-width:1280px){
+	#loginpop {
+	    left: -27em;
+	}
+	.copy-right {
+	    left: 22.5em;
+	}
+}
+@media (max-width: 1200px){
+	#loginpop {
+	    left: -24em;
+	}
+}
+@media (max-width: 1080px){
+	#loginpop {
+	    left: -21em;
+	}
+	.copy-right {
+	    left: 15.5em;
+	}
+}
+@media (max-width:1024px){
+	#loginpop {
+	    left: -20em;
+	}
+	.login-pop h1 {
+	    padding: 1em 0;
+	}
+	.copy-right {
+	    left: 14.5em;
+	}
+}
+@media (max-width:991px){
+	#loginpop {
+	    left: -18em;
+	}
+	.copy-right {
+	    left: 13.5em;
+	    bottom: -32em;
+	}
+}
+@media (max-width:800px){
+	#loginpop {
+	    left: -11em;
+	}
+	.copy-right {
+	    left: 8.5em;
+	    bottom: -33em;
+	}
+	.login-pop h1 {
+	    padding: 1em 0 .3em;
+	}
+}
+@media (max-width:768px){
+	#loginpop {
+	    left: -12em;
+	}
+	.copy-right {
+	    left: 6.5em;
+	    bottom: -32em;
+	}
+	.login-pop h1 {
+	    padding: 4em 0 2em;
+	}
+}
+@media (max-width:640px){
+	#loginpop {
+	    left: -8em;
+	}
+	.copy-right {
+	    left: 2.5em;
+	    bottom: -31em;
+	}
+}
+@media (max-width:600px){
+	#loginpop {
+	    left: -6em;
+	}
+	.copy-right {
+	    left: 2em;
+	}
+}
+@media (max-width:480px){
+	#loginpop {
+	    left: -2.3em;
+	}
+	.copy-right {
+	    left: 0em;
+	    bottom: -31em;
+	}
+	.copy-right p {
+	    font-size: .95em;
+	    line-height: 1.8em;
+	}
+	.login-pop h1 {
+	    padding: 2em 0 1em;
+	}
+}
+@media (max-width:414px){
+.login-pop h1 {
+	    font-size: 1.1em;
+	    letter-spacing: 3px;
+	        padding: 2em 0 .5em;
+	}
+	#loginpop {
+	    left: -1em;
+	}
+	#loginForm {
+	    height: 230px;
+	  width: 344px;
+	}
+	fieldset#body {
+	    padding: 10px 10px;
+	}
+	#loginForm input {
+	    padding: 8px;
+	    width: 93%;
+	    font-size: 13px;
+	    margin: 16px 0px;
+    }
+	.buttons ul li {
+    	width: 48%;
+	    margin: 0% 0% 0% 2%;
+	      padding: 10px 2px 10px 0px;
+	}
+	a.hvr-sweep-to-right {
+		background: url("../images/fb1.png") no-repeat 14px 16px #000;
+	    width: 26%;
+	    padding: 1em 3em;
+	    font-size: 15px;
+	}
+	a.hvr-sweep-to-right:before {
+       background: url("../images/fb.png") no-repeat 14px 16px #fff;
+	}
+	a.hvr-sweep-to-left {
+	    width: 26%;
+	    padding: 1em 3em;
+	    font-size: 15px;
+	    background: url("../images/tw1.png") no-repeat 15px 16px #000;
+	}
+	a.hvr-sweep-to-left:before {
+	     background:url("../images/tw.png") no-repeat 15px 16px  #fff;
+	}
+	#loginForm span a {
+	    margin-top: 7px;
+	    display: block;
+	}
+	.copy-right {
+	    bottom: -26.5em;
+	}
+}
+@media (max-width:375px){
+.login-pop h1 {
+	    font-size: 1.1em;
+	    letter-spacing: 3px;
+	        padding: 2em 0 .5em;
+	}
+	#loginpop {
+	    left: -1em;
+	}
+	#loginForm {
+	    height: 230px;
+	    width: 344px;
+	}
+	fieldset#body {
+	    padding: 10px 10px;
+	}
+	#loginForm input {
+	    padding: 8px;
+	    width: 93%;
+	    font-size: 13px;
+	    margin: 16px 0px;
+    }
+	.buttons ul li {
+    	width: 48%;
+	    margin: 0% 0% 0% 2%;
+	      padding: 10px 2px 10px 0px;
+	}
+	a.hvr-sweep-to-right {
+		background: url("../images/fb1.png") no-repeat 14px 16px #000;
+	    width: 26%;
+	    padding: 1em 3em;
+	    font-size: 15px;
+	}
+	a.hvr-sweep-to-right:before {
+       background: url("../images/fb.png") no-repeat 14px 16px #fff;
+	}
+	a.hvr-sweep-to-left {
+	    width: 26%;
+	    padding: 1em 3em;
+	    font-size: 15px;
+	    background: url("../images/tw1.png") no-repeat 15px 16px #000;
+	}
+	a.hvr-sweep-to-left:before {
+	     background:url("../images/tw.png") no-repeat 15px 16px  #fff;
+	}
+	#loginForm span a {
+	    margin-top: 7px;
+	    display: block;
+	}
+	.copy-right {
+	    bottom: -26.5em;
+	}
+}
+@media (max-width:320px){
+	.login-pop h1 {
+    font-size: 1.2em;
+    letter-spacing: 3px;
+    padding: 2em 0 .5em;
+	}
+	#loginpop {
+	    left: -1em;
+	}
+	#loginpop a span {
+    	font-size: 0.875em;
+    }
+	#loginForm {
+	    height: 230px;
+	    width: 290px;
+	}
+	fieldset#body {
+	    padding: 10px 10px;
+	}
+	#loginForm input {
+	    padding: 8px;
+	    width: 93%;
+	    font-size: 13px;
+	    margin: 16px 0px;
+    }
+	.buttons ul li {
+    	width: 48%;
+	    margin: 0% 0% 0% 2%;
+	      padding: 10px 2px 10px 0px;
+	}
+	a.hvr-sweep-to-right {
+		background: url("../images/fb1.png") no-repeat 14px 16px #000;
+	    width: 26%;
+	    padding: 1em 3em;
+	    font-size: 15px;
+	}
+	a.hvr-sweep-to-right:before {
+       background: url("../images/fb.png") no-repeat 14px 16px #fff;
+	}
+	a.hvr-sweep-to-left {
+	    width: 26%;
+	    padding: 1em 3em;
+	    font-size: 15px;
+	    background: url("../images/tw1.png") no-repeat 15px 16px #000;
+	}
+	a.hvr-sweep-to-left:before {
+	     background:url("../images/tw.png") no-repeat 15px 16px  #fff;
+	}
+	#loginForm span a {
+	    margin-top: 7px;
+	    display: block;
+	}
+	.copy-right {
+	    bottom: -26.5em;
+	    margin-bottom: 0em;
+	}
+}
+</style>
+<link href="css/style1.css" rel='stylesheet' type='text/css' />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Pink Contact Form ,Login Forms,Sign up Forms,Registration Forms,News latter Forms,Elements"/>
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<script src="static/javascript/jquery-1.11.0.min.js"></script>
+<!--webfonts
+<link href='//fonts.googleapis.com/css?family=Orbitron:400,700,500,900' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+<!--//webfonts-->
+<script>
+	function myFunction()
+		{
+			alert("登陆成功");
+		}
+</script>
+<script type="text/javascript">
+function get_register(){
+		window.location.href="/register/"; 
+		//alert(e.point.lng + "," + e.point.lat);
+	}
+</script>
+</head>
+ 
+<body>
+						<div class="login-pop">
+
+							<h1><a href="/index/"  target="_parent"><img src="/static/images/login22.png" alt="templatemo 379 catalog"></a></h1>
+						<div id="loginpop">
+								<div >                
+									<form id="loginForm" method="post" action="/login/">
+											<fieldset id="body">
+											<fieldset>
+													  <input type="email" name="email" placeholder="请输入账户" class="text"  onfocus="this.value = '';" onblur="">
+												</fieldset>
+												<fieldset>
+														<input name="password" type="password" placeholder="请输入密码" onfocus="this.value = '';" onblur="">
+												 </fieldset>
+												 <p>{{errors.password}}{{errors.email}}</p>
+												<input type="submit" id="login" value="登陆">
+												<p>
+												<input type="button" id="regs" onclick="get_register()" value="注册">
+												</p>
+											</fieldset>
+						
+									</form>
+								 					<div class="buttons">
+									<ul>
+										<!--
+										<li><a href="#" class="hvr-sweep-to-right">Facebook</a></li>
+										<li class="lost"><a href="#" class="hvr-sweep-to-left">Twitter</a> </li>
+										-->
+									</ul>
+									<div class="clear"></div>
+								</div>
+							</div>
+					    </div>
+					    </div><script src="static/javascript/menu_jquery.js"></script>
+
+
+		
+		<!--//end-main-->
+		 <!--start-copyright-->
+		 <div class="footer">
+   					<div class="copy-right">
+						<p>&copy; HSTP . All Rights Reserved | Design by <a href="#" target="_blank">stupid monkey</a></p>
+					</div>
+			</div>
+				<!--//end-copyright-->
+	 
 </body>
 </html>

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.utils import timezone
+# -*- coding: utf-8 -*-
 import re
 from django.utils.translation import ugettext_lazy as _
 from django.core import validators
@@ -12,7 +13,7 @@ class Client(models.Model):
                               validators=[validators.RegexValidator(re.compile('^[\w.@+-]+$'), _('Enter a valid username.'), 'invalid')]) #only tag
     password = models.CharField(max_length=6)    #!!!
     realname = models.CharField(max_length=30,blank=True,null=True)
-    nickname = models.CharField(max_length=30,blank=True,null=True)
+    nickname = models.CharField(max_length=30,default="匿名",blank=True,null=True)
     register_date = models.DateTimeField(default=timezone.now)  #auto 
     IDcard = models.CharField(max_length=18,blank=True,null=True)       #IDcard
     studentID = models.IntegerField(max_length=10,default=0) #!!!

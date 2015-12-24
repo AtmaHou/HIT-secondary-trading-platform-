@@ -1,15 +1,3 @@
-
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
-<!DOCTYPE html>
-<html>
-<head>
-<title>欢迎注册</title>
-<style>
 /*--
 Author: W3layouts
 Author URL: http://w3layouts.com
@@ -210,8 +198,8 @@ a.hvr-sweep-to-left:hover:before, a.hvr-sweep-to-left:focus:before, a.hvr-sweep-
 	text-align: center;
 	position: absolute;
 	left: 35em;
-	bottom: -36em;
-	    margin-bottom: 11em;
+	bottom: -50em;
+	    margin-bottom: 7em;
 }
 .copy-right p {
     color: #080727;
@@ -236,7 +224,7 @@ a.hvr-sweep-to-left:hover:before, a.hvr-sweep-to-left:focus:before, a.hvr-sweep-
 
 #loginForm #login {
   width: auto;
-  float: center;
+  float: left;
     background: #BCBF74;
     color: #fff;
   font-size: 1.5em;
@@ -342,7 +330,7 @@ fieldset#body {
     -webkit-border-radius:3px;
     -moz-border-radius:3px;
     -o-border-radius:3px;
-    padding:5px 15px;
+    padding:15px 15px;
     margin:0;
 }
 #loginForm #checkbox {
@@ -370,7 +358,7 @@ fieldset#body {
     padding: 14px;
     width: 92%;
     font-size: 1em;
-    margin: 10px 0px;
+    margin: 16px 0px;
     border: none;
     color: #080727;
     background: #f8f9d9;
@@ -395,13 +383,13 @@ fieldset#body {
 }
 #loginForm #login {
   width: auto;
-  float: center;
+  float: left;
     background: #BCBF74;
     color: #fff;
   font-size: 1.5em;
   padding: 12px 30px;
   border: none;
-  margin: 10px 12px 0 0;
+  margin: 20px 12px 0 50px;
   cursor: pointer;
   transition: all .5s;
   -webkit-transition: all .5s;
@@ -733,116 +721,3 @@ fieldset#body {
 	    margin-bottom: 0em;
 	}
 }
-</style>
-<link href="css/style1.css" rel='stylesheet' type='text/css' />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="keywords" content="Pink Contact Form ,Login Forms,Sign up Forms,Registration Forms,News latter Forms,Elements"/>
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<script src="static/javascript/jquery-1.11.0.min.js"></script>
-<!--webfonts
-<link href='//fonts.googleapis.com/css?family=Orbitron:400,700,500,900' rel='stylesheet' type='text/css'>
-<link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
-<!--//webfonts-->
-<script>
-	function myFunction()
-		{
-			alert("登陆成功");
-		}
-</script>
-<script type="text/javascript">
-function get_register(){
-		window.location.href="/register/"; 
-		//alert(e.point.lng + "," + e.point.lat);
-	}
-</script>
-<script type="text/javascript">
-
-function validate_required(field,alerttxt)
-{
-with (field)
-  {
-  if (value==null||value=="")
-    {alert(alerttxt);return false}
-  else {return true}
-  }
-}
-
-function password_required(field,alerttxt)
-{
-with (field)
-  {
-  if (value.length!=6)
-    {alert(alerttxt);return false}
-  else {return true}
-  }
-}
-
-function validate_form(thisform)
-{
-with (thisform)
-  {
-  if (validate_required(email,"您的邮箱为空！")==false)
-    {email.focus();return false}
-  if (validate_required(password,"您还未设置密码！")==false)
-    {password.focus();return false}
-  if (password_required(password,"密码位数不正确，请设置六位密码！")==false)
-    {password.focus();return false}
-  }
-}
-</script>
-</head>
- 
-<body>
-						<div class="login-pop">
-
-							<h1><a href="/register/"  target="_parent"><img src="/static/images/register22.png" alt="templatemo 379 catalog"></a></h1>
-						<div id="loginpop">
-								<div >                
-									<form id="loginForm" method="post" action="/register/" onsubmit="return validate_form(this)">
-											<fieldset id="body">
-											<fieldset>
-													  <input type="email" name="email" class="text" placeholder="请输入账户" onfocus="this.value = '';" onblur="">
-												</fieldset>
-												<fieldset>
-														<input name="password" type="password" placeholder="请输入密码" onfocus="this.value = '';" onblur="">
-												 </fieldset>
-												 <fieldset>
-														<input name="password2" type="password" placeholder="请再次输入密码" onfocus="this.value = '';" onblur="">
-												 </fieldset>
-												    {% if flag == 2%}
-													<p><font color="#FF0000">密码不匹配，请检查后重新输入！</font></p>
-													{% elif flag == 3%}
-													<p><font color="#FF0000">该邮箱已经注册，请直接<a href="/return_login/">登录</a>!</font></p>
-													{% endif %}
-												<input type="submit" id="login" value="提交">
-												
-											</fieldset>
-						
-									</form>
-								 					<div class="buttons">
-									<ul>
-										<!--
-										<li><a href="#" class="hvr-sweep-to-right">Facebook</a></li>
-										<li class="lost"><a href="#" class="hvr-sweep-to-left">Twitter</a> </li>
-										-->
-									</ul>
-									<div class="clear"></div>
-								</div>
-							</div>
-					    </div>
-					    </div><script src="static/javascript/menu_jquery.js"></script>
-
-
-		
-		<!--//end-main-->
-		 <!--start-copyright-->
-		 <div class="footer">
-   					<div class="copy-right">
-						<p>&copy; HSTP . All Rights Reserved | Design by <a href="#" target="_blank">stupid monkey</a></p>
-					</div>
-			</div>
-				<!--//end-copyright-->
-	 
-</body>
-</html>

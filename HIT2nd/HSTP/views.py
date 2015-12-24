@@ -19,9 +19,6 @@ class UploadImageForm(forms.Form):
     imagefile = forms.ImageField(required=False)    
 
 
-def show_map(request):
-    return render_to_response("map.html")
-
 def cut(list_cut):
     if len(list_cut)>8:
         list_cut = list_cut[:8]
@@ -81,6 +78,7 @@ def login(request):
             user_real = Client.objects.get(email = post["email"])
             if user_real.password == post["password"]:
                 request.session["email"] = user_real.email
+                want_lst = want.objects.all()
                 products_list = Product.objects.all()
 
                 tsjc_list = Product.objects.filter(category = "tsjc").order_by("-view_count")
@@ -95,18 +93,17 @@ def login(request):
                 shyl_list = cut(shyl_list)
                 qt_list = cut(qt_list)
                 products_list = cut(products_list)
-                customer = user_real
-                msg_lst = customer.receive_msg.filter(read = False)
-                d = Context({"msg_num":len(msg_lst),"tsjc_list":tsjc_list,"ydjs_list":ydjs_list,"dzcp_list":dzcp_list,"shyl_list":shyl_list,"qt_list":qt_list,"products_list":products_list})
-                c = Context({"user":user_real,"aa":1}) 
-                #index(request)
+                client = user_real
+                d = Context({"msg_num":0,"want_lst":want_lst,"tsjc_list":tsjc_list,"ydjs_list":ydjs_list,"dzcp_list":dzcp_list,"shyl_list":shyl_list,"qt_list":qt_list,"products_list":products_list})
+                c = Context({"client":client,"aa":1}) 
                 return render_to_response("index.html", c , d)
             else:
                 errors["password"] = '密码错误,请检查后重新输入！'
         else:
-            errors["email"] = '用户不存在，请点此'
-        
+         errors["email"] = '用户不存在，请点此'
     return render_to_response("login.html",{"errors":errors})
+        
+
 def index(request):
     if "email" in request.session:
         customer = Client.objects.get(email = request.session["email"])
@@ -130,10 +127,10 @@ def index(request):
     
     if "email" in request.session:
         msg_lst = customer.receive_msg.filter(read = False)
-        d = Context({"msg_num":len(msg_lst),"tsjc_list":tsjc_list,"ydjs_list":ydjs_list,"dzcp_list":dzcp_list,"shyl_list":shyl_list,"qt_list":qt_list,"products_list":products_list,"aa":1,"want_lst":want_lst})
+        d = Context({"client":customer,"msg_num":len(msg_lst),"tsjc_list":tsjc_list,"ydjs_list":ydjs_list,"dzcp_list":dzcp_list,"shyl_list":shyl_list,"qt_list":qt_list,"products_list":products_list,"aa":1,"want_lst":cut(want_lst)})
     else:
         msg_lst = []
-        d = Context({"msg_num":len(msg_lst),"tsjc_list":tsjc_list,"ydjs_list":ydjs_list,"dzcp_list":dzcp_list,"shyl_list":shyl_list,"qt_list":qt_list,"products_list":products_list,"want_lst":want_lst})
+        d = Context({"client":customer,"msg_num":len(msg_lst),"tsjc_list":tsjc_list,"ydjs_list":ydjs_list,"dzcp_list":dzcp_list,"shyl_list":shyl_list,"qt_list":qt_list,"products_list":products_list,"want_lst":want_lst})
         
     return render_to_response("index.html", d)
 
@@ -157,8 +154,9 @@ def logout(request):
     
     if "email" in request.session:
         del request.session["email"]
+        
     products_list = Product.objects.all()
-
+    want_lst = want.objects.all()
     tsjc_list = Product.objects.filter(category = "tsjc").order_by("-view_count")
     ydjs_list = Product.objects.filter(category = "ydjs").order_by("-view_count")
     dzcp_list = Product.objects.filter(category = "dzcp").order_by("-view_count")
@@ -171,7 +169,7 @@ def logout(request):
     shyl_list = cut(shyl_list)
     qt_list = cut(qt_list)
     products_list = cut(products_list)
-    d = Context({"tsjc_list":tsjc_list,"ydjs_list":ydjs_list,"dzcp_list":dzcp_list,"shyl_list":shyl_list,"qt_list":qt_list,"products_list":products_list})
+    d = Context({"msg_num":0,"want_lst":want_lst,"tsjc_list":tsjc_list,"ydjs_list":ydjs_list,"dzcp_list":dzcp_list,"shyl_list":shyl_list,"qt_list":qt_list,"products_list":products_list})
     return render_to_response("index.html",d)
 def is_online(fn):
     def check(request,*args):                                                                                                               
@@ -187,7 +185,7 @@ def return_login(request):
 @is_online
 def add_booth(request):
     e = request.session["email"]
-    client = Client.objects.get(email = e)
+    client1 = Client.objects.get(email = e)
     if "booth_lng" in request.GET:
         b_lng = request.GET["booth_lng"]
     if "booth_lat" in request.GET:
@@ -195,10 +193,10 @@ def add_booth(request):
     if request.POST:
         post = request.POST
         new_booth = Booth(
-            client = Client.objects.get(email = e),
+            client = client1,
             booth_name = post["booth_name"],
-            lat = post["boothlat"],
-            lng = post["boothlng"],
+            lat = b_lat,
+            lng = b_lng,
             address = post["address"],
             introduction = post["introduction"],
             show_date = post["show_date"],
@@ -220,14 +218,13 @@ def add_booth(request):
             })
         #d = Context({"booths_list":Booth.objects.all()})
         #return render_to_response("map.html",d)
-    c = Context({"booth_lng": b_lng, "booth_lat": b_lat,"client":client})
+    c = Context({"booth_lng": b_lng, "booth_lat": b_lat,"client":client1})
     return render_to_response("add_booth.html",c)
 
 def getin_booth(request):
     is_self = False
     if request.GET:
         b_lng = request.GET["lng"]
-        b_lat = request.GET["lat"]
         booths = Booth.objects.filter(lng = b_lng)
         for booth in booths:  
             #if i.lat == b_lat:
@@ -277,7 +274,7 @@ def change_product(request):
             msg_lst = customer.receive_msg.filter(read = False)
         else:
             msg_lst = []
-        d = Context({"msg_num":len(msg_lst),"products_list":Product.objects.all(),"aa":1})
+        d = Context({"client":cli,"msg_num":len(msg_lst),"products_list":Product.objects.all(),"aa":1})
         return render_to_response("index.html",d)
     a = Context({"p":p,"client":cli})     
     return render_to_response("change_product.html",a)
@@ -312,7 +309,7 @@ def finish_user(request):
         
         client.save()
         
-        d = Context({"msg_num":len(msg_lst),"products_list":Product.objects.all(),"aa":1})
+        d = Context({"client":client,"msg_num":len(msg_lst),"products_list":Product.objects.all(),"aa":1})
         return render_to_response("index.html",d)
     a = Context({"client":client})     
     return render_to_response("add_inf.html",a)
@@ -393,7 +390,8 @@ def product_show(request):
         if "email" in request.session:
             com = Comment(content = post["text"],
                           product = p,
-                          client = customer)
+                          client = customer,
+                          comment_date = datetime.now())
             com.save()
         else:
             return render_to_response("login.html")
@@ -537,7 +535,12 @@ def all_message(request):
                           listener = msg.speaker,
                           read = False)
         new_msg.save()
-    c = Context({"custmor":customer,"msg_lst":msg_lst,"sended":sended})
+    if "email" in request.session:
+        unread_msg_lst = customer.receive_msg.filter(read = False)
+    else:
+        unread_msg_lst = []
+       
+    c = Context({"custmor":customer,"msg_lst":msg_lst,"sended":sended,"a":customer,"msg_num":len(unread_msg_lst)})
     return render_to_response("all_message.html",c)
 
     
@@ -561,7 +564,7 @@ def my_product(request):
     client = Client.objects.get(email = e)
     my_products = client.products.all()
     my_num = client.products.all().count()
-    c = Context({"my_products":my_products,"my_num":my_num})
+    c = Context({"my_products":my_products,"my_num":my_num,"client":client})
     return render_to_response("my_product.html",c)
 
 @is_online  
@@ -570,7 +573,7 @@ def my_collection(request):
     client = Client.objects.get(email = e)
     my_products = client.collect_products.all()
     my_num = my_products.count()
-    c = Context({"my_collection":my_products,"collection_num":my_num})
+    c = Context({"my_collection":my_products,"collection_num":my_num,"client":client})
     return render_to_response("my_collection.html",c)
     
 @is_online

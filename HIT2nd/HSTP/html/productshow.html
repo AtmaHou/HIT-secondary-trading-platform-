@@ -366,19 +366,20 @@ em { color: #0066FF; }
 }
 
 #contact_form form textarea {
-	width: 350px;
+	width: 550px;
 	height: 200px;
 	padding: 10px;
 	background: #fff;
 	border: 1px solid #ccc;
 	font-family: Verdana, Geneva, sans-serif;
-	font-size: 12px;
+	font-size: 15px;
 }
 
 #contact_form form .submit_btn {
 	background: #fff;
+	
 	border: 1px solid #ccc;
-	margin: 0px;
+	margin-left: 160px;
 	padding: 7px 14px;
 }
 
@@ -436,6 +437,86 @@ em { color: #0066FF; }
 #templatemo_footer a {
 	color: #2d3400;
 }
+	table {
+    *border-collapse: collapse; /* IE7 and lower */
+    border-spacing: 0;
+    width: 100%;    
+	}
+
+	.bordered {
+		border: solid #ccc 1px;
+		-moz-border-radius: 6px;
+		-webkit-border-radius: 6px;
+		border-radius: 6px;
+		-webkit-box-shadow: 0 1px 1px #ccc; 
+		-moz-box-shadow: 0 1px 1px #ccc; 
+		box-shadow: 0 1px 1px #ccc;         
+	}
+
+	.bordered tr:hover {
+		background: #fbf8e9;
+		-o-transition: all 0.1s ease-in-out;
+		-webkit-transition: all 0.1s ease-in-out;
+		-moz-transition: all 0.1s ease-in-out;
+		-ms-transition: all 0.1s ease-in-out;
+		transition: all 0.1s ease-in-out;     
+	}    
+		
+	.bordered td, .bordered th {
+		border-left: 1px solid #ccc;
+		border-top: 1px solid #ccc;
+		padding: 10px;
+		text-align: left;    
+	}
+
+	.bordered th {
+		background-color: #dce9f9;
+		background-image: -webkit-gradient(linear, left top, left bottom, from(#ebf3fc), to(#dce9f9));
+		background-image: -webkit-linear-gradient(top, #ebf3fc, #dce9f9);
+		background-image:    -moz-linear-gradient(top, #ebf3fc, #dce9f9);
+		background-image:     -ms-linear-gradient(top, #ebf3fc, #dce9f9);
+		background-image:      -o-linear-gradient(top, #ebf3fc, #dce9f9);
+		background-image:         linear-gradient(top, #ebf3fc, #dce9f9);
+		-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.8) inset; 
+		-moz-box-shadow:0 1px 0 rgba(255,255,255,.8) inset;  
+		box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;        
+		border-top: none;
+		text-shadow: 0 1px 0 rgba(255,255,255,.5); 
+	}
+
+	.bordered td:first-child, .bordered th:first-child {
+		border-left: none;
+	}
+
+	.bordered th:first-child {
+		-moz-border-radius: 6px 0 0 0;
+		-webkit-border-radius: 6px 0 0 0;
+		border-radius: 6px 0 0 0;
+	}
+
+	.bordered th:last-child {
+		-moz-border-radius: 0 6px 0 0;
+		-webkit-border-radius: 0 6px 0 0;
+		border-radius: 0 6px 0 0;
+	}
+
+	.bordered th:only-child{
+		-moz-border-radius: 6px 6px 0 0;
+		-webkit-border-radius: 6px 6px 0 0;
+		border-radius: 6px 6px 0 0;
+	}
+
+	.bordered tr:last-child td:first-child {
+		-moz-border-radius: 0 0 0 6px;
+		-webkit-border-radius: 0 0 0 6px;
+		border-radius: 0 0 0 6px;
+	}
+
+	.bordered tr:last-child td:last-child {
+		-moz-border-radius: 0 0 6px 0;
+		-webkit-border-radius: 0 0 6px 0;
+		border-radius: 0 0 6px 0;
+	}
 </style>
 </head>
 <body>
@@ -555,11 +636,27 @@ em { color: #0066FF; }
 
         	<h2>留言区</h2>
         <p>禁止使用不得当言论，禁止发表广告，虚假信息</p>
-		{% for com in c_list %}
-			<p>{{com.client.nickname}}</p>
-			<p>{{com.content}}</p>
-			<br>
-		{% endfor %}
+		<table class="bordered">
+			<thead>
+			<tr>
+				<th>评论人</th>        
+				<th>评论内容</th>
+				<th>时间</th>
+			</tr>
+			</thead>
+			{% for com in c_list %}
+			<tr>
+				<td >{% if com.client.nickname%} 
+						{{com.client.nickname}} 
+					{% else %}
+						匿名 
+					{% endif %}</td>        
+				<td>{{com.content}}</td>
+
+				<td style="width:120;">{{com.comment_date}}</td>
+			</tr> 
+			{% endfor %}
+		</table>
   <div class="cleaner_h40"></div>
 			
             	<div id="contact_form">
@@ -582,7 +679,7 @@ em { color: #0066FF; }
 
         <div class="col_260 col_last">
 
-            <h2>Announcements</h2>
+            <h2>全部求购：</h2>
 			<!--{% for w in w_lst %}
         	<div class="sb_news_box">
                  <h6><a href="#">{% if w.speaker.nickname%} 
@@ -605,18 +702,8 @@ em { color: #0066FF; }
 				<div class="cleaner"></div>
             </div>
 			{% endfor %}
-            <div class="sb_news_box">
-                    <h6><a href="#">Donec sit amet tellus</a> <span>(March 15)</span></h6>
-                    Proin dui mauris, tempor eget, pulvinar sed, pretium sit amet, dui. Proin vulputate justo et quam.
-                    <div class="cleaner"></div>
-            </div>
-
-            <div class="sb_news_box">
-                    <h6><a href="#">Phasellus sapien </a> <span>(February 12)</span></h6>
-                    Cras nisl eros, elementum eu, iaculis vitae, viverra ut, ligula. Pellentesque metus. Duis dolor.
-                    <div class="cleaner"></div>
-            </div>
-            <div class="button"><a href="#">View More</a></div>
+            
+            <div class="button"><a href="/index/">更多</a></div>
         </div>
         <div class="cleaner"></div>
     </div>
@@ -627,8 +714,8 @@ em { color: #0066FF; }
 <div id="templatemo_footer_wrapper">
 	<div id="templatemo_footer">
 
-        Copyright © 2048 <a href="#">Your Company Name</a> -
-        Template from <a href="http://www.cssmoban.com" target="_parent" title="网站模板">网站模板</a>
+        Copyright © HIT <a href="#">Stupid Monkey</a> -
+        view from <a href="http://www.hit.edu.cn" target="_parent" title="网站模板">哈尔滨工业大学</a>
 
     </div> <!-- end of templatemo_footer -->
 </div> <!-- end of templatemo_footer_wrapper -->

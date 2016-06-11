@@ -1,5 +1,4 @@
 # 哈工大二手交易平台
-## 项目名：
 HIT-secondary-trading-platform <br>
 ## 说明：
   1-本项目为哈工大软件工程课项目内容<br>
